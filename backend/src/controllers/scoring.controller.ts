@@ -89,7 +89,7 @@ export class ScoringController {
 
       res.status(202).json(
         successResponse('Batch scoring job queued', {
-          job_id: job.id,
+          job_id: job.jobId,
           status: 'pending',
           total_deals: deal_ids.length,
         })
@@ -141,7 +141,7 @@ export class ScoringController {
 
       res.status(202).json(
         successResponse('Recalculation job started', {
-          job_id: job.id,
+          job_id: job.jobId,
           status: 'pending',
         })
       );

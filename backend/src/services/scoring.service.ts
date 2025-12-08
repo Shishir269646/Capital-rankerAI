@@ -2,8 +2,8 @@
 // UPDATED VERSION - Using Simple Queue instead of Bull
 import { mlClientService } from './ml-client.service';
 import { dealService } from './deal.service';
-import Score, { IScore } from '../models/Score';
-import User from '../models/User';
+import Score, { IScore } from '../model/Score';
+import User from '../model/User';
 import { SimpleQueue, QueueManager } from '../lib/queue/simple-queue';
 import { cacheService } from './cache.service';
 import { logger } from '../config/logger';

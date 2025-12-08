@@ -6,7 +6,7 @@
 import { EventEmitter } from 'events';
 import { logger } from '../../config/logger';
 
-interface Job<T = any> {
+export interface Job<T = any> {
   id: string;
   name: string;
   data: T;

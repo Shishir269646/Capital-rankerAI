@@ -9,12 +9,13 @@ import { logger } from '../config/logger';
  * Alert Monitoring Job
  */
 export class AlertJob {
+  private static jobs: Map<string, cron.ScheduledTask> = new Map();
   /**
    * Monitor score changes
    * Runs every hour
    */
   static scheduleScoreMonitoring(): void {
-    cron.schedule('0 * * * *', async () => {
+    const job = cron.schedule('0 * * * *', async () => {
       logger.info('Starting score monitoring...');
 
       try {
@@ -52,7 +53,7 @@ export class AlertJob {
         });
       }
     });
-
+    this.jobs.set('score-monitoring', job);
     logger.info('Score monitoring scheduled: Every hour');
   }
 
@@ -61,7 +62,7 @@ export class AlertJob {
    * Runs daily at midnight
    */
   static scheduleAlertCleanup(): void {
-    cron.schedule('0 0 * * *', async () => {
+    const job = cron.schedule('0 0 * * *', async () => {
       logger.info('Starting alert cleanup...');
 
       try {
@@ -82,7 +83,7 @@ export class AlertJob {
         });
       }
     });
-
+    this.jobs.set('alert-cleanup', job);
     logger.info('Alert cleanup scheduled: Daily at midnight');
   }
 
@@ -93,5 +94,16 @@ export class AlertJob {
     this.scheduleScoreMonitoring();
     this.scheduleAlertCleanup();
     logger.info('All alert jobs initialized');
+  }
+
+  /**
+   * Cancel all jobs
+   */
+  static cancelAllJobs(): void {
+    this.jobs.forEach((job, name) => {
+      job.stop(); // cron.ScheduledTask uses stop() not cancel()
+      logger.info(`Alert job "${name}" cancelled`);
+    });
+    this.jobs.clear();
   }
 }

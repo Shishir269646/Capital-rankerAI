@@ -1,0 +1,302 @@
+capital-ranker-frontend/
+│
+├── public/                              # Static files (images, fonts, icons)
+│   ├── images/
+│   │   ├── logo.svg                    # Company logo
+│   │   ├── hero-bg.jpg                 # Landing page background
+│   │   ├── avatars/                    # User avatars
+│   │   └── illustrations/              # UI illustrations
+│   ├── fonts/                          # Custom fonts
+│   └── favicon.ico                     # Favicon
+│
+├── src/
+│   │
+│   ├── app/                            # Next.js 14 App Router (View Layer)
+│   │   ├── (auth)/                     # Auth route group (no layout)
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx           # Login page
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx           # Registration page
+│   │   │   ├── forgot-password/
+│   │   │   │   └── page.tsx           # Forgot password
+│   │   │   └── layout.tsx             # Auth layout (centered design)
+│   │   │
+│   │   ├── (dashboard)/                # Dashboard route group (with sidebar)
+│   │   │   ├── dashboard/
+│   │   │   │   └── page.tsx           # Main dashboard page
+│   │   │   ├── deals/
+│   │   │   │   ├── page.tsx           # Deals list page
+│   │   │   │   ├── [id]/
+│   │   │   │   │   └── page.tsx       # Single deal detail page
+│   │   │   │   ├── new/
+│   │   │   │   │   └── page.tsx       # Create new deal
+│   │   │   │   └── import/
+│   │   │   │       └── page.tsx       # Bulk import deals
+│   │   │   ├── scoring/
+│   │   │   │   ├── page.tsx           # Scoring dashboard
+│   │   │   │   └── compare/
+│   │   │   │       └── page.tsx       # Compare deals
+│   │   │   ├── thesis/
+│   │   │   │   ├── page.tsx           # Thesis list
+│   │   │   │   ├── [id]/
+│   │   │   │   │   └── page.tsx       # Thesis detail
+│   │   │   │   └── new/
+│   │   │   │       └── page.tsx       # Create thesis
+│   │   │   ├── founders/
+│   │   │   │   ├── page.tsx           # Founders list
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx       # Founder profile
+│   │   │   ├── portfolio/
+│   │   │   │   ├── page.tsx           # Portfolio overview
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx       # Portfolio company detail
+│   │   │   ├── alerts/
+│   │   │   │   └── page.tsx           # Alerts & notifications
+│   │   │   ├── reports/
+│   │   │   │   ├── page.tsx           # Reports list
+│   │   │   │   └── generate/
+│   │   │   │       └── page.tsx       # Generate report
+│   │   │   ├── settings/
+│   │   │   │   ├── page.tsx           # Settings overview
+│   │   │   │   ├── profile/
+│   │   │   │   │   └── page.tsx       # Profile settings
+│   │   │   │   ├── preferences/
+│   │   │   │   │   └── page.tsx       # User preferences
+│   │   │   │   └── team/
+│   │   │   │       └── page.tsx       # Team management
+│   │   │   └── layout.tsx             # Dashboard layout (sidebar + header)
+│   │   │
+│   │   ├── (landing)/                  # Landing pages (public)
+│   │   │   ├── page.tsx               # Homepage
+│   │   │   ├── about/
+│   │   │   │   └── page.tsx           # About page
+│   │   │   ├── pricing/
+│   │   │   │   └── page.tsx           # Pricing page
+│   │   │   ├── features/
+│   │   │   │   └── page.tsx           # Features page
+│   │   │   └── layout.tsx             # Landing layout (header + footer)
+│   │   │
+│   │   ├── api/                        # API routes (Server-side)
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   │   └── route.ts       # Login API route
+│   │   │   │   ├── register/
+│   │   │   │   │   └── route.ts       # Register API route
+│   │   │   │   └── logout/
+│   │   │   │       └── route.ts       # Logout API route
+│   │   │   └── webhook/
+│   │   │       └── route.ts           # Webhook handler
+│   │   │
+│   │   ├── layout.tsx                  # Root layout
+│   │   ├── loading.tsx                 # Global loading state
+│   │   ├── error.tsx                   # Global error boundary
+│   │   ├── not-found.tsx               # 404 page
+│   │   └── globals.css                 # Global CSS
+│   │
+│   ├── components/                     # Reusable UI Components (View Layer)
+│   │   │
+│   │   ├── ui/                         # Basic UI components (shadcn/ui style)
+│   │   │   ├── button.tsx             # Button component
+│   │   │   ├── input.tsx              # Input component
+│   │   │   ├── card.tsx               # Card component
+│   │   │   ├── badge.tsx              # Badge component
+│   │   │   ├── dialog.tsx             # Modal dialog
+│   │   │   ├── dropdown.tsx           # Dropdown menu
+│   │   │   ├── table.tsx              # Data table
+│   │   │   ├── tabs.tsx               # Tabs component
+│   │   │   ├── toast.tsx              # Toast notification
+│   │   │   ├── skeleton.tsx           # Loading skeleton
+│   │   │   ├── progress.tsx           # Progress bar
+│   │   │   ├── checkbox.tsx           # Checkbox
+│   │   │   ├── radio.tsx              # Radio button
+│   │   │   ├── select.tsx             # Select dropdown
+│   │   │   ├── textarea.tsx           # Textarea
+│   │   │   ├── switch.tsx             # Toggle switch
+│   │   │   ├── slider.tsx             # Range slider
+│   │   │   ├── avatar.tsx             # User avatar
+│   │   │   ├── tooltip.tsx            # Tooltip
+│   │   │   └── separator.tsx          # Divider line
+│   │   │
+│   │   ├── layout/                     # Layout components
+│   │   │   ├── Navbar.tsx             # Top navigation bar
+│   │   │   ├── Sidebar.tsx            # Dashboard sidebar
+│   │   │   ├── Footer.tsx             # Footer component
+│   │   │   ├── Header.tsx             # Page header
+│   │   │   └── Container.tsx          # Content container
+│   │   │
+│   │   ├── auth/                       # Authentication components
+│   │   │   ├── LoginForm.tsx          # Login form
+│   │   │   ├── RegisterForm.tsx       # Registration form
+│   │   │   ├── ForgotPasswordForm.tsx # Forgot password form
+│   │   │   └── ProtectedRoute.tsx     # Route protection HOC
+│   │   │
+│   │   ├── deals/                      # Deal-specific components
+│   │   │   ├── DealCard.tsx           # Deal card (list view)
+│   │   │   ├── DealTable.tsx          # Deals data table
+│   │   │   ├── DealDetail.tsx         # Deal detail view
+│   │   │   ├── DealForm.tsx           # Create/Edit deal form
+│   │   │   ├── DealFilters.tsx        # Filter sidebar
+│   │   │   ├── DealScoreCard.tsx      # Investment score display
+│   │   │   ├── DealMetrics.tsx        # Key metrics display
+│   │   │   └── DealImportDialog.tsx   # Bulk import modal
+│   │   │
+│   │   ├── scoring/                    # Scoring components
+│   │   │   ├── ScoreGauge.tsx         # Score visualization (gauge)
+│   │   │   ├── ScoreBreakdown.tsx     # Score breakdown chart
+│   │   │   ├── ScoreHistory.tsx       # Score timeline
+│   │   │   ├── ScoreComparison.tsx    # Compare multiple deals
+│   │   │   └── RecommendationBadge.tsx # Recommendation display
+│   │   │
+│   │   ├── thesis/                     # Thesis components
+│   │   │   ├── ThesisCard.tsx         # Thesis card
+│   │   │   ├── ThesisForm.tsx         # Create/Edit thesis form
+│   │   │   ├── ThesisMatchScore.tsx   # Match score display
+│   │   │   └── MatchedDeals.tsx       # Thesis-matched deals list
+│   │   │
+│   │   ├── founders/                   # Founder components
+│   │   │   ├── FounderCard.tsx        # Founder profile card
+│   │   │   ├── FounderScore.tsx       # Founder evaluation score
+│   │   │   ├── FounderExperience.tsx  # Experience timeline
+│   │   │   ├── FounderEducation.tsx   # Education list
+│   │   │   └── RedFlagsList.tsx       # Red flags display
+│   │   │
+│   │   ├── portfolio/                  # Portfolio components
+│   │   │   ├── PortfolioCard.tsx      # Portfolio company card
+│   │   │   ├── PortfolioMetrics.tsx   # Performance metrics
+│   │   │   ├── PortfolioChart.tsx     # Portfolio performance chart
+│   │   │   └── PortfolioTable.tsx     # Portfolio data table
+│   │   │
+│   │   ├── alerts/                     # Alert components
+│   │   │   ├── AlertCard.tsx          # Alert notification card
+│   │   │   ├── AlertBadge.tsx         # Alert count badge
+│   │   │   ├── AlertList.tsx          # Alerts list
+│   │   │   └── AlertSettings.tsx      # Alert configuration
+│   │   │
+│   │   ├── reports/                    # Report components
+│   │   │   ├── ReportCard.tsx         # Report card
+│   │   │   ├── ReportGenerator.tsx    # Report generation form
+│   │   │   └── ReportPreview.tsx      # Report preview
+│   │   │
+│   │   ├── charts/                     # Chart components (recharts)
+│   │   │   ├── LineChart.tsx          # Line chart
+│   │   │   ├── BarChart.tsx           # Bar chart
+│   │   │   ├── PieChart.tsx           # Pie chart
+│   │   │   ├── RadarChart.tsx         # Radar chart
+│   │   │   ├── GaugeChart.tsx         # Gauge chart
+│   │   │   └── HeatMap.tsx            # Heat map
+│   │   │
+│   │   ├── forms/                      # Form components
+│   │   │   ├── FormInput.tsx          # Form input wrapper
+│   │   │   ├── FormSelect.tsx         # Form select wrapper
+│   │   │   ├── FormTextarea.tsx       # Form textarea wrapper
+│   │   │   ├── FormCheckbox.tsx       # Form checkbox wrapper
+│   │   │   ├── FormDatePicker.tsx     # Date picker
+│   │   │   ├── FormFileUpload.tsx     # File upload
+│   │   │   └── FormValidation.tsx     # Validation display
+│   │   │
+│   │   └── shared/                     # Shared components
+│   │       ├── LoadingSpinner.tsx     # Loading spinner
+│   │       ├── EmptyState.tsx         # Empty state placeholder
+│   │       ├── ErrorMessage.tsx       # Error display
+│   │       ├── Pagination.tsx         # Pagination controls
+│   │       ├── SearchBar.tsx          # Search input
+│   │       ├── DataTable.tsx          # Reusable data table
+│   │       └── ConfirmDialog.tsx      # Confirmation modal
+│   │
+│   ├── lib/                            # Utility functions & helpers
+│   │   ├── api/                        # API client (Controller Layer)
+│   │   │   ├── client.ts              # Axios instance with interceptors
+│   │   │   ├── auth.api.ts            # Auth API calls
+│   │   │   ├── deals.api.ts           # Deals API calls
+│   │   │   ├── scoring.api.ts         # Scoring API calls
+│   │   │   ├── thesis.api.ts          # Thesis API calls
+│   │   │   ├── founders.api.ts        # Founders API calls
+│   │   │   ├── portfolio.api.ts       # Portfolio API calls
+│   │   │   ├── alerts.api.ts          # Alerts API calls
+│   │   │   └── reports.api.ts         # Reports API calls
+│   │   │
+│   │   ├── utils/                      # Utility functions
+│   │   │   ├── format.ts              # Formatting functions
+│   │   │   ├── validation.ts          # Validation helpers
+│   │   │   ├── date.ts                # Date utilities
+│   │   │   ├── currency.ts            # Currency formatting
+│   │   │   ├── string.ts              # String manipulation
+│   │   │   ├── array.ts               # Array utilities
+│   │   │   ├── localStorage.ts        # LocalStorage helpers
+│   │   │   └── cn.ts                  # className utility (clsx + tailwind-merge)
+│   │   │
+│   │   ├── hooks/                      # Custom React hooks
+│   │   │   ├── useAuth.ts             # Authentication hook
+│   │   │   ├── useDeals.ts            # Deals data hook
+│   │   │   ├── useScoring.ts          # Scoring hook
+│   │   │   ├── useThesis.ts           # Thesis hook
+│   │   │   ├── useFounders.ts         # Founders hook
+│   │   │   ├── usePortfolio.ts        # Portfolio hook
+│   │   │   ├── useAlerts.ts           # Alerts hook
+│   │   │   ├── usePagination.ts       # Pagination hook
+│   │   │   ├── useDebounce.ts         # Debounce hook
+│   │   │   ├── useLocalStorage.ts     # LocalStorage hook
+│   │   │   └── useToast.ts            # Toast notification hook
+│   │   │
+│   │   ├── constants/                  # Constants & configurations
+│   │   │   ├── routes.ts              # Route paths
+│   │   │   ├── api-endpoints.ts       # API endpoint URLs
+│   │   │   ├── validation-rules.ts    # Validation rules
+│   │   │   └── app-config.ts          # App configuration
+│   │   │
+│   │   └── auth/                       # Authentication utilities
+│   │       ├── token.ts               # Token management
+│   │       ├── session.ts             # Session handling
+│   │       └── permissions.ts         # Permission checks
+│   │
+│   ├── store/                          # State Management (Model Layer)
+│   │   ├── index.ts                   # Store configuration (Zustand)
+│   │   ├── slices/                    # Store slices
+│   │   │   ├── authSlice.ts           # Auth state
+│   │   │   ├── dealsSlice.ts          # Deals state
+│   │   │   ├── scoringSlice.ts        # Scoring state
+│   │   │   ├── thesisSlice.ts         # Thesis state
+│   │   │   ├── foundersSlice.ts       # Founders state
+│   │   │   ├── portfolioSlice.ts      # Portfolio state
+│   │   │   ├── alertsSlice.ts         # Alerts state
+│   │   │   └── uiSlice.ts             # UI state (modals, toasts)
+│   │   └── types.ts                   # Store types
+│   │
+│   ├── types/                          # TypeScript type definitions
+│   │   ├── index.ts                   # Main types export
+│   │   ├── api.types.ts               # API response types
+│   │   ├── auth.types.ts              # Authentication types
+│   │   ├── deal.types.ts              # Deal types
+│   │   ├── scoring.types.ts           # Scoring types
+│   │   ├── thesis.types.ts            # Thesis types
+│   │   ├── founder.types.ts           # Founder types
+│   │   ├── portfolio.types.ts         # Portfolio types
+│   │   ├── alert.types.ts             # Alert types
+│   │   ├── report.types.ts            # Report types
+│   │   └── common.types.ts            # Common types
+│   │
+│   ├── styles/                         # Styles
+│   │   ├── globals.css                # Global styles
+│   │   └── variables.css              # CSS variables
+│   │
+│   ├── config/                         # Configuration files
+│   │   ├── site.ts                    # Site configuration
+│   │   └── theme.ts                   # Theme configuration
+│   │
+│   └── middleware.ts                   # Next.js middleware (auth check)
+│
+├── .env.local                          # Environment variables (local)
+├── .env.example                        # Environment variables example
+├── .gitignore                          # Git ignore
+├── next.config.js                      # Next.js configuration
+├── tailwind.config.ts                  # Tailwind CSS configuration
+├── tsconfig.json                       # TypeScript configuration
+├── package.json                        # Dependencies
+├── postcss.config.js                   # PostCSS configuration
+├── components.json                     # shadcn/ui configuration
+└── README.md      
+
+
+
+
+

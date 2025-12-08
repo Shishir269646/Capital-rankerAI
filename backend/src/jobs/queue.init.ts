@@ -1,5 +1,5 @@
 // src/jobs/queue.init.ts
-import { QueueManager } from '../../lib/queue/simple-queue';
+import { QueueManager } from '../lib/queue/simple-queue';
 
 // 1. AI Scoring Queue (for batch scoring)
 export const scoringQueue = QueueManager.getQueue('scoring-jobs', {

@@ -1,14 +1,10 @@
-import Redis from 'ioredis';
+import { redisClient } from '../config/redis.config';
 
 export class CacheService {
-  private client: Redis;
+  private client: typeof redisClient;
 
   constructor() {
-    this.client = new Redis({
-      host: process.env.REDIS_HOST || 'localhost',
-      port: Number(process.env.REDIS_PORT) || 6379,
-      retryStrategy: (times) => Math.min(times * 50, 2000),
-    });
+    this.client = redisClient;
   }
 
   /**

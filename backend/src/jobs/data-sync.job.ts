@@ -195,8 +195,8 @@ export class DataSyncJob {
 // ============================================
 
 import { alertService } from '../services/alert.service';
-import Score from '../models/Score';
-import { Alert } from '../models/Alert';
+import Score from '../model/Score';
+import Alert from '../model/Alert';
 
 /**
  * Alert Monitoring Job

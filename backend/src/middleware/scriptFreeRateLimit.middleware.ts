@@ -1,13 +1,13 @@
 import { RateLimiterRedis } from 'rate-limiter-flexible';
-import { redisClient } from '../../server'; // Corrected path
+import { redisClient } from '../config/redis.config';
 
 const loginLimiter = new RateLimiterRedis({
   storeClient: redisClient,
   points: 5, // 5 requests
   duration: 60, // per 60 seconds
   execEvenly: false, // no lua
-  enableOfflineQueue: false,
-  useNodeRedis: false, // <-- VERY IMPORTANT
+
+
 });
 
 // express middleware

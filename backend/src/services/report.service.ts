@@ -1,5 +1,5 @@
 import { reportQueue } from '../jobs/queue.init';
-import { SimpleQueue, Job } from '../../lib/queue/simple-queue';
+import { SimpleQueue, Job } from '../lib/queue/simple-queue';
 
 export class ReportService {
   private reportQueue: SimpleQueue;
