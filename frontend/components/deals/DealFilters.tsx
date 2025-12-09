@@ -10,8 +10,9 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 
 interface DealFiltersProps {
+    filters: FilterState;
     onFilterChange?: (filters: FilterState) => void
-    onReset?: () => void
+    onClear?: () => void
 }
 
 interface FilterState {
@@ -29,14 +30,8 @@ const SECTORS = [
 
 const STAGES = ['pre-seed', 'seed', 'series-a', 'series-b', 'series-c', 'growth']
 
-export function DealFilters({ onFilterChange, onReset }: DealFiltersProps) {
-    const [filters, setFilters] = useState<FilterState>({
-        search: '',
-        sectors: [],
-        stages: [],
-        scoreMin: 0,
-        scoreMax: 100
-    })
+export function DealFilters({ filters: initialFilters, onFilterChange, onClear }: DealFiltersProps) {
+    const [filters, setFilters] = useState<FilterState>(initialFilters);
 
     const handleSearchChange = (value: string) => {
         const newFilters = { ...filters, search: value }
@@ -75,7 +70,7 @@ export function DealFilters({ onFilterChange, onReset }: DealFiltersProps) {
             scoreMax: 100
         }
         setFilters(resetFilters)
-        onReset?.()
+        onClear?.()
     }
 
     const activeFilterCount =

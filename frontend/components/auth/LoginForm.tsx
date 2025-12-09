@@ -3,12 +3,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from '../../lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { AppRoutes } from '../../lib/constants/routes';
-import { isValidEmail, isRequired } from '../../lib/utils/validation';
-import { VALIDATION_RULES } from '../../lib/constants/validation-rules';
-import { LoginPayload } from '../../types/auth.types';
+import { AppRoutes } from '@/lib/constants/routes';
+import { isValidEmail, isRequired } from '@/lib/utils/validation';
+import { VALIDATION_RULES } from '@/lib/constants/validation-rules';
+import { LoginPayload } from '@/types/auth.types';
 
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');

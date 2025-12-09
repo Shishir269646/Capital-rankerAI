@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 import { authApi as loginApi } from '@/lib/api/auth.api'; // Import the API function
-import { AuthResponse, LoginPayload } from '@/types/auth.types';
-import { saveAuthTokens, clearAuthTokens, getAccessToken } from '@/lib/auth/token'; // Import token management utilities
+import { AuthResponse, LoginPayload, User } from '@/types/auth.types';
 
 interface AuthState {
-  user: any; // Replace 'any' with your User type
+  user: User | null;
   token: string | null;
   loading: boolean;
   error: string | null;
@@ -22,7 +21,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await loginApi(credentials); // Use the API function
+      const response = await loginApi.login(credentials); // Use the API function
       saveAuthTokens(response.tokens); // Save all tokens
       return response;
     } catch (error: any) {

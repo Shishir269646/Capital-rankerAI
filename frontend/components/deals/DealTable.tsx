@@ -38,11 +38,9 @@ interface DealTableProps {
     deals: Deal[]
     loading?: boolean
     onSort?: (column: string) => void
-    onView?: (id: string) => void
-    onEdit?: (id: string) => void
-    onDelete?: (id: string) => void
     selectedIds?: string[]
-    onSelectChange?: (ids: string[]) => void
+    onSelect?: (ids: string[]) => void
+    onAction?: (action: string, id: string) => void
     pagination?: {
         page: number
         totalPages: number
@@ -54,11 +52,9 @@ export function DealTable({
     deals,
     loading = false,
     onSort,
-    onView,
-    onEdit,
-    onDelete,
     selectedIds = [],
-    onSelectChange,
+    onSelect,
+    onAction,
     pagination
 }: DealTableProps) {
     const [sortColumn, setSortColumn] = useState<string>('')
@@ -74,17 +70,17 @@ export function DealTable({
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
-            onSelectChange?.(deals.map(deal => deal.id))
+            onSelect?.(deals.map(deal => deal.id))
         } else {
-            onSelectChange?.([])
+            onSelect?.([])
         }
     }
 
     const handleSelectOne = (id: string, checked: boolean) => {
         if (checked) {
-            onSelectChange?.([...selectedIds, id])
+            onSelect?.([...selectedIds, id])
         } else {
-            onSelectChange?.(selectedIds.filter(selectedId => selectedId !== id))
+            onSelect?.(selectedIds.filter(selectedId => selectedId !== id))
         }
     }
 
@@ -261,23 +257,23 @@ export function DealTable({
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                                 <DropdownMenuItem asChild>
-                                                    <Link href={`/deals/${deal.id}`}>
+                                                    <Link href={`/deals/${deal.id}`} onClick={() => onAction?.("view", deal.id)}>
                                                         <Eye className="h-4 w-4 mr-2" />
                                                         View
                                                     </Link>
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => onEdit?.(deal.id)}>
+                                                <DropdownMenuItem onClick={() => onAction?.("edit", deal.id)}>
                                                     <Edit className="h-4 w-4 mr-2" />
                                                     Edit
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => onAction?.("score", deal.id)}>
                                                     <TrendingUp className="h-4 w-4 mr-2" />
                                                     Score
                                                 </DropdownMenuItem>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
                                                     className="text-destructive"
-                                                    onClick={() => onDelete?.(deal.id)}
+                                                    onClick={() => onAction?.("delete", deal.id)}
                                                 >
                                                     <Trash2 className="h-4 w-4 mr-2" />
                                                     Delete

@@ -1,18 +1,30 @@
-```
-
-
-```typescript
+// tailwind.config.ts
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+const config = {
+  // Configure dark mode to be toggled by the 'dark' class on the root element
   darkMode: ["class"],
+  // Specify files to scan for Tailwind classes
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}", // General src directory for broader coverage
   ],
+  // No prefix for Tailwind classes by default
+  prefix: "",
   theme: {
+    // Standard container configuration for centered content
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    // Extend the default Tailwind theme
     extend: {
+      // Define custom color palette using CSS variables for easy theming (light/dark mode)
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -22,11 +34,6 @@ const config: Config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          50: "#eff6ff",
-          100: "#dbeafe",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -44,20 +51,41 @@ const config: Config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        success: "#10b981",
-        warning: "#f59e0b",
-        danger: "#ef4444",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
+      // Define custom border-radius values using a CSS variable for consistent rounding
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+      // Define custom keyframes for animations
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      // Apply custom animations
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
+  // Add Tailwind plugins
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config; // Ensure type safety for the configuration object
+
 export default config;

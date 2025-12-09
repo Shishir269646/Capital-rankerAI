@@ -137,7 +137,7 @@ export default function DealsPage() {
                     <DealFilters
                         filters={filters}
                         onFilterChange={handleFilterChange}
-                        onClear={handleClearFilters}
+                        onReset={handleClearFilters}
                     />
                 )}
 
@@ -204,6 +204,7 @@ export default function DealsPage() {
                             ) : viewMode === "table" ? (
                                 <DealTable
                                     deals={deals}
+                                    selectedIds={selectedIds}
                                     onSelect={setSelectedIds}
                                     onAction={handleAction}
                                 />
@@ -213,7 +214,7 @@ export default function DealsPage() {
                                         <DealCard
                                             key={deal.id}
                                             deal={deal}
-                                            onScore={(id) => handleAction("score", id)}
+                                            onView={(id) => handleAction("view", id)}
                                         />
                                     ))}
                                 </div>

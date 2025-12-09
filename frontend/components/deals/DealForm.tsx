@@ -31,7 +31,7 @@ const SECTORS = ["Fintech", "Healthtech", "E-commerce", "SaaS", "AI/ML", "Edtech
 
 interface DealFormProps {
     initialData?: Partial<DealFormData>;
-    onSubmit: (data: any) => Promise<void>;
+    onSubmit: (data: DealFormData & { sector: string[] }) => Promise<void>;
     submitting: boolean;
 }
 

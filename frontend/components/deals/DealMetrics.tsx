@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Deal } from "@/types/deal.types";
-import { formatCurrency } from "@/lib/utils/format";
+import { formatCurrency } from "@/lib/utils/currency";
 import { TrendingUp, DollarSign, Users, Calendar } from "lucide-react";
 
 interface DealMetricsProps {

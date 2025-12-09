@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, DollarSign, PieChart, Target } from "lucide-react";
-import { formatCurrency } from "@/lib/utils/format";
+import { formatCurrency } from "@/lib/utils/currency";
 
 interface PortfolioMetricsProps {
     metrics: {

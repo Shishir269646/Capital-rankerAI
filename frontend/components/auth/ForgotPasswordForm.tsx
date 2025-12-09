@@ -4,9 +4,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AppRoutes } from '../../lib/constants/routes';
-import { isValidEmail, isRequired } from '../../lib/utils/validation';
-import { VALIDATION_RULES } from '../../lib/constants/validation-rules';
+import { AppRoutes } from '@/lib/constants/routes';
+import { isValidEmail, isRequired } from '@/lib/utils/validation';
+import { VALIDATION_RULES } from '@/lib/constants/validation-rules';
 
 export const ForgotPasswordForm: React.FC = () => {
   const [email, setEmail] = useState('');

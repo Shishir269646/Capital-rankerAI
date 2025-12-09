@@ -10,7 +10,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 
 interface ReportGeneratorProps {
-    onGenerate: (data: any) => Promise<void>;
+    onGenerate: (data: {
+        reportType: string;
+        dateFrom: Date | undefined;
+        dateTo: Date | undefined;
+        sections: {
+            overview: boolean;
+            deals: boolean;
+            scoring: boolean;
+            portfolio: boolean;
+            recommendations: boolean;
+        };
+    }) => Promise<void>;
     generating: boolean;
 }
 

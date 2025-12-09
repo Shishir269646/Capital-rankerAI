@@ -1,9 +1,9 @@
 'use client';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
-import { login, logout } from '../../store/slices/authSlice';
-import { fetchDeals } from '../../store/slices/dealsSlice';
+import { AppDispatch, RootState } from '@/store';
+import { login, logout } from '@/store/slices/authSlice';
+import { fetchDeals } from '@/store/slices/dealsSlice';
 
 const ApiTestPage = () => {
   const dispatch: AppDispatch = useDispatch();
