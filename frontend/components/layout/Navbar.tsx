@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, Search, Settings, User } from "lucide-react";
+import { Bell, Search, Settings, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -69,6 +69,16 @@ export function Navbar() {
                         onClick={() => router.push("/settings")}
                     >
                         <Settings className="h-5 w-5" />
+                    </Button>
+
+                    {/* Logout Button */}
+                    <Button
+                        variant="ghost"
+                        size="sm" // Use 'sm' to make it a bit smaller than default, but still clear text
+                        onClick={handleLogout}
+                    >
+                        <LogOut className="h-5 w-5 mr-2" />
+                        Logout
                     </Button>
 
                     {/* User Menu */}

@@ -1,6 +1,15 @@
 // Inspired by react-hot-toast library
 import * as React from "react"
 
+import {
+  Toast,
+  ToastProvider,
+  ToastViewport,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+} from "./toast"
+
 type ToasterToast = ToastProps & {
   id: string
   title?: React.ReactNode

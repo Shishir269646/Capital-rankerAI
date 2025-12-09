@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../index';
-import { authApi as loginApi } from '@/lib/api/auth.api'; // Import the API function
+import { authApi } from '@/lib/api/auth.api';
 import { AuthResponse, LoginPayload, User } from '@/types/auth.types';
+import { saveAuthTokens, clearAuthTokens, getAccessToken } from '@/lib/auth/token';
 
 interface AuthState {
   user: User | null;
@@ -12,7 +13,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: typeof window !== 'undefined' ? getAccessToken() : null, // Use getAccessToken
+  token: null, // Initialize to null
   loading: false,
   error: null,
 };
@@ -21,8 +22,8 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await loginApi.login(credentials); // Use the API function
-      saveAuthTokens(response.tokens); // Save all tokens
+      const response = await authApi.login(credentials);
+      saveAuthTokens(response.tokens);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -37,7 +38,10 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      clearAuthTokens(); // Clear all tokens
+      clearAuthTokens();
+    },
+    setToken: (state, action: PayloadAction<string | null>) => {
+      state.token = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -58,7 +62,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setToken } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectToken = (state: RootState) => state.auth.token;
