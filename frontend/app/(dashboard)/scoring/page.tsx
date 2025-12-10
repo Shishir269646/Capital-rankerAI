@@ -1,36 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
-import { DealCard } from "@/components/deals/DealCard";
-import { ScoreGauge } from "@/components/scoring/ScoreGauge";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/ToastProvider";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAccessToken } from "@/lib/auth/token";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { EmptyState } from "@/components/shared/EmptyState";
-import { TrendingUp, Play, CheckCircle2 } from "lucide-react";
-import { Deal } from "@/types/deal.types";
-import { useRouter } from "next/navigation";
+import { TrendingUp } from "lucide-react";
+import { DealCard } from "@/components/deals/DealCard";
 import { dealsApi } from "@/lib/api/deals.api";
-import { useToast } from "@/components/ui/use-toast";
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-} from "recharts";
+import { scoringApi } from "@/lib/api/scoring.api";
+import { Deal } from "@/types/deal.types";
 
 export default function ScoringPage() {
     const router = useRouter();
-    const { toast } = useToast();
+    const { show: showCustomToast } = useToast();
     const [deals, setDeals] = useState<Deal[]>([]);
     const [pendingDeals, setPendingDeals] = useState<Deal[]>([]);
     const [loading, setLoading] = useState(true);
     const [scoring, setScoring] = useState(false);
+    const [recalculating, setRecalculating] = useState(false);
 
     useEffect(() => {
         loadDeals();
@@ -39,17 +33,23 @@ export default function ScoringPage() {
     const loadDeals = async () => {
         try {
             setLoading(true);
-            const allDeals = await dealsApi.getDeals({});
-            const scored = allDeals.filter((d) => d.score);
-            const pending = allDeals.filter((d) => !d.score);
+            const token = getAccessToken();
+            if (!token) {
+                showCustomToast("Authentication token not found.", "error");
+                setLoading(false);
+                return;
+            }
+
+            const response = await dealsApi.getAllDeals(token);
+            const allDeals: Deal[] = response.results;
+
+            const scored = allDeals.filter((d) => d.score?.investment_fit_score !== undefined && d.score.investment_fit_score !== null);
+            const pending = allDeals.filter((d) => d.score?.investment_fit_score === undefined || d.score.investment_fit_score === null);
+
             setDeals(scored);
             setPendingDeals(pending);
-        } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to load deals",
-                variant: "destructive",
-            });
+        } catch (error: any) {
+            showCustomToast(`Error loading deals: ${error.message || 'Unknown error'}`, "error");
         } finally {
             setLoading(false);
         }
@@ -58,29 +58,58 @@ export default function ScoringPage() {
     const handleBatchScore = async () => {
         try {
             setScoring(true);
-            // Implement batch scoring
-            toast({
-                title: "Success",
-                description: `${pendingDeals.length} deals scored successfully`,
-            });
-            loadDeals();
-        } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to score deals",
-                variant: "destructive",
-            });
+            const token = getAccessToken();
+            if (!token) {
+                showCustomToast("Authentication token not found.", "error");
+                setScoring(false);
+                return;
+            }
+
+            if (pendingDeals.length === 0) {
+                showCustomToast("No pending deals to score.", "info");
+                setScoring(false);
+                return;
+            }
+
+            const dealIdsToScore = pendingDeals.map(deal => deal.id);
+            await scoringApi.batchScore(dealIdsToScore, token);
+
+            showCustomToast(`${dealIdsToScore.length} deals sent for batch scoring!`, "success");
+            loadDeals(); // Refresh data after scoring
+        } catch (error: any) {
+            showCustomToast(`Error initiating batch scoring: ${error.message || 'Unknown error'}`, "error");
         } finally {
             setScoring(false);
         }
     };
 
+    const handleRecalculateAllScores = async () => {
+        try {
+            setRecalculating(true);
+            const token = getAccessToken();
+            if (!token) {
+                showCustomToast("Authentication token not found.", "error");
+                setRecalculating(false);
+                return;
+            }
+
+            await scoringApi.recalculateAllScores(token);
+
+            showCustomToast("Recalculation of all scores initiated!", "success");
+            loadDeals(); // Refresh data after recalculation (though it might take time for backend to process)
+        } catch (error: any) {
+            showCustomToast(`Error initiating score recalculation: ${error.message || 'Unknown error'}`, "error");
+        } finally {
+            setRecalculating(false);
+        }
+    };
+
     const scoreDistribution = [
-        { range: "0-20", count: 5 },
-        { range: "21-40", count: 12 },
-        { range: "41-60", count: 23 },
-        { range: "61-80", count: 35 },
-        { range: "81-100", count: 18 },
+        { name: "0-20", value: 5, color: "#ef4444" },
+        { name: "21-40", value: 12, color: "#f97316" },
+        { name: "41-60", value: 23, color: "#eab308" },
+        { name: "61-80", value: 35, color: "#22c55e" },
+        { name: "81-100", value: 18, color: "#3b82f6" },
     ];
 
     const topDeals = [...deals]
@@ -105,158 +134,94 @@ export default function ScoringPage() {
                     { label: "Scoring" },
                 ]}
                 action={
-                    pendingDeals.length > 0 && (
-                        <Button onClick={handleBatchScore} disabled={scoring}>
-                            {scoring ? (
+                    <div className="flex gap-2">
+                        {pendingDeals.length > 0 && (
+                            <Button onClick={handleBatchScore} disabled={scoring}>
+                                {scoring ? (
+                                    <>
+                                        <LoadingSpinner size="sm" className="mr-2" />
+                                        Scoring...
+                                    </>
+                                ) : (
+                                    <>
+                                        <TrendingUp className="mr-2 h-4 w-4" />
+                                        Score {pendingDeals.length} Pending Deals
+                                    </>
+                                )}
+                            </Button>
+                        )}
+                        <Button onClick={handleRecalculateAllScores} disabled={recalculating}>
+                            {recalculating ? (
                                 <>
                                     <LoadingSpinner size="sm" className="mr-2" />
-                                    Scoring...
+                                    Recalculating...
                                 </>
                             ) : (
                                 <>
-                                    <Play className="mr-2 h-4 w-4" />
-                                    Score {pendingDeals.length} Pending Deals
+                                    <TrendingUp className="mr-2 h-4 w-4" />
+                                    Recalculate All Scores
                                 </>
                             )}
                         </Button>
-                    )
+                    </div>
                 }
             />
 
             <Container>
                 <div className="space-y-6">
-                    {/* Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Total Scored</CardTitle>
-                                <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{deals.length}</div>
-                                <p className="text-xs text-muted-foreground">
-                                    +{deals.length > 10 ? deals.length - 10 : 0} from last week
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
-                                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{pendingDeals.length}</div>
-                                <p className="text-xs text-muted-foreground">
-                                    Awaiting evaluation
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Average Score</CardTitle>
-                                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">
-                                    {deals.length > 0
-                                        ? Math.round(
-                                            deals.reduce((sum, d) => sum + (d.score?.investment_fit_score || 0), 0) /
-                                            deals.length
-                                        )
-                                        : 0}
-                                </div>
-                                <p className="text-xs text-muted-foreground">
-                                    Across all deals
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-
-                    {/* Score Distribution */}
+                    {/* Placeholder for real data */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Score Distribution</CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={scoreDistribution}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="range" />
-                                    <YAxis />
+                        <CardContent className="h-72">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={scoreDistribution}
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={60}
+                                        outerRadius={80}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                        labelLine={false}
+                                    >
+                                        {scoreDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
+                                    </Pie>
                                     <Tooltip />
-                                    <Bar dataKey="count" fill="#3b82f6" />
-                                </BarChart>
+                                    <Legend />
+                                </PieChart>
                             </ResponsiveContainer>
                         </CardContent>
                     </Card>
 
-                    {/* Top Ranked Deals */}
-                    <div>
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-2xl font-bold">Top Ranked Deals</h2>
-                            <Button
-                                variant="ghost"
-                                onClick={() => router.push("/scoring/compare")}
-                            >
-                                Compare Deals
-                            </Button>
-                        </div>
-
-                        {topDeals.length > 0 ? (
-                            <div className="space-y-4">
-                                {topDeals.map((deal, index) => (
-                                    <Card key={deal.id}>
-                                        <CardContent className="pt-6">
-                                            <div className="flex items-center gap-6">
-                                                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary font-bold text-xl">
-                                                    {index + 1}
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h3 className="font-semibold text-lg">{deal.name}</h3>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        {deal.sector.join(", ")}
-                                                    </p>
-                                                </div>
-                                                <ScoreGauge
-                                                    score={deal.score?.investment_fit_score || 0}
-                                                    size="sm"
-                                                    showLabel={false}
-                                                />
-                                                <Button
-                                                    variant="outline"
-                                                    onClick={() => router.push(`/deals/${deal.id}`)}
-                                                >
-                                                    View Details
-                                                </Button>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
-                        ) : (
-                            <EmptyState
-                                title="No scored deals yet"
-                                description="Start by scoring your pending deals"
-                                action={
-                                    pendingDeals.length > 0
-                                        ? {
-                                            label: "Score Pending Deals",
-                                            onClick: handleBatchScore,
-                                        }
-                                        : undefined
-                                }
-                            />
-                        )}
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-2xl font-bold">Top Ranked Deals</h2>
+                        <Button
+                            variant="ghost"
+                            onClick={() => router.push("/scoring/compare")}
+                        >
+                            Compare Deals
+                        </Button>
                     </div>
+                    {topDeals.length > 0 ? (
+                        <div className="space-y-4">
+                            {topDeals.map((deal) => (
+                                <DealCard key={deal.id} deal={deal} />
+                            ))}
+                        </div>
+                    ) : (
+                        <EmptyState title="No Scored Deals" description="Score deals to see top performers." />
+                    )}
 
-                    {/* Pending Deals */}
                     {pendingDeals.length > 0 && (
                         <div>
-                            <h2 className="text-2xl font-bold mb-4">Pending Review</h2>
+                            <h2 className="text-2xl font-bold mb-4">Pending Deals</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {pendingDeals.slice(0, 6).map((deal) => (
+                                {pendingDeals.map((deal) => (
                                     <DealCard key={deal.id} deal={deal} />
                                 ))}
                             </div>

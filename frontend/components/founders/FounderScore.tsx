@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { FounderEvaluation } from "@/types/founder.types";
+import type { FounderScore } from "@/types/founder.types";
 
 interface FounderScoreProps {
-    evaluation: FounderEvaluation;
+    evaluation: FounderScore;
 }
 
 export function FounderScore({ evaluation }: FounderScoreProps) {

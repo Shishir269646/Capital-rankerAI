@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Upload, Download, CheckCircle2, AlertCircle } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/ToastProvider";
 
 interface DealImportDialogProps {
     open: boolean;
@@ -13,7 +13,7 @@ interface DealImportDialogProps {
 }
 
 export function DealImportDialog({ open, onOpenChange }: DealImportDialogProps) {
-    const { toast } = useToast();
+    const { show: showCustomToast } = useToast();
     const [file, setFile] = useState<File | null>(null);
     const [importing, setImporting] = useState(false);
     const [results, setResults] = useState<{ success: number; failed: number } | null>(null);
@@ -34,9 +34,9 @@ export function DealImportDialog({ open, onOpenChange }: DealImportDialogProps) 
             // Simulate import
             await new Promise(resolve => setTimeout(resolve, 2000));
             setResults({ success: 45, failed: 3 });
-            toast({ title: "Import completed", description: "Your deals have been imported successfully" });
+            showCustomToast("Import completed: Your deals have been imported successfully", "success");
         } catch (error) {
-            toast({ title: "Import failed", description: "Failed to import deals", variant: "destructive" });
+            showCustomToast("Import failed: Failed to import deals", "error");
         } finally {
             setImporting(false);
         }

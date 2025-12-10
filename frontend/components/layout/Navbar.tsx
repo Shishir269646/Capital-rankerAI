@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Bell, Search, Settings, User, LogOut } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,8 +23,8 @@ export function Navbar() {
     const router = useRouter();
     const alertCount = 3; // This would come from your alerts state
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        await logout(); // Call the async thunk
         router.push("/login");
     };
 
@@ -85,9 +86,8 @@ export function Navbar() {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                                <Avatar>
-                                    <AvatarImage src={user?.avatar} alt={user?.name} />
-                                    <AvatarFallback>
+                                                                 <Avatar>
+                                                                     <AvatarImage src={user?.profile_picture} alt={user?.name} />                                    <AvatarFallback>
                                         {user?.name?.charAt(0) || "U"}
                                     </AvatarFallback>
                                 </Avatar>

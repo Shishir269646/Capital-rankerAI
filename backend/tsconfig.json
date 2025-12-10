@@ -24,7 +24,8 @@
         "noFallthroughCasesInSwitch": true,
         "types": [
             "node",
-            "jest"
+            "jest",
+            "jwt-decode"
         ],
         "typeRoots": [
             "./node_modules/@types",

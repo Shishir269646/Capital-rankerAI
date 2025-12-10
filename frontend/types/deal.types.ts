@@ -1,6 +1,7 @@
 // src/types/deal.types.ts
 
 import { User } from './auth.types'; // Assuming User type is defined
+import { Score } from './scoring.types';
 
 export interface FundingRound {
   round_type: 'pre-seed' | 'seed' | 'series-a' | 'series-b' | 'series-c' | 'bridge' | 'growth';
@@ -70,6 +71,7 @@ export interface Deal {
   updated_at: Date;
   total_funding?: number; // Virtual field
   latest_valuation?: number; // Virtual field
+  score?: Score; // Optional score field
 }
 
 // Payload for creating a new deal
@@ -77,3 +79,12 @@ export type CreateDealPayload = Omit<Deal, 'id' | 'created_at' | 'updated_at' | 
 
 // Payload for updating an existing deal
 export type UpdateDealPayload = Partial<CreateDealPayload>;
+
+export interface DealFilters {
+  search?: string;
+  sectors?: string[];
+  stages?: string[];
+  scoreMin?: number;
+  scoreMax?: number;
+}
+

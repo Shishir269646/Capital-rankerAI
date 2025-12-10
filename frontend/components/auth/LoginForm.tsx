@@ -35,9 +35,6 @@ export const LoginForm: React.FC = () => {
     if (!isRequired(password)) {
       setPasswordError(VALIDATION_RULES.REQUIRED.MESSAGE);
       isValid = false;
-    } else if (password.length < VALIDATION_RULES.PASSWORD.MIN_LENGTH) {
-      setPasswordError(VALIDATION_RULES.PASSWORD.MESSAGE);
-      isValid = false;
     }
     return isValid;
   };

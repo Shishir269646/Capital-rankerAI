@@ -8,6 +8,8 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { PieChart, TrendingUp, DollarSign, Target } from "lucide-react";
 import { formatCurrency } from "@/lib/utils/currency";
+import { portfolioApi } from "@/lib/api/portfolio.api";
+import { getAccessToken } from "@/lib/auth/token";
 
 export default function PortfolioPage() {
     const [loading, setLoading] = useState(true);
@@ -21,8 +23,35 @@ export default function PortfolioPage() {
     });
 
     useEffect(() => {
-        // Load portfolio data
-        setTimeout(() => setLoading(false), 1000);
+        const fetchPortfolioStats = async () => {
+            setLoading(true);
+            const token = getAccessToken();
+            if (!token) {
+                // Handle no token case, e.g., redirect to login
+                // For now, just set loading to false and return
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await portfolioApi.getAnalytics(token);
+                setStats({
+                    totalInvested: response.data.totalInvested || 0,
+                    portfolioValue: response.data.currentValue || 0,
+                    avgIRR: response.data.averageIRR || 0,
+                    avgMultiple: response.data.averageMultiple || 0,
+                    activeCompanies: response.data.activeInvestments || 0,
+                    exited: response.data.exitedInvestments || 0,
+                });
+            } catch (error) {
+                console.error("Error fetching portfolio stats:", error);
+                // Optionally show a toast notification
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPortfolioStats();
     }, []);
 
     if (loading) {

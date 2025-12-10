@@ -1,83 +1,190 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
-import { DealScoreCard } from "@/components/deals/DealScoreCard";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/ToastProvider";
+import { DealDetail } from "@/components/deals/DealDetail";
 import { DealMetrics } from "@/components/deals/DealMetrics";
-import { FounderCard } from "@/components/founders/FounderCard";
+import { DealScoreCard } from "@/components/deals/DealScoreCard";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
-import { ErrorMessage } from "@/components/shared/ErrorMessage";
-import {
-    ExternalLink,
-    Edit,
-    Trash2,
-    TrendingUp,
-    Calendar,
-    MapPin,
-    Users,
-} from "lucide-react";
-import { Deal } from "@/types/deal.types";
-import { Founder } from "@/types/founder.types";
 import { dealsApi } from "@/lib/api/deals.api";
-import { formatCurrency, formatDate } from "@/lib/utils/format";
-import { useToast } from "@/components/ui/use-toast";
+import { scoringApi } from "@/lib/api/scoring.api";
+import { reportsApi } from "@/lib/api/reports.api"; // Import reportsApi
+import { getAccessToken } from "@/lib/auth/token";
+import type { Deal } from "@/types/deal.types";
+import { Edit, TrendingUp, Trash2, Download } from "lucide-react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-export default function DealDetailPage() {
-    const params = useParams();
+
+export default function DealDetailsPage({ params }: { params: { id: string } }) {
     const router = useRouter();
-    const { toast } = useToast();
-    const dealId = params.id as string;
-
+    const { show: showCustomToast } = useToast();
+    const dealId = params.id;
     const [deal, setDeal] = useState<Deal | null>(null);
-    const [founders, setFounders] = useState<Founder[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string>("");
     const [scoring, setScoring] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [similarDeals, setSimilarDeals] = useState<Deal[]>([]);
+    const [newNoteContent, setNewNoteContent] = useState("");
+    const [dealNotes, setDealNotes] = useState<any[]>([]); // Assuming a type for notes
+    const [scoringHistory, setScoringHistory] = useState<ScoringHistoryItem[]>([]); // Assuming a type for scoring history
 
-    useEffect(() => {
-        loadDeal();
-    }, [dealId]);
-
-    const loadDeal = async () => {
+    const fetchDeal = useCallback(async () => {
+        setLoading(true);
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            setLoading(false);
+            return;
+        }
         try {
-            setLoading(true);
-            setError("");
-            const data = await dealsApi.getDealById(dealId);
-            setDeal(data);
-            // Load founders if available
-            if (data.founders && data.founders.length > 0) {
-                // Load founder details
-            }
-        } catch (err: any) {
-            setError(err.message || "Failed to load deal");
+            const response = await dealsApi.getDealById(dealId, token);
+            setDeal(response.data);
+            // Assuming deal.notes is part of the Deal response
+            // setDealNotes(response.data.notes || []);
+        } catch (error) {
+            showCustomToast("Error fetching deal details", "error");
         } finally {
             setLoading(false);
         }
+    }, [dealId, showCustomToast]);
+
+    const fetchSimilarDeals = useCallback(async () => {
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            const response = await dealsApi.getSimilarDeals(dealId, token);
+            setSimilarDeals(response.results);
+        } catch (error) {
+            showCustomToast("Error fetching similar deals", "error");
+        }
+    }, [dealId, showCustomToast]);
+
+    const handleAddNote = async () => {
+        if (!newNoteContent.trim()) {
+            showCustomToast("Note content cannot be empty.", "error");
+            return;
+        }
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            // Assuming addDealNote returns the newly added note or an updated list of notes
+            const response = await dealsApi.addDealNote(dealId, { content: newNoteContent }, token);
+            showCustomToast("Note added successfully!", "success");
+            setNewNoteContent("");
+            // Re-fetch deal notes or update state directly if API returns updated list
+            // For now, I'll simulate adding it to the local state
+            setDealNotes(prevNotes => [...prevNotes, { id: Date.now().toString(), content: newNoteContent, createdAt: new Date().toISOString() }]);
+        } catch (error: any) {
+            showCustomToast(`Error adding note: ${error.message || 'Unknown error'}`, "error");
+        }
     };
 
-    const handleScore = async () => {
+    const fetchScoringHistory = useCallback(async () => {
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
         try {
-            setScoring(true);
-            // await scoringApi.scoreDeal(dealId);
-            toast({
-                title: "Success",
-                description: "Deal scored successfully",
-            });
-            loadDeal();
-        } catch (err: any) {
-            toast({
-                title: "Error",
-                description: err.message || "Failed to score deal",
-                variant: "destructive",
-            });
+            const response = await scoringApi.getDealScoringHistory(dealId, token);
+            setScoringHistory(response.results); // Assuming results contains the history items
+        } catch (error) {
+            showCustomToast("Error fetching scoring history", "error");
+        }
+    }, [dealId, showCustomToast]);
+
+    const handleDownloadDealReport = async () => {
+        if (!dealId) return;
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            const blob = await reportsApi.getDealReport(dealId, token);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `deal_report_${dealId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showCustomToast("Deal report downloaded successfully", "success");
+        } catch (error: any) {
+            showCustomToast(`Failed to download deal report: ${error.message || 'Unknown error'}`, "error");
+        }
+    };
+
+    useEffect(() => {
+        if (dealId) {
+            fetchDeal();
+            fetchSimilarDeals();
+            fetchScoringHistory(); // Fetch scoring history
+        }
+    }, [dealId, fetchDeal, fetchSimilarDeals, fetchScoringHistory]);
+
+    useEffect(() => {
+        if (dealId) {
+            fetchDeal();
+            fetchSimilarDeals();
+        }
+    }, [dealId, fetchDeal, fetchSimilarDeals]);
+
+    const handleScore = async () => {
+        if (!dealId) return;
+        setScoring(true);
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            setScoring(false);
+            return;
+        }
+        try {
+            const updatedDealResponse = await scoringApi.scoreDeal(dealId, token);
+            showCustomToast("Deal scored successfully!", "success");
+            fetchDeal(); // Re-fetch deal to update its score
+        } catch (error: any) {
+            showCustomToast(`Error scoring deal: ${error.message || 'Unknown error'}`, "error");
         } finally {
             setScoring(false);
+        }
+    };
+
+    const handleDeleteDeal = async () => {
+        if (!dealId) return;
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            await dealsApi.deleteDeal(dealId, token);
+            showCustomToast("Deal deleted successfully!", "success");
+            router.push("/deals"); // Redirect to deals list after deletion
+        } catch (error: any) {
+            showCustomToast(`Error deleting deal: ${error.message || 'Unknown error'}`, "error");
+        } finally {
+            setIsDeleteDialogOpen(false);
         }
     };
 
@@ -89,10 +196,16 @@ export default function DealDetailPage() {
         );
     }
 
-    if (error || !deal) {
+    if (!deal) {
         return (
             <Container>
-                <ErrorMessage message={error || "Deal not found"} onRetry={loadDeal} />
+                <div className="text-center py-10">
+                    <h2 className="text-2xl font-bold">Deal Not Found</h2>
+                    <p className="text-muted-foreground">The deal you are looking for does not exist.</p>
+                    <Button onClick={() => router.push("/deals")} className="mt-4">
+                        Back to Deals
+                    </Button>
+                </div>
             </Container>
         );
     }
@@ -101,180 +214,144 @@ export default function DealDetailPage() {
         <div>
             <Header
                 title={deal.name}
+                description={deal.short_pitch || deal.description}
                 breadcrumbs={[
                     { label: "Dashboard", href: "/dashboard" },
                     { label: "Deals", href: "/deals" },
                     { label: deal.name },
                 ]}
                 action={
-                    <div className="flex items-center gap-2">
-                        {!deal.score && (
-                            <Button onClick={handleScore} disabled={scoring}>
-                                {scoring ? "Scoring..." : "Score Deal"}
-                            </Button>
-                        )}
+                    <div className="flex gap-2">
+                        <Button onClick={handleScore} disabled={scoring}>
+                            {scoring ? (
+                                <>
+                                    <LoadingSpinner size="sm" className="mr-2" />
+                                    Scoring...
+                                </>
+                            ) : (
+                                <>
+                                    <TrendingUp className="mr-2 h-4 w-4" />
+                                    Score Deal
+                                </>
+                            )}
+                        </Button>
                         <Button variant="outline" onClick={() => router.push(`/deals/${dealId}/edit`)}>
                             <Edit className="mr-2 h-4 w-4" />
-                            Edit
+                            Edit Deal
                         </Button>
-                        <Button variant="outline" className="text-destructive">
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                        <Button variant="outline" onClick={handleDownloadDealReport}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Deal Report
                         </Button>
+                        <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Delete Deal
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete the deal &quot;{deal?.name}&quot; and remove its data from our servers.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={handleDeleteDeal}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 }
             />
 
             <Container>
-                <div className="space-y-6">
-                    {/* Header Info */}
-                    <div className="flex flex-wrap items-center gap-4">
-                        <div className="flex flex-wrap gap-2">
-                            {deal.sector.map((sector) => (
-                                <Badge key={sector} variant="secondary">
-                                    {sector}
-                                </Badge>
-                            ))}
-                        </div>
-                        <Badge>{deal.stage}</Badge>
-
-                        {deal.location && (
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <MapPin className="h-4 w-4" />
-                                {deal.location}
-                            </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-6">
+                        {deal.score && (
+                            <DealScoreCard score={deal.score} />
                         )}
+                        <DealDetail deal={deal} />
 
-                        {deal.founded_year && (
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <Calendar className="h-4 w-4" />
-                                Founded {deal.founded_year}
-                            </div>
-                        )}
-
-                        {deal.team_size && (
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <Users className="h-4 w-4" />
-                                {deal.team_size} employees
-                            </div>
-                        )}
-
-                        {deal.website && (
-                            <Button variant="ghost" size="sm" asChild>
-                                <a href={deal.website} target="_blank" rel="noopener noreferrer">
-                                    <ExternalLink className="mr-2 h-4 w-4" />
-                                    Visit Website
-                                </a>
-                            </Button>
+                        {similarDeals.length > 0 && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Similar Deals</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    {/* Placeholder for a component to list similar deals */}
+                                    <ul className="list-disc pl-5 space-y-1">
+                                        {similarDeals.map((similarDeal) => (
+                                            <li key={similarDeal.id}>
+                                                <a href={`/deals/${similarDeal.id}`} className="text-blue-600 hover:underline">
+                                                    {similarDeal.name}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
                         )}
                     </div>
-
-                    {/* Score Card */}
-                    {deal.score && <DealScoreCard score={deal.score} />}
-
-                    {/* Key Metrics */}
-                    <DealMetrics deal={deal} />
-
-                    {/* Tabbed Content */}
-                    <Tabs defaultValue="overview">
-                        <TabsList>
-                            <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="founders">Founders</TabsTrigger>
-                            <TabsTrigger value="funding">Funding History</TabsTrigger>
-                            <TabsTrigger value="documents">Documents</TabsTrigger>
-                        </TabsList>
-
-                        <TabsContent value="overview" className="space-y-4">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Description</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-muted-foreground">{deal.description}</p>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Additional Metrics</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {deal.metrics.customer_count && (
-                                            <div>
-                                                <p className="text-sm text-muted-foreground">Customers</p>
-                                                <p className="text-2xl font-bold">{deal.metrics.customer_count.toLocaleString()}</p>
-                                            </div>
-                                        )}
-                                        {deal.metrics.mrr && (
-                                            <div>
-                                                <p className="text-sm text-muted-foreground">MRR</p>
-                                                <p className="text-2xl font-bold">{formatCurrency(deal.metrics.mrr)}</p>
-                                            </div>
-                                        )}
-                                        {deal.metrics.arr && (
-                                            <div>
-                                                <p className="text-sm text-muted-foreground">ARR</p>
-                                                <p className="text-2xl font-bold">{formatCurrency(deal.metrics.arr)}</p>
-                                            </div>
-                                        )}
-                                        {deal.metrics.gross_margin && (
-                                            <div>
-                                                <p className="text-sm text-muted-foreground">Gross Margin</p>
-                                                <p className="text-2xl font-bold">{deal.metrics.gross_margin}%</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-
-                        <TabsContent value="founders">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {founders.length > 0 ? (
-                                    founders.map((founder) => (
-                                        <FounderCard key={founder.id} founder={founder} />
-                                    ))
-                                ) : (
-                                    <p className="text-muted-foreground">No founder information available</p>
-                                )}
-                            </div>
-                        </TabsContent>
-
-                        <TabsContent value="funding">
-                            {deal.funding_history && deal.funding_history.length > 0 ? (
-                                <Card>
-                                    <CardContent className="pt-6">
-                                        <div className="space-y-4">
-                                            {deal.funding_history.map((round) => (
-                                                <div key={round.id} className="flex items-start gap-4 pb-4 border-b last:border-0">
-                                                    <div className="flex-1">
-                                                        <p className="font-semibold">{round.round}</p>
-                                                        <p className="text-2xl font-bold">{formatCurrency(round.amount)}</p>
-                                                        {round.lead_investor && (
-                                                            <p className="text-sm text-muted-foreground">Lead: {round.lead_investor}</p>
-                                                        )}
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="text-sm text-muted-foreground">{formatDate(round.date)}</p>
-                                                        {round.valuation && (
-                                                            <p className="text-sm">Valuation: {formatCurrency(round.valuation)}</p>
-                                                        )}
-                                                    </div>
-                                                </div>
+                    <div className="space-y-6">
+                        <DealMetrics deal={deal} />
+                        
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Deal Notes</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="space-y-2">
+                                    {dealNotes.length === 0 ? (
+                                        <p className="text-sm text-muted-foreground">No notes yet. Add one below!</p>
+                                    ) : (
+                                        <ul className="space-y-2">
+                                            {dealNotes.map((note, index) => (
+                                                <li key={index} className="text-sm border-b pb-2">
+                                                    <p>{note.content}</p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {new Date(note.createdAt).toLocaleString()}
+                                                    </p>
+                                                </li>
                                             ))}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ) : (
-                                <p className="text-muted-foreground">No funding history available</p>
-                            )}
-                        </TabsContent>
+                                        </ul>
+                                    )}
+                                </div>
+                                <Textarea
+                                    placeholder="Add a new note..."
+                                    value={newNoteContent}
+                                    onChange={(e) => setNewNoteContent(e.target.value)}
+                                />
+                                <Button onClick={handleAddNote}>Add Note</Button>
+                            </CardContent>
+                        </Card>
 
-                        <TabsContent value="documents">
-                            <p className="text-muted-foreground">Documents section coming soon</p>
-                        </TabsContent>
-                    </Tabs>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Scoring History</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                {scoringHistory.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">No scoring history available.</p>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {scoringHistory.map((historyItem: any) => (
+                                            <div key={historyItem.id} className="border-b pb-2">
+                                                <p className="text-sm font-semibold">Score: {historyItem.score}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    Evaluated on: {new Date(historyItem.evaluatedAt).toLocaleString()}
+                                                </p>
+                                                {/* Add more details from historyItem as needed */}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                        {/* More components like DealTeam, DealNotes, etc. */}
+                    </div>
                 </div>
             </Container>
         </div>

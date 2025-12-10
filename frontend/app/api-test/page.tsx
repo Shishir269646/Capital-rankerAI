@@ -1,64 +1,79 @@
-'use client';
+"use client";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/store';
-import { login, logout } from '@/store/slices/authSlice';
-import { fetchDeals } from '@/store/slices/dealsSlice';
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/layout/Container";
+import { Header } from "@/components/layout/Header";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { dealsApi } from "@/lib/api/deals.api";
+import { getAccessToken } from "@/lib/auth/token";
+import { useToast } from "@/components/ui/ToastProvider";
 
-const ApiTestPage = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { user, token, loading: authLoading, error: authError } = useSelector((state: RootState) => state.auth);
-  const { deals, loading: dealsLoading, error: dealsError } = useSelector((state: RootState) => state.deals);
+export default function APITestPage() {
+    const router = useRouter();
+    const { show: showCustomToast } = useToast();
+    const [token, setToken] = useState<string | null>(null);
 
-  const handleLogin = () => {
-    // Replace with actual credentials
-    dispatch(login({ email: 'test@example.com', password: 'password' }));
-  };
+    useEffect(() => {
+        setToken(getAccessToken());
+    }, []);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+    const handleLogin = () => {
+        // Simulate login and set a token
+        const fakeToken = "fake-jwt-token"; // In a real app, this would come from a login API call
+        localStorage.setItem("accessToken", fakeToken);
+        setToken(fakeToken);
+        showCustomToast("Logged in with fake token", "success");
+    };
 
-  const handleFetchDeals = () => {
-    if (token) {
-      dispatch(fetchDeals());
-    } else {
-      alert('You must be logged in to fetch deals.');
-    }
-  };
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        setToken(null);
+        showCustomToast("Logged out", "info");
+    };
 
-  return (
-    <div>
-      <h1>API Test Page</h1>
-      <div>
-        <h2>Auth</h2>
-        {authLoading && <p>Loading...</p>}
-        {authError && <p>Error: {authError}</p>}
-        {user ? (
-          <div>
-            <p>Welcome, {user.name}</p>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
-          <button onClick={handleLogin}>Login</button>
-        )}
-      </div>
-      <hr />
-      <div>
-        <h2>Deals</h2>
-        <button onClick={handleFetchDeals} disabled={!token}>Fetch Deals</button>
-        {dealsLoading && <p>Loading deals...</p>}
-        {dealsError && <p>Error: {dealsError}</p>}
-        {deals.length > 0 && (
-          <ul>
-            {deals.map((deal: any) => (
-              <li key={deal._id}>{deal.name}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-  );
-};
+    const handleFetchDeals = async () => {
+        if (!token) {
+            showCustomToast("No token found. Please login.", "error");
+            return;
+        }
+        try {
+            const response = await dealsApi.getAllDeals(token);
+            console.log("Deals fetched:", response);
+            showCustomToast(`Fetched ${response.results.length} deals!`, "success");
+        } catch (error: any) {
+            console.error("Error fetching deals:", error);
+            showCustomToast(`Error fetching deals: ${error.message || 'Unknown error'}`, "error");
+        }
+    };
 
-export default ApiTestPage;
+    return (
+        <div>
+            <Header
+                title="API Test Page"
+                description="Test various API endpoints"
+                breadcrumbs={[{ label: "Home", href: "/" }, { label: "API Test" }]}
+                action={
+                    <Button variant="outline" onClick={() => router.back()}>
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Go Back
+                    </Button>
+                }
+            />
+            <Container>
+                <div className="space-y-4">
+                    <h2 className="text-xl font-semibold">Authentication</h2>
+                    <p>Current Token: {token ? token.substring(0, 20) + '...' : 'None'}</p>
+                    <div className="flex gap-2">
+                        <Button onClick={handleLogin}>Simulate Login</Button>
+                        <Button onClick={handleLogout} variant="destructive">Logout</Button>
+                    </div>
+
+                    <h2 className="text-xl font-semibold mt-8">Deals API</h2>
+                    <Button onClick={handleFetchDeals} disabled={!token}>Fetch Deals</Button>
+                </div>
+            </Container>
+        </div>
+    );
+}

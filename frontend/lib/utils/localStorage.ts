@@ -3,13 +3,12 @@
 /**
  * Stores a value in localStorage.
  * @param key The key to store the value under.
- * @param value The value to store. Can be any JSON-serializable type.
+ * @param value The value to store. Should be a string.
  */
-export const setItem = <T>(key: string, value: T): void => {
+export const setItem = (key: string, value: string): void => {
   try {
     if (typeof window !== 'undefined') {
-      const serializedValue = JSON.stringify(value);
-      localStorage.setItem(key, serializedValue);
+      localStorage.setItem(key, value);
     }
   } catch (error) {
     console.error('Error setting item to localStorage:', error);
@@ -19,16 +18,12 @@ export const setItem = <T>(key: string, value: T): void => {
 /**
  * Retrieves a value from localStorage.
  * @param key The key of the item to retrieve.
- * @returns The retrieved value, or null if not found or an error occurs.
+ * @returns The retrieved string value, or null if not found.
  */
-export const getItem = <T>(key: string): T | null => {
+export const getItem = (key: string): string | null => {
   try {
     if (typeof window !== 'undefined') {
-      const serializedValue = localStorage.getItem(key);
-      if (serializedValue === null) {
-        return null;
-      }
-      return JSON.parse(serializedValue) as T;
+      return localStorage.getItem(key);
     }
   } catch (error) {
     console.error('Error getting item from localStorage:', error);

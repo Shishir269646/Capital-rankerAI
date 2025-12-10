@@ -32,7 +32,7 @@ export const getAllAlerts = createAsyncThunk(
       const state = getState() as RootState;
       const token = state.auth.token;
       if (!token) return rejectWithValue('Authentication token not found.');
-      const response: PaginatedApiResult<Alert[]> = await alertsApi.getAllAlerts(token, queryOptions);
+      const response: PaginatedApiResult<Alert> = await alertsApi.getAllAlerts(token, queryOptions);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -94,7 +94,7 @@ const alertsSlice = createSlice({
     builder
       // getAllAlerts
       .addCase(getAllAlerts.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(getAllAlerts.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Alert[]>>) => {
+      .addCase(getAllAlerts.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Alert>>) => {
         state.loading = false;
         state.currentAlerts = action.payload.results;
         state.pagination = action.payload.pagination;

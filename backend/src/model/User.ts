@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 export interface IUser extends Document {
   email: string;
-  password_hash: string;
+  password: string; // Changed from password_hash
   name: string;
   firm_name: string;
   role: 'admin' | 'investor' | 'analyst';
@@ -40,7 +40,7 @@ const UserSchema: Schema = new Schema(
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email'],
       index: true,
     },
-    password_hash: {
+    password: { // Changed from password_hash
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters'],
@@ -120,13 +120,13 @@ UserSchema.index({ role: 1, is_active: 1 });
 
 // Hash password before saving
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password_hash')) {
+  if (!this.isModified('password')) { // Changed from password_hash
     return next();
   }
 
   try {
     const salt = await bcrypt.genSalt(12);
-    this.password_hash = await bcrypt.hash(this.password_hash, salt);
+    this.password = await bcrypt.hash(this.password, salt); // Changed from password_hash
     next();
   } catch (error: any) {
     next(error);
@@ -136,7 +136,7 @@ UserSchema.pre('save', async function (next) {
 // Method to compare password
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
   try {
-    return await bcrypt.compare(candidatePassword, this.password_hash);
+    return await bcrypt.compare(candidatePassword, this.password); // Changed from password_hash
   } catch (error) {
     return false;
   }
@@ -145,7 +145,7 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string):
 // Remove sensitive data when converting to JSON
 UserSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  delete obj.password_hash;
+  delete obj.password; // Changed from password_hash
   delete obj.__v;
   return obj;
 };

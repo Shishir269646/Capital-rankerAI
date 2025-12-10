@@ -1,109 +1,86 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
-import { DealTable } from "@/components/deals/DealTable";
-import { DealCard } from "@/components/deals/DealCard";
-import { DealFilters } from "@/components/deals/DealFilters";
-import { SearchBar } from "@/components/shared/SearchBar";
-import { Pagination } from "@/components/shared/Pagination";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/ToastProvider";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { Card, CardContent } from "@/components/ui/card";
+import { DealCard } from "@/components/deals/DealCard";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Plus, LayoutGrid, List, Download, Filter } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Deal, DealFilters as DealFiltersType } from "@/types/deal.types";
+import { Plus, Filter, LayoutGrid, Table2, TrendingUp, DollarSign } from "lucide-react";
 import { dealsApi } from "@/lib/api/deals.api";
-import { useToast } from "@/components/ui/use-toast";
-
-type ViewMode = "grid" | "table";
+import { scoringApi } from "@/lib/api/scoring.api";
+import { getAccessToken } from "@/lib/auth/token";
+import type { Deal } from "@/types/deal.types";
+import { SearchBar } from "@/components/shared/SearchBar";
 
 export default function DealsPage() {
     const router = useRouter();
-    const { toast } = useToast();
+    const { show: showCustomToast } = useToast();
     const [deals, setDeals] = useState<Deal[]>([]);
+    const [filteredDeals, setFilteredDeals] = useState<Deal[]>([]);
     const [loading, setLoading] = useState(true);
-    const [viewMode, setViewMode] = useState<ViewMode>("table");
-    const [showFilters, setShowFilters] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
-    const [filters, setFilters] = useState<DealFiltersType>({
-        search: "",
-        sectors: [],
-        stages: [],
-        scoreMin: 0,
-        scoreMax: 100,
-    });
+    const [showFilters, setShowFilters] = useState(false);
+    const [viewMode, setViewMode] = useState<"table" | "grid">("grid"); // Default to grid view
 
     useEffect(() => {
         loadDeals();
-    }, [filters, currentPage]);
+    }, []);
 
     const loadDeals = async () => {
+        setLoading(true);
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            setLoading(false);
+            return;
+        }
         try {
-            setLoading(true);
-            const data = await dealsApi.getDeals({ ...filters, page: currentPage, limit: 20 });
-            setDeals(data);
-            setTotalPages(Math.ceil(data.length / 20));
+            const response = await dealsApi.getAllDeals(token);
+            setDeals(response.results);
+            setFilteredDeals(response.results);
         } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to load deals",
-                variant: "destructive",
-            });
+            showCustomToast("Error fetching deals", "error");
         } finally {
             setLoading(false);
         }
     };
 
     const handleSearch = (query: string) => {
-        setFilters({ ...filters, search: query });
-        setCurrentPage(1);
-    };
-
-    const handleFilterChange = (newFilters: DealFiltersType) => {
-        setFilters(newFilters);
-        setCurrentPage(1);
-    };
-
-    const handleClearFilters = () => {
-        setFilters({
-            search: "",
-            sectors: [],
-            stages: [],
-            scoreMin: 0,
-            scoreMax: 100,
-        });
-        setCurrentPage(1);
-    };
-
-    const handleAction = (action: string, id: string) => {
-        switch (action) {
-            case "view":
-                router.push(`/deals/${id}`);
-                break;
-            case "score":
-                router.push(`/scoring?dealId=${id}`);
-                break;
-            case "edit":
-                router.push(`/deals/${id}/edit`);
-                break;
-            case "delete":
-                // Handle delete
-                break;
+        if (!query.trim()) {
+            setFilteredDeals(deals);
+            return;
         }
+        const filtered = deals.filter(
+            (deal) =>
+                deal.name.toLowerCase().includes(query.toLowerCase()) ||
+                deal.short_pitch?.toLowerCase().includes(query.toLowerCase()) ||
+                deal.sector.some((s) => s.toLowerCase().includes(query.toLowerCase()))
+        );
+        setFilteredDeals(filtered);
     };
 
     const handleBulkScore = async () => {
-        if (selectedIds.length === 0) return;
-
-        toast({
-            title: "Scoring in progress",
-            description: `Scoring ${selectedIds.length} deals...`,
-        });
-        // Implement bulk scoring logic
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            // Get all deal IDs from the current deals state
+            const dealIds = deals.map(deal => deal.id);
+            if (dealIds.length === 0) {
+                showCustomToast("No deals to score.", "info");
+                return;
+            }
+            await scoringApi.batchScore(dealIds, token);
+            showCustomToast(`${dealIds.length} deals sent for batch scoring!`, "success");
+        } catch (error: any) {
+            showCustomToast(`Error initiating bulk scoring: ${error.message || 'Unknown error'}`, "error");
+        }
     };
 
     if (loading) {
@@ -119,121 +96,75 @@ export default function DealsPage() {
             <Header
                 title="Deals"
                 description="Manage your investment pipeline"
-                breadcrumbs={[
-                    { label: "Dashboard", href: "/dashboard" },
-                    { label: "Deals" },
-                ]}
+                breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Deals" }]}
                 action={
                     <Button onClick={() => router.push("/deals/new")}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Deal
+                        Add New Deal
                     </Button>
                 }
             />
 
-            <div className="flex">
-                {/* Filters Sidebar */}
-                {showFilters && (
-                    <DealFilters
-                        filters={filters}
-                        onFilterChange={handleFilterChange}
-                        onReset={handleClearFilters}
-                    />
-                )}
+            <Container>
+                <div className="space-y-6">
+                    <div className="flex flex-col md:flex-row gap-4 justify-between">
+                        <SearchBar onSearch={handleSearch} placeholder="Search deals..." />
+                        <div className="flex gap-2">
+                            <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
+                                <Filter className="mr-2 h-4 w-4" />
+                                Filters
+                            </Button>
+                            <Button variant="outline" onClick={() => setViewMode("table")}>
+                                <Table2 className="mr-2 h-4 w-4" />
+                                Table
+                            </Button>
+                            <Button variant="outline" onClick={() => setViewMode("grid")}>
+                                <LayoutGrid className="mr-2 h-4 w-4" />
+                                Grid
+                            </Button>
+                            <Button onClick={handleBulkScore}>
+                                <TrendingUp className="mr-2 h-4 w-4" />
+                                Bulk Score
+                            </Button>
+                        </div>
+                    </div>
 
-                {/* Main Content */}
-                <div className="flex-1">
-                    <Container>
-                        <div className="space-y-6">
-                            {/* Toolbar */}
-                            <div className="flex items-center justify-between gap-4">
-                                <SearchBar
-                                    placeholder="Search deals..."
-                                    onSearch={handleSearch}
-                                />
+                    {showFilters && (
+                        <Card>
+                            <CardContent className="pt-6">
+                                {/* Filter components go here */}
+                                <p>Filter options coming soon...</p>
+                            </CardContent>
+                        </Card>
+                    )}
 
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        onClick={() => setShowFilters(!showFilters)}
-                                    >
-                                        <Filter className="h-4 w-4" />
-                                    </Button>
-
-                                    <div className="border rounded-md flex">
-                                        <Button
-                                            variant={viewMode === "table" ? "secondary" : "ghost"}
-                                            size="icon"
-                                            onClick={() => setViewMode("table")}
-                                        >
-                                            <List className="h-4 w-4" />
-                                        </Button>
-                                        <Button
-                                            variant={viewMode === "grid" ? "secondary" : "ghost"}
-                                            size="icon"
-                                            onClick={() => setViewMode("grid")}
-                                        >
-                                            <LayoutGrid className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-
-                                    {selectedIds.length > 0 && (
-                                        <Button onClick={handleBulkScore}>
-                                            Score Selected ({selectedIds.length})
-                                        </Button>
-                                    )}
-
-                                    <Button variant="outline">
-                                        <Download className="mr-2 h-4 w-4" />
-                                        Export
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {/* Deals Display */}
-                            {deals.length === 0 ? (
-                                <EmptyState
-                                    title="No deals found"
-                                    description="Get started by adding your first deal"
-                                    action={{
-                                        label: "Add Deal",
-                                        onClick: () => router.push("/deals/new"),
-                                    }}
-                                />
-                            ) : viewMode === "table" ? (
-                                <DealTable
-                                    deals={deals}
-                                    selectedIds={selectedIds}
-                                    onSelect={setSelectedIds}
-                                    onAction={handleAction}
-                                />
-                            ) : (
+                    {deals.length === 0 ? (
+                        <EmptyState
+                            title="No deals found"
+                            description="Start by adding a new deal to your pipeline."
+                            action={{
+                                label: "Add New Deal",
+                                onClick: () => router.push("/deals/new"),
+                            }}
+                        />
+                    ) : (
+                        <div>
+                            {viewMode === "grid" ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {deals.map((deal) => (
-                                        <DealCard
-                                            key={deal.id}
-                                            deal={deal}
-                                            onView={(id) => handleAction("view", id)}
-                                        />
+                                    {filteredDeals.map((deal) => (
+                                        <DealCard key={deal.id} deal={deal} />
                                     ))}
                                 </div>
-                            )}
-
-                            {/* Pagination */}
-                            {totalPages > 1 && (
-                                <div className="flex justify-center">
-                                    <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        onPageChange={setCurrentPage}
-                                    />
+                            ) : (
+                                <div>
+                                    {/* DealTable component would go here */}
+                                    <p>Table view coming soon...</p>
                                 </div>
                             )}
                         </div>
-                    </Container>
+                    )}
                 </div>
-            </div>
+            </Container>
         </div>
     );
 }

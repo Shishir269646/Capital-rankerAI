@@ -15,8 +15,8 @@ export function DealMetrics({ deal }: DealMetricsProps) {
             title: "Annual Revenue",
             value: formatCurrency(deal.metrics.revenue),
             icon: DollarSign,
-            trend: `${deal.metrics.revenue_growth_rate}% YoY`,
-            trendUp: deal.metrics.revenue_growth_rate > 0,
+            trend: `${deal.metrics.growth_rate_yoy}% YoY`,
+            trendUp: deal.metrics.growth_rate_yoy > 0,
         },
         {
             title: "Monthly Burn Rate",
@@ -32,9 +32,9 @@ export function DealMetrics({ deal }: DealMetricsProps) {
         },
         {
             title: "Founded",
-            value: deal.founded_year?.toString() || "N/A",
+            value: deal.founded_date ? deal.founded_date.getFullYear().toString() : "N/A",
             icon: Calendar,
-            subtext: deal.founded_year ? `${new Date().getFullYear() - deal.founded_year} years old` : undefined,
+            subtext: deal.founded_date ? `${new Date().getFullYear() - deal.founded_date.getFullYear()} years old` : undefined,
         },
     ];
 

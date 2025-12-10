@@ -10,9 +10,9 @@ export const portfolioApi = {
   // are present in the frontend API client but some of their corresponding routes were NOT explicitly listed
   // in the provided `backend/src/routes/v1/portfolio.routes.ts`.
   // This might indicate implicit backend routes or a partial routes definition.
-  getAllPortfolios: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Portfolio[]>> => {
+  getAllPortfolios: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Portfolio>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Portfolio[]>>(`/portfolio?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Portfolio>>(`/portfolio?${queryString}`, {
       method: 'GET',
       token,
     });

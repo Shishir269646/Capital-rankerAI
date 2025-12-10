@@ -34,7 +34,7 @@ export const fetchFounders = createAsyncThunk(
         return rejectWithValue('Authentication token not found.');
       }
 
-      const response: PaginatedApiResult<Founder[]> = await foundersApi.getAllFounders(token, queryOptions);
+      const response: PaginatedApiResult<Founder> = await foundersApi.getAllFounders(token, queryOptions);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -52,7 +52,7 @@ const foundersSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchFounders.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Founder[]>>) => {
+      .addCase(fetchFounders.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Founder>>) => {
         state.loading = false;
         state.founders = action.payload.results;
         state.pagination = action.payload.pagination;

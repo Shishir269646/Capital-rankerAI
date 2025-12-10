@@ -10,11 +10,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Target, TrendingUp } from "lucide-react";
-import { InvestmentThesis } from "@/types/thesis.types";
+import { InvestorThesis } from "@/types/thesis.types";
 import Link from "next/link";
 
 interface ThesisCardProps {
-    thesis: InvestmentThesis;
+    thesis: InvestorThesis;
     matchedDealsCount?: number;
     onEdit?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -39,7 +39,7 @@ export function ThesisCard({
                             </h3>
                         </Link>
                         <p className="text-sm text-muted-foreground line-clamp-2">
-                            {thesis.description}
+                            {thesis.thesis_text}
                         </p>
                     </div>
                     <Badge variant={thesis.is_active ? "default" : "secondary"} className="ml-2">
@@ -49,23 +49,11 @@ export function ThesisCard({
             </CardHeader>
 
             <CardContent className="space-y-4">
-                {/* Focus Areas */}
-                <div>
-                    <p className="text-sm font-medium mb-2">Focus Areas</p>
-                    <div className="flex flex-wrap gap-2">
-                        {thesis.focus_areas.map((area) => (
-                            <Badge key={area} variant="outline">
-                                {area}
-                            </Badge>
-                        ))}
-                    </div>
-                </div>
-
                 {/* Sectors */}
                 <div>
                     <p className="text-sm font-medium mb-2">Sectors</p>
                     <div className="flex flex-wrap gap-2">
-                        {thesis.sectors.map((sector) => (
+                        {thesis.focus_areas.sectors.map((sector) => (
                             <Badge key={sector} variant="secondary">
                                 {sector}
                             </Badge>
@@ -77,7 +65,7 @@ export function ThesisCard({
                 <div>
                     <p className="text-sm font-medium mb-2">Investment Stages</p>
                     <div className="flex flex-wrap gap-2">
-                        {thesis.stages.map((stage) => (
+                        {thesis.focus_areas.stages.map((stage) => (
                             <Badge key={stage} variant="outline">
                                 {stage}
                             </Badge>

@@ -76,7 +76,10 @@ export const RegisterForm: React.FC = () => {
     if (!isRequired(password)) {
       setPasswordError(VALIDATION_RULES.REQUIRED.MESSAGE);
       isValid = false;
-    } else if (password.length < VALIDATION_RULES.PASSWORD.MIN_LENGTH) {
+    } else if (
+      password.length < VALIDATION_RULES.PASSWORD.MIN_LENGTH ||
+      !VALIDATION_RULES.PASSWORD.PATTERN.test(password)
+    ) {
       setPasswordError(VALIDATION_RULES.PASSWORD.MESSAGE);
       isValid = false;
     }

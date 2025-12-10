@@ -1,19 +1,20 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+
 import User from '../model/User'; // Assuming User model is at ../model/User
 import { connectDatabase, disconnectDatabase } from '../config/database'; // Assuming database connection utils
 import { logger } from '../config/logger';
+import { loadEnv, validateEnv } from '../config/env'; // Import loadEnv and validateEnv
 
 const seedUsers = async () => {
   logger.info('Seeding users...');
 
-  const hashedPassword = await bcrypt.hash('password123', 10); // Hash a default password
+
 
   const defaultUser = {
     _id: new mongoose.Types.ObjectId(),
     name: 'John Doe',
     email: 'john.doe@example.com',
-    password_hash: hashedPassword,
+    password: 'password123',
     firm_name: 'Example VC Firm',
     role: 'investor', // Changed from 'user' to 'investor'
     is_active: true, // Corrected from isEmailVerified to is_active
@@ -26,7 +27,7 @@ const seedUsers = async () => {
     _id: new mongoose.Types.ObjectId(),
     name: 'Admin User',
     email: 'admin@example.com',
-    password_hash: hashedPassword,
+    password: 'password123',
     firm_name: 'Admin Corp',
     role: 'admin',
     is_active: true,
@@ -58,6 +59,9 @@ const seedUsers = async () => {
 
 const seedData = async () => {
   try {
+    loadEnv(); // Load environment variables
+    validateEnv(); // Validate environment variables
+
     await connectDatabase(); // Connect to MongoDB
     logger.info('Database connected for seeding.');
 

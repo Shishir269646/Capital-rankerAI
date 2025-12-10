@@ -1,149 +1,145 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
-import { Bell, CheckCheck, Trash2 } from "lucide-react";
-import { formatRelativeTime } from "@/lib/utils/format";
-
-interface Alert {
-    id: string;
-    title: string;
-    description: string;
-    type: "info" | "warning" | "success";
-    read: boolean;
-    created_at: string;
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/ToastProvider";
+import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { Bell, BellOff, Trash2, AlertCircle } from "lucide-react";
+import { alertsApi } from "@/lib/api/alerts.api";
+import { getAccessToken } from "@/lib/auth/token";
+import { Alert } from "@/types/alert.types";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 export default function AlertsPage() {
-    const [alerts, setAlerts] = useState<Alert[]>([
-        {
-            id: "1",
-            title: "New deal scored",
-            description: "Acme Corp has been evaluated with a score of 85",
-            type: "success",
-            read: false,
-            created_at: new Date(Date.now() - 3600000).toISOString(),
-        },
-        {
-            id: "2",
-            title: "Thesis match found",
-            description: "TechCo matches your AI/ML investment thesis",
-            type: "info",
-            read: false,
-            created_at: new Date(Date.now() - 7200000).toISOString(),
-        },
-        {
-            id: "3",
-            title: "Red flag detected",
-            description: "Founder background check found concerning information",
-            type: "warning",
-            read: true,
-            created_at: new Date(Date.now() - 86400000).toISOString(),
-        },
-    ]);
+    const { show: showCustomToast } = useToast();
+    const [alerts, setAlerts] = useState<Alert[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleMarkAsRead = (id: string) => {
-        setAlerts(alerts.map(a => a.id === id ? { ...a, read: true } : a));
+    useEffect(() => {
+        loadAlerts();
+    }, []);
+
+    const loadAlerts = async () => {
+        setLoading(true);
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            setLoading(false);
+            return;
+        }
+        try {
+            const response = await alertsApi.getAllAlerts(token);
+            setAlerts(response.results);
+        } catch (error) {
+            showCustomToast("Error fetching alerts", "error");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleMarkAllAsRead = () => {
-        setAlerts(alerts.map(a => ({ ...a, read: true })));
+    const handleMarkAllAsRead = async () => {
+        showCustomToast("Mark all as read (not yet implemented)", "info");
     };
 
-    const handleDelete = (id: string) => {
-        setAlerts(alerts.filter(a => a.id !== id));
+    const handleMarkAsRead = async (alertId: string) => {
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            await alertsApi.markAsRead(alertId, token);
+            showCustomToast("Alert marked as read", "success");
+            loadAlerts();
+        } catch (error) {
+            showCustomToast("Error marking alert as read", "error");
+        }
     };
 
-    const unreadCount = alerts.filter(a => !a.read).length;
+    const handleDelete = async (alertId: string) => {
+        const token = getAccessToken();
+        if (!token) {
+            showCustomToast("Authentication token not found.", "error");
+            return;
+        }
+        try {
+            await alertsApi.deleteAlert(alertId, token);
+            showCustomToast("Alert deleted", "success");
+            loadAlerts();
+        } catch (error) {
+            showCustomToast("Error deleting alert", "error");
+        }
+    };
+
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <LoadingSpinner size="lg" />
+            </div>
+        );
+    }
 
     return (
         <div>
             <Header
                 title="Alerts"
-                description={`${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
-                }
-                breadcrumbs={
-                    [
-                        { label: "Dashboard", href: "/dashboard" },
-                        { label: "Alerts" },
-                    ]}
+                description="Stay informed about important events and updates"
+                breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Alerts" }]}
                 action={
-                    unreadCount > 0 && (
-                        <Button onClick={handleMarkAllAsRead} variant="outline" >
-                            <CheckCheck className="mr-2 h-4 w-4" />
-                            Mark All as Read
-                        </Button>
-                    )
+                    <Button onClick={handleMarkAllAsRead} variant="outline" >
+                        <BellOff className="mr-2 h-4 w-4" />
+                        Mark All as Read
+                    </Button>
                 }
             />
 
-            < Container >
-                <div className="space-y-4" >
-                    {
-                        alerts.map((alert) => (
-                            <Card key={alert.id} className={alert.read ? "opacity-60" : ""} >
-                                <CardContent className="pt-6" >
-                                    <div className="flex items-start gap-4" >
-                                        <div className="mt-1" >
-                                            <Bell className="h-5 w-5 text-muted-foreground" />
+            <Container>
+                {alerts.length === 0 ? (
+                    <EmptyState
+                        icon={Bell}
+                        title="No alerts"
+                        description="You're all caught up! No new alerts to show."
+                    />
+                ) : (
+                    <div className="space-y-4">
+                        {alerts.map((alert) => (
+                            <Card key={alert.id}>
+                                <CardContent className="flex items-center justify-between p-4">
+                                    <div className="flex items-center space-x-4">
+                                        <AlertCircle className="h-6 w-6 text-primary" />
+                                        <div>
+                                            <p className="font-semibold">{alert.title}</p>
+                                            <p className="text-sm text-muted-foreground">{alert.description}</p>
                                         </div>
-
-                                        < div className="flex-1 space-y-2" >
-                                            <div className="flex items-start justify-between" >
-                                                <div>
-                                                    <h3 className="font-semibold" > {alert.title} </h3>
-                                                    < p className="text-sm text-muted-foreground" >
-                                                        {alert.description}
-                                                    </p>
-                                                </div>
-                                                < Badge
-                                                    variant={
-                                                        alert.type === "success"
-                                                            ? "default"
-                                                            : alert.type === "warning"
-                                                                ? "destructive"
-                                                                : "secondary"
-                                                    }
-                                                >
-                                                    {alert.type}
-                                                </Badge>
-                                            </div>
-
-                                            < div className="flex items-center justify-between" >
-                                                <span className="text-xs text-muted-foreground" >
-                                                    {formatRelativeTime(alert.created_at)
-                                                    }
-                                                </span>
-
-                                                < div className="flex items-center gap-2" >
-                                                    {!alert.read && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() => handleMarkAsRead(alert.id)}
-                                                        >
-                                                            Mark as Read
-                                                        </Button>
-                                                    )}
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() => handleDelete(alert.id)}
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        {alert.status === 'unread' && (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleMarkAsRead(alert.id)}
+                                            >
+                                                Mark as Read
+                                            </Button>
+                                        )}
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={() => handleDelete(alert.id)}
+                                        >
+                                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                                        </Button>
                                     </div>
                                 </CardContent>
                             </Card>
                         ))}
-                </div>
+                    </div>
+                )}
             </Container>
         </div>
     );

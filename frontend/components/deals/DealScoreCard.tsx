@@ -3,11 +3,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { InvestmentScore } from "@/types/deal.types";
+import { Score } from "@/types/scoring.types";
 import { TrendingUp, TrendingDown, Target, AlertCircle } from "lucide-react";
 
 interface DealScoreCardProps {
-    score: InvestmentScore;
+    score: Score;
 }
 
 export function DealScoreCard({ score }: DealScoreCardProps) {
@@ -33,7 +33,7 @@ export function DealScoreCard({ score }: DealScoreCardProps) {
     };
 
     const scoreGrade = getScoreGrade(score.investment_fit_score);
-    const recommendation = getRecommendationConfig(score.recommendation);
+    const recommendation = getRecommendationConfig(score.detailed_analysis.recommendation);
     const RecommendationIcon = recommendation.icon;
 
     return (
@@ -74,51 +74,55 @@ export function DealScoreCard({ score }: DealScoreCardProps) {
                         <div className="space-y-1" >
                             <div className="flex items-center justify-between text-sm" >
                                 <span>Market Opportunity </span>
-                                < span className="font-medium" > {score.breakdown.market_opportunity} </span>
+                                < span className="font-medium" > {score.breakdown.market_score} </span>
                             </div>
-                            < Progress value={score.breakdown.market_opportunity} />
+                            < Progress value={score.breakdown.market_score} />
                         </div>
 
                         < div className="space-y-1" >
                             <div className="flex items-center justify-between text-sm" >
                                 <span>Traction & Metrics </span>
-                                < span className="font-medium" > {score.breakdown.traction_metrics} </span>
+                                < span className="font-medium" > {score.breakdown.traction_score} </span>
                             </div>
-                            < Progress value={score.breakdown.traction_metrics} />
+                            < Progress value={score.breakdown.traction_score} />
                         </div>
 
                         < div className="space-y-1" >
                             <div className="flex items-center justify-between text-sm" >
                                 <span>Team Quality </span>
-                                < span className="font-medium" > {score.breakdown.team_quality} </span>
+                                < span className="font-medium" > {score.breakdown.team_score} </span>
                             </div>
-                            < Progress value={score.breakdown.team_quality} />
+                            < Progress value={score.breakdown.team_score} />
                         </div>
 
                         < div className="space-y-1" >
                             <div className="flex items-center justify-between text-sm" >
                                 <span>Financial Health </span>
-                                < span className="font-medium" > {score.breakdown.financial_health} </span>
+                                < span className="font-medium" > {score.breakdown.financial_score} </span>
                             </div>
-                            < Progress value={score.breakdown.financial_health} />
+                            < Progress value={score.breakdown.financial_score} />
                         </div>
                     </div>
                 </div>
 
                 {/* Key Insights */}
                 {
-                    score.insights && score.insights.length > 0 && (
+                    (score.detailed_analysis.strengths.length > 0 || score.detailed_analysis.weaknesses.length > 0) && (
                         <div className="space-y-2" >
                             <h4 className="font-semibold text-sm" > Key Insights </h4>
                             < ul className="space-y-1" >
-                                {
-                                    score.insights.map((insight, index) => (
-                                        <li key={index} className="text-sm text-muted-foreground flex gap-2" >
-                                            <span className="text-primary" >•</span>
-                                            < span > {insight} </span>
-                                        </li>
-                                    ))
-                                }
+                                {score.detailed_analysis.strengths.map((insight, index) => (
+                                    <li key={`strength-${index}`} className="flex items-start gap-2 text-sm">
+                                        <TrendingUp className="h-4 w-4 text-green-500 shrink-0" />
+                                        <span>{insight}</span>
+                                    </li>
+                                ))}
+                                {score.detailed_analysis.weaknesses.map((insight, index) => (
+                                    <li key={`weakness-${index}`} className="flex items-start gap-2 text-sm">
+                                        <TrendingDown className="h-4 w-4 text-red-500 shrink-0" />
+                                        <span>{insight}</span>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     )

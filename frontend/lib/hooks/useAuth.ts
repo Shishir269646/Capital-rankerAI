@@ -2,7 +2,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { login, logout, selectAuthError, selectAuthLoading, selectToken, selectUser } from '@/store/slices/authSlice';
+import { login, logout, logoutUser, selectAuthError, selectAuthLoading, selectToken, selectUser } from '@/store/slices/authSlice';
 import { LoginPayload } from '@/types/auth.types';
 import { useCallback } from 'react';
 
@@ -26,8 +26,8 @@ export const useAuth = () => {
     }
   }, [dispatch]);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
+  const handleLogout = useCallback(async () => {
+    await dispatch(logoutUser());
   }, [dispatch]);
 
   const isAuthenticated = !!token;

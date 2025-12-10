@@ -1,38 +1,37 @@
 import { Badge } from "@/components/ui/badge";
-import { Recommendation } from "@/types/deal.types";
 import { TrendingUp, Target, AlertCircle, TrendingDown } from "lucide-react";
 
 interface RecommendationBadgeProps {
-    recommendation: Recommendation;
+    recommendation: 'pass' | 'watch' | 'consider' | 'strong-consider' | 'pursue';
     size?: "sm" | "md" | "lg";
 }
 
 export function RecommendationBadge({ recommendation, size = "md" }: RecommendationBadgeProps) {
     const config = {
-        invest: {
-            label: "Strong Invest",
+        'strong-consider': {
+            label: "Strong Consider",
             icon: TrendingUp,
             variant: "default" as const,
         },
-        "strong-consider": {
+        'consider': {
             label: "Consider",
             icon: Target,
             variant: "secondary" as const,
         },
-        consider: {
-            label: "Review",
+        'watch': {
+            label: "Watch",
             icon: AlertCircle,
             variant: "secondary" as const,
         },
-        pass: {
+        'pass': {
             label: "Pass",
             icon: TrendingDown,
             variant: "destructive" as const,
         },
-        "strong-pass": {
-            label: "Strong Pass",
-            icon: TrendingDown,
-            variant: "destructive" as const,
+        'pursue': {
+            label: "Pursue",
+            icon: TrendingUp,
+            variant: "default" as const,
         },
     };
 

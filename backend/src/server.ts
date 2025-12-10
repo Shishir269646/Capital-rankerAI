@@ -4,6 +4,7 @@ import { connectDatabase } from './config/database';
 import { logger } from './config/logger';
 import { initializeJobs } from './jobs';
 import { loadEnv, validateEnv } from './config/env';
+import { connectRedis } from './config/redis.config'; // Import connectRedis
 
 /**
  * Start the server
@@ -32,6 +33,13 @@ async function startServer(): Promise<void> {
     logger.info('Connecting to database...');
     await connectDatabase();
     logger.info('Database connected successfully');
+
+    // ============================================
+    // Redis connection
+    // ============================================
+    logger.info('Connecting to Redis...');
+    await connectRedis();
+    logger.info('Redis connected successfully');
 
     // ============================================
     // Create Express app

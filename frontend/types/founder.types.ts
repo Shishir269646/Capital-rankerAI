@@ -15,6 +15,7 @@ export interface FounderEducation {
   start_year: number;
   end_year?: number;
   is_graduated: boolean;
+  graduation_year?: number;
 }
 
 export interface FounderExperience {

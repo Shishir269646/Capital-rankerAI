@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/lib/utils";
 
 interface GaugeChartProps {
     value: number;

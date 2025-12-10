@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScoreBreakdown as ScoreBreakdownType } from "@/types/deal.types";
+import { ScoreBreakdown as ScoreBreakdownType } from "@/types/scoring.types";
 import {
     RadarChart,
     PolarGrid,
@@ -17,10 +17,10 @@ interface ScoreBreakdownProps {
 
 export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
     const data = [
-        { category: "Market", value: breakdown.market_opportunity },
-        { category: "Traction", value: breakdown.traction_metrics },
-        { category: "Team", value: breakdown.team_quality },
-        { category: "Financial", value: breakdown.financial_health },
+        { category: "Market", value: breakdown.market_score },
+        { category: "Traction", value: breakdown.traction_score },
+        { category: "Team", value: breakdown.team_score },
+        { category: "Financial", value: breakdown.financial_score },
     ];
 
     return (

@@ -23,7 +23,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { cn } from '@/lib/utils/cn'
+import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/utils/format';
 import { formatCurrency } from '@/lib/utils/currency';
 import type { Deal } from '@/types/deal.types';
@@ -35,6 +35,7 @@ interface DealCardProps {
     onDelete?: (id: string) => void
     onToggleFavorite?: (id: string) => void
     isFavorite?: boolean
+    onScore?: (id: string) => void // Add onScore prop
 }
 
 export function DealCard({
@@ -43,7 +44,8 @@ export function DealCard({
     onEdit,
     onDelete,
     onToggleFavorite,
-    isFavorite = false
+    isFavorite = false,
+    onScore // Destructure onScore
 }: DealCardProps) {
     const score = deal.score?.investment_fit_score || 0
     const scoreVariant = getScoreVariant(score)
@@ -196,7 +198,7 @@ export function DealCard({
                             <Edit className="h-4 w-4 mr-2" />
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onScore?.(deal.id)}>
                             <TrendingUp className="h-4 w-4 mr-2" />
                             Score
                         </DropdownMenuItem>

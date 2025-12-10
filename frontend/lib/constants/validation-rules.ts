@@ -6,8 +6,10 @@ export const VALIDATION_RULES = {
     MESSAGE: 'Please enter a valid email address.',
   },
   PASSWORD: {
-    MIN_LENGTH: 6,
-    MESSAGE: 'Password must be at least 6 characters long.',
+    MIN_LENGTH: 8,
+    PATTERN: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+    MESSAGE:
+      'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).',
   },
   NAME: {
     MIN_LENGTH: 2,

@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken';
 import User, { IUser } from '../model/User';
 import { cacheService } from './cache.service';
+import { jwtDecode } from 'jwt-decode'; // Import jwtDecode
 
 interface RegisterUserDto {
   email: string;
@@ -25,7 +26,7 @@ export class AuthService {
   async registerUser(userData: RegisterUserDto): Promise<IUser> {
     const user = new User({
       email: userData.email,
-      password_hash: userData.password,
+      password: userData.password,
       name: userData.name,
       firm_name: userData.firm_name,
       role: userData.role || 'analyst',
@@ -47,7 +48,7 @@ export class AuthService {
    */
   async findUserByEmailWithPassword(email: string): Promise<IUser | null> {
     return (await User.findOne({ email, is_active: true }).select(
-      '+password_hash'
+      '+password'
     )) as IUser | null;
   }
 
@@ -62,7 +63,7 @@ export class AuthService {
    * Find user by ID with password field
    */
   async findUserByIdWithPassword(userId: string): Promise<IUser | null> {
-    return (await User.findById(userId).select('+password_hash')) as IUser | null;
+    return (await User.findById(userId).select('+password')) as IUser | null;
   }
 
   /**
@@ -84,12 +85,29 @@ export class AuthService {
   }
 
   /**
-   * Generate both access and refresh tokens
+   * Generate both access and refresh tokens with expiry
    */
-  generateTokens(userId: string): { accessToken: string; refreshToken: string } {
+  generateTokens(
+    userId: string
+  ): {
+    access: { token: string; expires: Date };
+    refresh: { token: string; expires: Date };
+  } {
+    const accessToken = this.generateAccessToken(userId);
+    const refreshToken = this.generateRefreshToken(userId);
+
+    const decodedAccess = jwtDecode<{ exp: number }>(accessToken);
+    const decodedRefresh = jwtDecode<{ exp: number }>(refreshToken);
+
     return {
-      accessToken: this.generateAccessToken(userId),
-      refreshToken: this.generateRefreshToken(userId),
+      access: {
+        token: accessToken,
+        expires: new Date(decodedAccess.exp * 1000), // exp is in seconds, convert to ms
+      },
+      refresh: {
+        token: refreshToken,
+        expires: new Date(decodedRefresh.exp * 1000), // exp is in seconds, convert to ms
+      },
     };
   }
 

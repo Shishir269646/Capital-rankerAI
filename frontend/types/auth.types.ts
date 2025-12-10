@@ -10,6 +10,7 @@ export interface UserPreferences {
     team_weight: number;
     financial_weight: number;
   };
+  theme?: 'system' | 'light' | 'dark';
 }
 
 export interface User {

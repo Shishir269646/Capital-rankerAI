@@ -23,10 +23,10 @@ export function ScoreComparison({ deals }: ScoreComparisonProps) {
         .filter((deal) => deal.score)
         .map((deal) => ({
             name: deal.name.length > 15 ? deal.name.substring(0, 15) + "..." : deal.name,
-            market: deal.score!.breakdown.market_opportunity,
-            traction: deal.score!.breakdown.traction_metrics,
-            team: deal.score!.breakdown.team_quality,
-            financial: deal.score!.breakdown.financial_health,
+            market: deal.score!.breakdown.market_score,
+            traction: deal.score!.breakdown.traction_score,
+            team: deal.score!.breakdown.team_score,
+            financial: deal.score!.breakdown.financial_score,
             overall: deal.score!.investment_fit_score,
         }));
 

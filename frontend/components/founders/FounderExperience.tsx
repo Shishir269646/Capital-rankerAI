@@ -2,15 +2,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Experience } from "@/types/founder.types";
+import { FounderExperience as FounderExperienceType } from "@/types/founder.types";
 import { Briefcase, Calendar } from "lucide-react";
 import { formatDate } from "@/lib/utils/format";
 
 interface FounderExperienceProps {
-    experiences: Experience[];
+    experience: FounderExperienceType[];
 }
 
-export function FounderExperience({ experiences }: FounderExperienceProps) {
+export function FounderExperience({ experience }: FounderExperienceProps) {
     return (
         <Card>
             <CardHeader>
@@ -21,14 +21,13 @@ export function FounderExperience({ experiences }: FounderExperienceProps) {
             </CardHeader>
             <CardContent>
                 <div className="space-y-6">
-                    {experiences.map((exp, index) => (
+                    {experience.map((exp, index) => (
                         <div key={index} className="relative pl-6 border-l-2 border-muted pb-6 last:pb-0">
                             <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-primary border-2 border-white" />
 
                             <div className="space-y-2">
                                 <div>
-                                    <h4 className="font-semibold">{exp.role}</h4>
-                                    <p className="text-sm text-muted-foreground">{exp.company}</p>
+                                                                         <h4 className="font-semibold">{exp.title}</h4>                                    <p className="text-sm text-muted-foreground">{exp.company}</p>
                                 </div>
 
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/Header";
@@ -9,32 +11,37 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Plus, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { InvestmentThesis } from "@/types/thesis.types";
+import { InvestorThesis } from "@/types/thesis.types";
 import { thesisApi } from "@/lib/api/thesis.api";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/ToastProvider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { getAccessToken } from "@/lib/auth/token";
 
 export default function ThesisPage() {
     const router = useRouter();
-    const { toast } = useToast();
-    const [theses, setTheses] = useState<InvestmentThesis[]>([]);
+    const { show: showCustomToast } = useToast();
+    const [theses, setTheses] = useState<InvestorThesis[]>([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
 
     useEffect(() => {
         loadTheses();
-    }, []);
+    }, [user]);
 
     const loadTheses = async () => {
         try {
             setLoading(true);
-            const data = await thesisApi.getTheses();
-            setTheses(data);
+            const token = getAccessToken();
+            if (!user || !token) {
+                showCustomToast("Authentication required to load theses.", "error");
+                setLoading(false);
+                return;
+            }
+            const data = await thesisApi.getInvestorTheses(user.id, token);
+            setTheses(data.results);
         } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to load investment theses",
-                variant: "destructive",
-            });
+            showCustomToast("Error: Failed to load investment theses", "error");
         } finally {
             setLoading(false);
         }

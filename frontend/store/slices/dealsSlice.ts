@@ -34,7 +34,7 @@ export const fetchDeals = createAsyncThunk(
         return rejectWithValue('Authentication token not found.');
       }
 
-      const response: PaginatedApiResult<Deal[]> = await dealsApi.getAllDeals(token, queryOptions);
+      const response: PaginatedApiResult<Deal> = await dealsApi.getAllDeals(token, queryOptions);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -52,7 +52,7 @@ const dealsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDeals.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Deal[]>>) => {
+      .addCase(fetchDeals.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Deal>>) => {
         state.loading = false;
         state.deals = action.payload.results;
         state.pagination = action.payload.pagination;

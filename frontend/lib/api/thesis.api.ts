@@ -30,17 +30,17 @@ export const thesisApi = {
     });
   },
 
-  getInvestorMatches: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal[]>> => { // Assuming it returns deals
+  getInvestorMatches: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal>> => { // Assuming it returns deals
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Deal[]>>(`/thesis/investor/${investorId}/matches?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Deal>>(`/thesis/investor/${investorId}/matches?${queryString}`, {
       method: 'GET',
       token,
     });
   },
 
-  getInvestorTheses: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<InvestorThesis[]>> => {
+  getInvestorTheses: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<InvestorThesis>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<InvestorThesis[]>>(`/thesis/investor/${investorId}?${queryString}`, {
+    return apiFetch<PaginatedApiResult<InvestorThesis>>(`/thesis/investor/${investorId}?${queryString}`, {
       method: 'GET',
       token,
     });

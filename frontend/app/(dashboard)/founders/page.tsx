@@ -11,10 +11,11 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { Users } from "lucide-react";
 import { Founder } from "@/types/founder.types";
 import { foundersApi } from "@/lib/api/founders.api";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/ToastProvider";
+import { getAccessToken } from "@/lib/auth/token";
 
 export default function FoundersPage() {
-    const { toast } = useToast();
+    const { show: showCustomToast } = useToast();
     const [founders, setFounders] = useState<Founder[]>([]);
     const [filteredFounders, setFilteredFounders] = useState<Founder[]>([]);
     const [loading, setLoading] = useState(true);
@@ -26,15 +27,18 @@ export default function FoundersPage() {
     const loadFounders = async () => {
         try {
             setLoading(true);
-            const data = await foundersApi.getFounders();
-            setFounders(data);
-            setFilteredFounders(data);
+            const token = getAccessToken();
+            if (!token) {
+                // Handle no token case, e.g., redirect to login
+                showCustomToast("Authentication token not found.", "error");
+                setLoading(false);
+                return;
+            }
+            const data = await foundersApi.getAllFounders(token);
+            setFounders(data.results); // Assuming data is a PaginatedApiResult and has a 'results' array
+            setFilteredFounders(data.results);
         } catch (error) {
-            toast({
-                title: "Error",
-                description: "Failed to load founders",
-                variant: "destructive",
-            });
+            showCustomToast("Error: Failed to load founders", "error");
         } finally {
             setLoading(false);
         }

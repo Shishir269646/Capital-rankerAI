@@ -31,6 +31,24 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState;
+      const token = state.auth.token;
+      if (token) {
+        await authApi.logout(token); // Call server-side logout
+      }
+    } catch (error: any) {
+      console.error("Server-side logout failed (might be already logged out):", error);
+      // Don't reject, proceed with client-side cleanup regardless
+    } finally {
+      dispatch(logout()); // Clear client-side state
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -39,6 +57,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       clearAuthTokens();
+      console.log("Client-side logout successful: Redux state and tokens cleared.");
     },
     setToken: (state, action: PayloadAction<string | null>) => {
       state.token = action.payload;

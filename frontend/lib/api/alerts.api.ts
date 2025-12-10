@@ -6,9 +6,9 @@ import { ApiResponse, QueryOptions } from '@/types/common.types';
 import { PaginatedApiResult } from '@/types/api.types';
 
 export const alertsApi = {
-  getAllAlerts: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Alert[]>> => {
+  getAllAlerts: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Alert>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Alert[]>>(`/alerts?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Alert>>(`/alerts?${queryString}`, {
       method: 'GET',
       token,
     });

@@ -13,7 +13,13 @@ import {
     FileText,
     Settings,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    Plus, // Added
+    Upload, // Added
+    Zap, // Added
+    Equal, // Added
+    UserPlus, // Added
+    Building2 // Added
 } from 'lucide-react'
 import { cn } from "@/lib/utils";
 import { Button } from '@/components/ui/button'
@@ -38,9 +44,29 @@ const navItems: NavItem[] = [
         icon: Briefcase,
     },
     {
+        title: 'New Deal',
+        href: '/deals/new',
+        icon: Plus,
+    },
+    {
+        title: 'Import Deals',
+        href: '/deals/import',
+        icon: Upload,
+    },
+    {
         title: 'Scoring',
         href: '/scoring',
         icon: TrendingUp,
+    },
+    {
+        title: 'Scoring Jobs',
+        href: '/scoring/jobs',
+        icon: Zap,
+    },
+    {
+        title: 'Compare Scores',
+        href: '/scoring/compare',
+        icon: Equal,
     },
     {
         title: 'Thesis',
@@ -48,14 +74,39 @@ const navItems: NavItem[] = [
         icon: Target,
     },
     {
+        title: 'New Thesis',
+        href: '/thesis/new',
+        icon: Plus,
+    },
+    {
         title: 'Founders',
         href: '/founders',
         icon: Users,
     },
     {
+        title: 'New Founder',
+        href: '/founders/new',
+        icon: UserPlus,
+    },
+    {
+        title: 'Startups',
+        href: '/startups',
+        icon: Building2,
+    },
+    {
         title: 'Portfolio',
         href: '/portfolio',
         icon: Wallet,
+    },
+    {
+        title: 'Manage Portfolios',
+        href: '/portfolio/management',
+        icon: Settings, // Reusing settings icon for management
+    },
+    {
+        title: 'New Portfolio',
+        href: '/portfolio/management/new',
+        icon: Plus,
     },
     {
         title: 'Alerts',
@@ -67,6 +118,11 @@ const navItems: NavItem[] = [
         title: 'Reports',
         href: '/reports',
         icon: FileText,
+    },
+    {
+        title: 'Generate Report',
+        href: '/reports/generate',
+        icon: Plus,
     },
     {
         title: 'Settings',

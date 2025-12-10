@@ -5,18 +5,20 @@ import { LoginPayload, AuthResponse, RegisterPayload, User, ChangePasswordPayloa
 import { ApiResponse } from '@/types/common.types';
 
 export const authApi = {
-  login: (credentials: LoginPayload): Promise<AuthResponse> => {
-    return apiFetch<AuthResponse>('/auth/login', {
+  login: async (credentials: LoginPayload): Promise<AuthResponse> => {
+    const response = await apiFetch<{ data: AuthResponse }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
+    return response.data;
   },
 
-  register: (userData: RegisterPayload): Promise<AuthResponse> => {
-    return apiFetch<AuthResponse>('/auth/register', {
+  register: async (userData: RegisterPayload): Promise<AuthResponse> => {
+    const response = await apiFetch<{ data: AuthResponse }>('/auth/register', {
       method: 'POST',
       body: JSON.stringify(userData),
     });
+    return response.data;
   },
 
   logout: (token: string): Promise<ApiResponse<any>> => {

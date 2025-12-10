@@ -43,8 +43,7 @@ export function RedFlagsList({ redFlags }: RedFlagsListProps) {
                                 {flag.severity}
                             </Badge>
                             <div className="flex-1 space-y-1">
-                                <p className="font-medium">{flag.category}</p>
-                                <AlertDescription>{flag.description}</AlertDescription>
+                                                                 <p className="font-medium">{flag.type}</p>                                <AlertDescription>{flag.description}</AlertDescription>
                                 <p className="text-xs text-muted-foreground">
                                     Detected: {formatDate(flag.detected_at)}
                                 </p>

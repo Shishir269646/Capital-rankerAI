@@ -24,7 +24,7 @@ export function FounderCard({ founder }: FounderCardProps) {
             <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                     <Avatar className="h-16 w-16">
-                        <AvatarImage src={founder.profile_image} alt={founder.name} />
+                        <AvatarImage src={founder.profile.profile_picture} alt={founder.name} />
                         <AvatarFallback>{founder.name.charAt(0)}</AvatarFallback>
                     </Avatar>
 
@@ -38,10 +38,10 @@ export function FounderCard({ founder }: FounderCardProps) {
                             <p className="text-sm text-muted-foreground">{founder.role}</p>
                         </div>
 
-                        {founder.evaluation && (
+                        {founder.founder_score && (
                             <div className="flex items-center gap-2">
-                                <Badge variant="outline" className={getScoreColor(founder.evaluation.overall_score)}>
-                                    Score: {founder.evaluation.overall_score}
+                                <Badge variant="outline" className={getScoreColor(founder.founder_score.overall_score)}>
+                                    Score: {founder.founder_score.overall_score}
                                 </Badge>
                                 {founder.red_flags && founder.red_flags.length > 0 && (
                                     <Badge variant="destructive">
@@ -52,9 +52,9 @@ export function FounderCard({ founder }: FounderCardProps) {
                         )}
 
                         <div className="flex items-center gap-2">
-                            {founder.linkedin && (
+                            {founder.profile.linkedin_url && (
                                 <Button variant="ghost" size="sm" asChild>
-                                    <a href={founder.linkedin} target="_blank" rel="noopener noreferrer">
+                                    <a href={founder.profile.linkedin_url} target="_blank" rel="noopener noreferrer">
                                         <Linkedin className="h-4 w-4" />
                                     </a>
                                 </Button>
@@ -70,9 +70,9 @@ export function FounderCard({ founder }: FounderCardProps) {
                     </div>
                 </div>
 
-                {founder.bio && (
+                {founder.profile.bio && (
                     <p className="text-sm text-muted-foreground mt-4 line-clamp-3">
-                        {founder.bio}
+                        {founder.profile.bio}
                     </p>
                 )}
 

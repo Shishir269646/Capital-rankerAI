@@ -34,7 +34,7 @@ export const fetchPortfolios = createAsyncThunk(
         return rejectWithValue('Authentication token not found.');
       }
 
-      const response: PaginatedApiResult<Portfolio[]> = await portfolioApi.getAllPortfolios(token, queryOptions);
+      const response: PaginatedApiResult<Portfolio> = await portfolioApi.getAllPortfolios(token, queryOptions);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -52,7 +52,7 @@ const portfolioSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchPortfolios.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Portfolio[]>>) => {
+      .addCase(fetchPortfolios.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Portfolio>>) => {
         state.loading = false;
         state.portfolios = action.payload.results;
         state.pagination = action.payload.pagination;

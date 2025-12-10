@@ -37,7 +37,7 @@ export class AuthController {
       const tokens = authService.generateTokens(user._id.toString());
 
       // Save refresh token to Redis
-      await authService.saveRefreshToken(user._id.toString(), tokens.refreshToken);
+      await authService.saveRefreshToken(user._id.toString(), tokens.refresh.token);
 
       // Log activity
       await ActivityLog.create({
@@ -79,6 +79,9 @@ export class AuthController {
     try {
       const { email, password } = req.body;
 
+      console.log("email", email);
+      console.log("password", password);
+
       // Find user and include password field
       const user = await authService.findUserByEmailWithPassword(email);
       if (!user) {
@@ -94,6 +97,7 @@ export class AuthController {
 
       // Verify password
       const isPasswordValid = await user.comparePassword(password);
+      console.log("valid", isPasswordValid);
       if (!isPasswordValid) {
         res.status(401).json(errorResponse('Invalid email or password', 401));
         return;
@@ -103,7 +107,7 @@ export class AuthController {
       const tokens = authService.generateTokens(user._id.toString());
 
       // Save refresh token
-      await authService.saveRefreshToken(user._id.toString(), tokens.refreshToken);
+      await authService.saveRefreshToken(user._id.toString(), tokens.refresh.token);
 
       // Update last login
       user.last_login = new Date();
@@ -305,7 +309,7 @@ export class AuthController {
       }
 
       // Update password
-      user.password_hash = new_password;
+      user.password = new_password;
       await user.save();
 
       // Invalidate all existing refresh tokens

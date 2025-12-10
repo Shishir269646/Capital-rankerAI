@@ -10,9 +10,9 @@ export const foundersApi = {
   // are present in the frontend API client but their corresponding routes (GET /founders, POST /founders, DELETE /founders/:id)
   // were NOT explicitly listed in the provided `backend/src/routes/v1/founder.routes.ts`.
   // This might indicate an implicit backend route or a partial routes definition.
-  getAllFounders: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Founder[]>> => {
+  getAllFounders: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Founder>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Founder[]>>(`/founders?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Founder>>(`/founders?${queryString}`, {
       method: 'GET',
       token,
     });

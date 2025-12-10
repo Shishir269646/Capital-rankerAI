@@ -16,20 +16,20 @@ export const saveAuthTokens = (tokens: AuthTokens): void => {
 };
 
 export const getAccessToken = (): string | null => {
-  return getItem<string>(ACCESS_TOKEN_KEY);
+  return getItem(ACCESS_TOKEN_KEY);
 };
 
 export const getRefreshToken = (): string | null => {
-  return getItem<string>(REFRESH_TOKEN_KEY);
+  return getItem(REFRESH_TOKEN_KEY);
 };
 
 export const getAccessTokenExpires = (): Date | null => {
-  const expires = getItem<string>(ACCESS_TOKEN_EXPIRES_KEY);
+  const expires = getItem(ACCESS_TOKEN_EXPIRES_KEY);
   return expires ? new Date(expires) : null;
 };
 
 export const getRefreshTokenExpires = (): Date | null => {
-  const expires = getItem<string>(REFRESH_TOKEN_EXPIRES_KEY);
+  const expires = getItem(REFRESH_TOKEN_EXPIRES_KEY);
   return expires ? new Date(expires) : null;
 };
 
@@ -38,7 +38,15 @@ export const clearAuthTokens = (): void => {
   removeItem(REFRESH_TOKEN_KEY);
   removeItem(ACCESS_TOKEN_EXPIRES_KEY);
   removeItem(REFRESH_TOKEN_EXPIRES_KEY);
+  clearAuthCookie(); // Clear the auth cookie as well
 };
+
+export const clearAuthCookie = (): void => {
+  if (typeof document !== 'undefined') {
+    document.cookie = `auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+};
+
 
 export const isAccessTokenExpired = (): boolean => {
   const expires = getAccessTokenExpires();
