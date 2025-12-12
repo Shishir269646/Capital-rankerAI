@@ -201,7 +201,7 @@ export default function DashboardPage() {
                                 <Button variant="outline" className="w-full" onClick={() => router.push("/scoring")}>
                                     Score Deals
                                 </Button>
-                                <Button variant="outline" className.w-full" onClick={() => router.push("/reports/generate")}>
+                                <Button variant="outline" className="w-full" onClick={() => router.push("/reports/generate")}>
                                     Generate Report
                                 </Button>
                             </CardContent>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
                             </Button>
                         </CardHeader>
                         <CardContent>
-                            {topDeals.length > 0 ? (
+                            {topDeals && topDeals.length > 0 ? (
                                 <div className="space-y-4">
                                     {topDeals.map((deal: Deal) => (
                                         <div key={deal.id} className="flex items-center justify-between">

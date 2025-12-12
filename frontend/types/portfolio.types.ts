@@ -95,3 +95,9 @@ export type CreatePortfolioPayload = Omit<Portfolio, 'id' | 'created_at' | 'upda
 
 // Payload for updating an existing portfolio entry
 export type UpdatePortfolioPayload = Partial<CreatePortfolioPayload>;
+
+export interface PortfolioPerformance {
+  total_value?: number;
+  roi?: number;
+  // Add other properties as they appear in the API response
+}

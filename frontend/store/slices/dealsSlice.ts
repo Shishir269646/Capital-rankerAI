@@ -170,7 +170,7 @@ export const getTopRankedDeals = createAsyncThunk(
       const state = getState() as RootState;
       const token = state.auth.token;
       if (!token) return rejectWithValue('Authentication token not found.');
-      const response: PaginatedApiResult<Deal[]> = await dealsApi.getTopRankedDeals(token, queryOptions);
+      const response: PaginatedApiResult<Deal> = await dealsApi.getTopRankedDeals(token, queryOptions);
       return response.results;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -202,7 +202,7 @@ export const getSimilarDeals = createAsyncThunk(
       const state = getState() as RootState;
       const token = state.auth.token;
       if (!token) return rejectWithValue('Authentication token not found.');
-      const response: PaginatedApiResult<Deal[]> = await dealsApi.getSimilarDeals(dealId, token, queryOptions);
+      const response: PaginatedApiResult<Deal> = await dealsApi.getSimilarDeals(dealId, token, queryOptions);
       return response.results;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -285,7 +285,7 @@ const dealsSlice = createSlice({
       .addCase(deleteDeal.rejected, (state, action: PayloadAction<any>) => { state.loading = false; state.error = action.payload; })
       // searchDeals
       .addCase(searchDeals.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(searchDeals.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Deal[]>>) => {
+      .addCase(searchDeals.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Deal>>) => {
         state.loading = false;
         state.deals = action.payload.results; // Overwrite deals with search results
         state.pagination = action.payload.pagination;

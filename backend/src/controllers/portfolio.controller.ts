@@ -104,6 +104,57 @@ export class PortfolioController {
       next(error);
     }
   }
+
+  /**
+   * Get single portfolio company by ID
+   * GET /api/v1/portfolio/:id
+   */
+  async getPortfolioById(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
+    try {
+      const { id } = req.params;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return next(errorResponse('User not authenticated', 401));
+      }
+
+      const portfolioItem = await portfolioService.getPortfolioItemById(id, userId);
+
+      if (!portfolioItem) {
+        res.status(404).json(errorResponse('Portfolio company not found', 404));
+        return;
+      }
+
+      res.status(200).json(successResponse('Portfolio company retrieved', portfolioItem));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Create a new portfolio item linked to a startup
+   * POST /api/v1/portfolio
+   */
+  async createPortfolioItem(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
+    try {
+      const { startup_id } = req.body;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return next(errorResponse('User not authenticated', 401));
+      }
+
+      if (!startup_id) {
+        return next(errorResponse('Startup ID is required', 400));
+      }
+
+      const portfolioItem = await portfolioService.createPortfolioItem(startup_id, userId);
+
+      res.status(201).json(successResponse('Portfolio item created successfully', portfolioItem, 201));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const portfolioController = new PortfolioController();

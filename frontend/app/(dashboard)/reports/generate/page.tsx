@@ -13,12 +13,13 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { reportsApi } from "@/lib/api/reports.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { Plus } from "lucide-react";
+import { GenerateReportPayload, Report } from "@/types/report.types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function GenerateReportPage() {
     const router = useRouter();
     const { show: showCustomToast } = useToast();
-    const [reportType, setReportType] = useState("");
+    const [reportType, setReportType] = useState<Report['type']>('deal_summary');
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [reportTitle, setReportTitle] = useState("");
@@ -40,12 +41,17 @@ export default function GenerateReportPage() {
         }
 
         try {
-            const payload = {
-                type: reportType,
-                title: reportTitle,
-                start_date: startDate ? new Date(startDate).toISOString() : undefined,
-                end_date: endDate ? new Date(endDate).toISOString() : undefined,
-                // Add other report specific parameters as needed
+            const payload: GenerateReportPayload = {
+                reportType: reportType,
+                format: 'pdf', // Assuming default format
+                params: {
+                    title: reportTitle,
+                    dateRange: { // Changed to dateRange object
+                        start_date: startDate, // Send as string directly
+                        end_date: endDate,   // Send as string directly
+                    },
+                    // Add other report specific parameters collected by the form
+                },
             };
             await reportsApi.requestReportGeneration(payload, token);
             showCustomToast("Report generation requested successfully!", "success");
@@ -87,7 +93,7 @@ export default function GenerateReportPage() {
                         </div>
                         <div>
                             <Label htmlFor="report-type">Report Type</Label>
-                            <Select onValueChange={setReportType} value={reportType}>
+                            <Select onValueChange={(value: Report['type']) => setReportType(value)} value={reportType}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a report type" />
                                 </SelectTrigger>

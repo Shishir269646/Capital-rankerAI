@@ -32,10 +32,13 @@ export const reportsApi = {
         });
     },
 
-    getDealReport: (dealId: string, token: string): Promise<ApiResponse<any>> => { // Response type needs to be defined
-        return apiFetch<ApiResponse<any>>(`/reports/deals/${dealId}`, {
+    getDealReport: (dealId: string, token: string): Promise<Blob> => {
+        return apiFetch<Blob>(`/reports/deals/${dealId}`, {
             method: 'GET',
             token,
+            headers: {
+                'Accept': 'application/octet-stream', // Explicitly request binary data
+            },
         });
     },
 };

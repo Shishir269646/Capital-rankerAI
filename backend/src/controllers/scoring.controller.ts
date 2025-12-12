@@ -170,6 +170,19 @@ export class ScoringController {
       next(error);
     }
   }
+
+  /**
+   * Get all batch scoring job statuses
+   * GET /api/v1/scoring/batch/status
+   */
+  async getAllBatchScoringJobStatuses(_req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
+    try {
+      const jobs = await scoringService.getAllBatchScoringJobs(); // Access scoringService directly
+      res.status(200).json(successResponse('Batch scoring jobs retrieved successfully', jobs));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const scoringController = new ScoringController();

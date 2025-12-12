@@ -124,13 +124,12 @@ export default function StartupDetailsPage({ params }: { params: { id: string } 
                                             <li key={founder.id} className="border-b pb-2">
                                                 <h3 className="font-semibold">{founder.name}</h3>
                                                 <p className="text-sm text-muted-foreground">{founder.email}</p>
-                                                {founder.linkedin_profile && (
-                                                    <a href={founder.linkedin_profile} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                                                                                                 {founder.profile.linkedin_url && (
+                                                                                                     <a href={founder.profile.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
                                                         LinkedIn
                                                     </a>
                                                 )}
-                                                <p className="text-sm">{founder.bio}</p>
-                                            </li>
+                                                                                                 <p className="text-sm">{founder.profile.bio}</p>                                            </li>
                                         ))}
                                     </ul>
                                 )}

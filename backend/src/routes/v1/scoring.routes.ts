@@ -41,6 +41,13 @@ router.post(
 router.get('/batch/:jobId/status', scoringController.getBatchJobStatus.bind(scoringController));
 
 /**
+ * @route   GET /api/v1/scoring/batch/status
+ * @desc    Get all batch scoring job statuses
+ * @access  Private
+ */
+router.get('/batch/status', scoringController.getAllBatchScoringJobStatuses.bind(scoringController));
+
+/**
  * @route   POST /api/v1/scoring/recalculate-all
  * @desc    Recalculate all scores (admin only)
  * @access  Private (Admin)

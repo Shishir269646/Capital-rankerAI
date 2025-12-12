@@ -21,7 +21,7 @@ const UserProfilePage = () => {
   const router = useRouter(); // ADDED router
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [currentPassword, setCurrentPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
@@ -36,9 +36,9 @@ const UserProfilePage = () => {
       return;
     }
     try {
-      await authApi.changePassword({ currentPassword, newPassword }, token);
+      await authApi.changePassword({ oldPassword, newPassword }, token);
       showCustomToast("Password changed successfully.", "success");
-      setCurrentPassword('');
+      setOldPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
     } catch (error: unknown) { // Changed to unknown
@@ -134,8 +134,8 @@ const UserProfilePage = () => {
                 <Input
                   id="current-password"
                   type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>
               <div>

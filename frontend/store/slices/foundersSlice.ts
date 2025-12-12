@@ -135,7 +135,7 @@ export const fetchFoundersByStartup = createAsyncThunk(
       const state = getState() as RootState;
       const token = state.auth.token;
       if (!token) return rejectWithValue('Authentication token not found.');
-      const response: PaginatedApiResult<Founder[]> = await foundersApi.getFoundersByStartup(startupId, token);
+      const response: PaginatedApiResult<Founder> = await foundersApi.getFoundersByStartup(startupId, token);
       return response.results;
     } catch (error: any) {
       return rejectWithValue(error.message);

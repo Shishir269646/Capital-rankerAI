@@ -18,6 +18,7 @@ import { scoringApi } from "@/lib/api/scoring.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { SearchBar } from "@/components/shared/SearchBar";
 import { Deal } from "@/types/deal.types";
+import axios, { AxiosError } from "axios";
 
 export default function DealsPage() {
     const router = useRouter();
@@ -51,16 +52,6 @@ export default function DealsPage() {
         }
     };
 
-    const filteredDeals = useMemo(() => {
-        if (!searchQuery) return deals;
-        return deals.filter(
-            (deal: Deal) =>
-                deal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                deal.short_pitch?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                deal.sector.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))
-        );
-    }, [deals, searchQuery]);
-
     const handleBulkScore = async () => {
         const token = getAccessToken();
         if (!token) {
@@ -68,7 +59,7 @@ export default function DealsPage() {
             return;
         }
         try {
-            const dealIds = deals.map((deal: Deal) => deal.id);
+            const dealIds = deals ? deals.map((deal: Deal) => deal.id) : [];
             if (dealIds.length === 0) {
                 showCustomToast("No deals to score.", "info");
                 return;
@@ -76,11 +67,17 @@ export default function DealsPage() {
             await scoringApi.batchScore(dealIds, token);
             showCustomToast(`${dealIds.length} deals sent for batch scoring!`, "success");
         } catch (error: any) {
-            showCustomToast(`Error initiating bulk scoring: ${error.message || 'Unknown error'}`, "error");
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error initiating bulk scoring.";
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            showCustomToast(errorMessage, "error");
         }
     };
 
-    if (loading && deals.length === 0) {
+    if (loading && (!deals || deals.length === 0)) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -135,7 +132,7 @@ export default function DealsPage() {
                     )}
 
                     {loading && <p>Loading...</p>}
-                    {!loading && deals.length === 0 ? (
+                    {!loading && (!deals || deals.length === 0) ? (
                         <EmptyState
                             title="No deals found"
                             description="Start by adding a new deal to your pipeline."
@@ -148,7 +145,7 @@ export default function DealsPage() {
                         <div>
                             {viewMode === "grid" ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {filteredDeals.map((deal: Deal) => (
+                                    {deals.map((deal: Deal) => (
                                         <DealCard key={deal.id} deal={deal} />
                                     ))}
                                 </div>

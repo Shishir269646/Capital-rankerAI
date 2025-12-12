@@ -11,7 +11,7 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { portfolioApi } from "@/lib/api/portfolio.api";
 import { getAccessToken } from "@/lib/auth/token";
 import type { Portfolio } from "@/types/portfolio.types";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Building2 } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import {
     AlertDialog,
@@ -123,8 +123,17 @@ export default function PortfolioManagementPage() {
                                 <CardContent className="flex items-center justify-between p-4">
                                     <div className="flex items-center space-x-4">
                                         <div>
-                                            <p className="font-semibold">{portfolio.name}</p>
-                                            <p className="text-sm text-muted-foreground">{portfolio.description}</p>
+                                            {typeof portfolio.startup_id !== 'string' ? (
+                                                <>
+                                                    <p className="font-semibold">{portfolio.startup_id.name}</p>
+                                                    <p className="text-sm text-muted-foreground">{portfolio.startup_id.description}</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className="font-semibold">Loading Startup Name...</p>
+                                                    <p className="text-sm text-muted-foreground">Loading Startup Description...</p>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="flex space-x-2">

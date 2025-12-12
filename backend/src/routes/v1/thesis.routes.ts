@@ -35,6 +35,13 @@ thesisRouter.put(
 );
 
 /**
+ * @route   GET /api/v1/thesis/:id
+ * @desc    Get investor thesis by ID
+ * @access  Private
+ */
+thesisRouter.get('/:id', thesisController.getInvestorThesisById.bind(thesisController));
+
+/**
  * @route   GET /api/v1/thesis/matches/:dealId
  * @desc    Get thesis matches for a deal
  * @access  Private

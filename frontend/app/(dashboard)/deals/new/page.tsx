@@ -13,13 +13,22 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { dealsApi } from "@/lib/api/deals.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { PlusCircle } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { CreateDealPayload } from "@/types/deal.types";
+import axios, { AxiosError } from "axios";
 
 export default function NewDealPage() {
   const router = useRouter();
   const { show: showCustomToast } = useToast();
   const [dealName, setDealName] = useState("");
   const [dealDescription, setDealDescription] = useState("");
-  const [dealSource, setDealSource] = useState("");
+  const [dealSource, setDealSource] = useState<CreateDealPayload['source']>('manual');
   const [loading, setLoading] = useState(false);
 
   const handleCreateDeal = async () => {
@@ -31,26 +40,56 @@ export default function NewDealPage() {
       return;
     }
 
-    if (!dealName || !dealDescription) {
-      showCustomToast("Deal name and description are required.", "error");
+    if (!dealName || dealName.length < 2) {
+      showCustomToast("Deal name must be at least 2 characters.", "error");
+      setLoading(false);
+      return;
+    }
+
+    if (!dealDescription || dealDescription.length < 50) {
+      showCustomToast("Deal description must be at least 50 characters.", "error");
       setLoading(false);
       return;
     }
 
     try {
-      // Assuming a simplified payload for deal creation
-      const payload = {
+      const payload: CreateDealPayload = {
         name: dealName,
         description: dealDescription,
         source: dealSource,
-        // Add other required fields for deal creation based on your backend API
-        // For example: status: 'pending', valuation: 0, etc.
+        sector: ['other'], // Default to 'other' to satisfy min(1) and valid type
+        stage: 'pre-seed',
+        funding_history: [],
+        metrics: {
+          revenue: 0,
+          growth_rate_mom: 0,
+          growth_rate_yoy: 0,
+          burn_rate: 0,
+          runway_months: 0,
+        },
+        team_size: 1, // Default to 1 to satisfy min(1)
+        founders: [],
+        founded_date: new Date(),
+        website: "http://example.com", // Default to a valid URI
+        location: {
+          city: "Unknown", // Default to a city
+          country: "Unknown", // Default to a country
+        },
+        technology_stack: [],
+        status: 'active',
+        tags: [],
+        competitors: [],
       };
       await dealsApi.createDeal(payload, token);
       showCustomToast("Deal created successfully!", "success");
       router.push("/deals"); // Navigate back to the deals list
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Error creating deal.";
+      let errorMessage = "An unexpected error occurred.";
+      if (axios.isAxiosError(error)) {
+        errorMessage = error.response?.data?.message || "Error creating deal.";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       showCustomToast(errorMessage, "error");
     } finally {
       setLoading(false);
@@ -95,12 +134,17 @@ export default function NewDealPage() {
             </div>
             <div>
               <Label htmlFor="deal-source">Source</Label>
-              <Input
-                id="deal-source"
-                value={dealSource}
-                onChange={(e) => setDealSource(e.target.value)}
-                placeholder="e.g., AngelList, Referral, Conference"
-              />
+              <Select value={dealSource} onValueChange={(value) => setDealSource(value as CreateDealPayload['source'])}>
+                <SelectTrigger id="deal-source">
+                  <SelectValue placeholder="Select a source" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="manual">Manual</SelectItem>
+                  <SelectItem value="dealroom">DealRoom</SelectItem>
+                  <SelectItem value="crunchbase">Crunchbase</SelectItem>
+                  <SelectItem value="angellist">AngelList</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             {/* Add more fields as per your Deal creation payload */}
             <Button onClick={handleCreateDeal} disabled={loading}>

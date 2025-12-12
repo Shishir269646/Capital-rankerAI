@@ -55,8 +55,8 @@ export const foundersApi = {
     });
   },
 
-  getFoundersByStartup: (startupId: string, token: string): Promise<PaginatedApiResult<Founder[]>> => {
-    return apiFetch<PaginatedApiResult<Founder[]>>(`/founders/startup/${startupId}`, {
+  getFoundersByStartup: (startupId: string, token: string): Promise<PaginatedApiResult<Founder>> => {
+    return apiFetch<PaginatedApiResult<Founder>>(`/founders/startup/${startupId}`, {
       method: 'GET',
       token,
     });

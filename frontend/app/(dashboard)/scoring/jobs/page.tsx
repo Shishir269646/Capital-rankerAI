@@ -27,7 +27,7 @@ export default function BatchScoringJobsPage() {
     const [jobs, setJobs] = useState<BatchScoringJobStatus[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchBatchJobStatus = useCallback(async () => {
+    const fetchJobs = useCallback(async () => {
         setLoading(true);
         const token = getAccessToken();
         if (!token) {
@@ -35,10 +35,10 @@ export default function BatchScoringJobsPage() {
             setLoading(false);
             return;
         }
+
         try {
-            // Assuming getBatchScoringJobStatus returns a list of jobs
-            const response = await scoringApi.getBatchScoringJobStatus(token);
-            setJobs(response.results); // Assuming 'results' array in response
+            const response = await scoringApi.getAllBatchScoringJobStatuses(token);
+            setJobs(response.data); // Assuming 'data' directly contains the array of jobs
         } catch (error) {
             showCustomToast("Error fetching batch scoring job status", "error");
         } finally {
@@ -47,11 +47,11 @@ export default function BatchScoringJobsPage() {
     }, [showCustomToast]);
 
     useEffect(() => {
-        fetchBatchJobStatus();
+        fetchJobs();
         // Optionally, poll for updates if jobs are expected to change status frequently
-        const interval = setInterval(fetchBatchJobStatus, 15000); // Poll every 15 seconds
+        const interval = setInterval(fetchJobs, 15000); // Poll every 15 seconds
         return () => clearInterval(interval);
-    }, [fetchBatchJobStatus]);
+    }, [fetchJobs]);
 
 
     const getStatusColor = (status: BatchScoringJobStatus['status']) => {

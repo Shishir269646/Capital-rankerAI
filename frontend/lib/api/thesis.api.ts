@@ -1,7 +1,7 @@
 // src/lib/api/thesis.api.ts
 
 import { apiFetch } from './client';
-import { InvestorThesis, CreateInvestorThesisPayload, UpdateInvestorThesisPayload } from '@/types/thesis.types';
+import { InvestorThesis, CreateInvestorThesisPayload, UpdateInvestorThesisPayload, InvestorMatchResult } from '@/types/thesis.types';
 import { ApiResponse, QueryOptions } from '@/types/common.types';
 import { PaginatedApiResult } from '@/types/api.types';
 import { Deal } from '@/types/deal.types'; // Assuming Deal type is needed for matches
@@ -23,6 +23,13 @@ export const thesisApi = {
     });
   },
 
+  getInvestorThesisById: (thesisId: string, token: string): Promise<ApiResponse<InvestorThesis>> => {
+    return apiFetch<ApiResponse<InvestorThesis>>(`/thesis/${thesisId}`, {
+      method: 'GET',
+      token,
+    });
+  },
+
   getThesisMatches: (dealId: string, token: string): Promise<ApiResponse<any>> => { // Response type needs to be defined
     return apiFetch<ApiResponse<any>>(`/thesis/matches/${dealId}`, {
       method: 'GET',
@@ -30,9 +37,9 @@ export const thesisApi = {
     });
   },
 
-  getInvestorMatches: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal>> => { // Assuming it returns deals
+  getInvestorMatches: (investorId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<InvestorMatchResult>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Deal>>(`/thesis/investor/${investorId}/matches?${queryString}`, {
+    return apiFetch<PaginatedApiResult<InvestorMatchResult>>(`/thesis/investor/${investorId}/matches?${queryString}`, {
       method: 'GET',
       token,
     });

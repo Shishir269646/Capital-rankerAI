@@ -43,6 +43,13 @@ export class ThesisService {
   }
 
   /**
+   * Get a single investor thesis by ID
+   */
+  async getInvestorThesisById(thesisId: string, userId: string): Promise<IInvestorThesis | null> {
+    return await InvestorThesis.findOne({ _id: thesisId, investor_id: userId });
+  }
+
+  /**
    * Match deal with investor thesis
    */
   async matchDealWithThesis(dealId: string, userId: string): Promise<any> {

@@ -14,6 +14,7 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { foundersApi } from "@/lib/api/founders.api";
 import { getAccessToken } from "@/lib/auth/token";
 import type { Founder } from "@/types/founder.types";
+import axios, { AxiosError } from "axios";
 import { Edit, Trash2, TrendingUp } from "lucide-react";
 import {
     AlertDialog,
@@ -58,9 +59,9 @@ export default function FounderDetailsPage({ params }: { params: { id: string } 
             const response = await foundersApi.getFounderById(founderId, token);
             setFounder(response.data);
             setName(response.data.name);
-            setEmail(response.data.email);
-            setLinkedinProfile(response.data.linkedin_profile || "");
-            setBio(response.data.bio || "");
+            setEmail(response.data.email || "");
+            setLinkedinProfile(response.data.profile.linkedin_url || "");
+            setBio(response.data.profile.bio || "");
         } catch (error) {
             showCustomToast("Error fetching founder details", "error");
         } finally {
@@ -101,7 +102,12 @@ export default function FounderDetailsPage({ params }: { params: { id: string } 
             setEditing(false);
             fetchFounder(); // Re-fetch founder to update its details
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || "Error updating founder.";
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error updating founder.";
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            }
             showCustomToast(errorMessage, "error");
         } finally {
             setSaving(false);
@@ -120,7 +126,13 @@ export default function FounderDetailsPage({ params }: { params: { id: string } 
             showCustomToast("Founder deleted successfully!", "success");
             router.push("/founders"); // Redirect to founders list after deletion
         } catch (error: any) {
-            showCustomToast(`Error deleting founder: ${error.message || 'Unknown error'}`, "error");
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error deleting founder.";
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            showCustomToast(errorMessage, "error");
         } finally {
             setIsDeleteDialogOpen(false);
         }
@@ -142,7 +154,13 @@ export default function FounderDetailsPage({ params }: { params: { id: string } 
             // Optionally, re-fetch founder if evaluation updates any fields
             fetchFounder();
         } catch (error: any) {
-            showCustomToast(`Error evaluating founder: ${error.message || 'Unknown error'}`, "error");
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error evaluating founder.";
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            showCustomToast(errorMessage, "error");
         } finally {
             setEvaluating(false);
         }
@@ -175,7 +193,7 @@ export default function FounderDetailsPage({ params }: { params: { id: string } 
         <div>
             <Header
                 title={founder.name}
-                description={founder.bio || "Founder Profile"}
+                description={founder.profile.bio || "Founder Profile"}
                 breadcrumbs={[
                     { label: "Dashboard", href: "/dashboard" },
                     { label: "Founders", href: "/founders" },

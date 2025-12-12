@@ -1,7 +1,7 @@
 // src/lib/api/portfolio.api.ts
 
 import { apiFetch } from './client';
-import { Portfolio, CreatePortfolioPayload, UpdatePortfolioPayload } from '@/types/portfolio.types';
+import { Portfolio, CreatePortfolioPayload, UpdatePortfolioPayload, PortfolioPerformance } from '@/types/portfolio.types';
 import { ApiResponse, QueryOptions } from '@/types/common.types';
 import { PaginatedApiResult } from '@/types/api.types';
 
@@ -33,6 +33,14 @@ export const portfolioApi = {
     });
   },
 
+  createPortfolioItem: (payload: { startup_id: string }, token: string): Promise<ApiResponse<Portfolio>> => {
+    return apiFetch<ApiResponse<Portfolio>>('/portfolio', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      token,
+    });
+  },
+
   updatePortfolio: (portfolioId: string, portfolioData: UpdatePortfolioPayload, token: string): Promise<ApiResponse<Portfolio>> => {
     return apiFetch<ApiResponse<Portfolio>>(`/portfolio/${portfolioId}`, {
       method: 'PUT',
@@ -48,9 +56,9 @@ export const portfolioApi = {
     });
   },
 
-  getPortfolioPerformance: (token: string, queryOptions?: QueryOptions): Promise<ApiResponse<any>> => {
+  getPortfolioPerformance: (token: string, queryOptions?: QueryOptions): Promise<ApiResponse<PortfolioPerformance>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<ApiResponse<any>>(`/portfolio/performance?${queryString}`, {
+    return apiFetch<ApiResponse<PortfolioPerformance>>(`/portfolio/performance?${queryString}`, {
       method: 'GET',
       token,
     });

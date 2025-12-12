@@ -11,8 +11,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/ToastProvider";
 import { portfolioApi } from "@/lib/api/portfolio.api";
+import { dealsApi } from "@/lib/api/deals.api"; // Import dealsApi
 import { getAccessToken } from "@/lib/auth/token";
 import { PlusCircle } from "lucide-react";
+import { CreateDealPayload } from "@/types/deal.types"; // Import CreateDealPayload
 
 export default function NewPortfolioPage() {
   const router = useRouter();
@@ -30,22 +32,51 @@ export default function NewPortfolioPage() {
       return;
     }
 
-    if (!portfolioName) {
-      showCustomToast("Portfolio name is required.", "error");
+    if (!portfolioName.trim()) {
+      showCustomToast("Startup Name is required.", "error");
       setLoading(false);
       return;
     }
 
     try {
-      // Assuming a simplified payload for portfolio creation
-      const payload = {
-        name: portfolioName,
-        description: portfolioDescription,
-        // Add other required fields for portfolio creation based on your backend API
+      // 1. Create a new Startup (Deal) first
+      const dealPayload: CreateDealPayload = {
+        name: portfolioName.trim(),
+        description: portfolioDescription.trim() || "No description provided for this startup.",
+        sector: ['other'], // Default minimal required value
+        stage: 'seed', // Default minimal required value
+        team_size: 1, // Default minimal required value
+        founded_date: new Date(), // Default minimal required value
+        website: 'https://example.com', // Default minimal required value
+        source: 'manual', // Default minimal required value
+        metrics: { // Default minimal required values
+            revenue: 0,
+            growth_rate_mom: 0,
+            growth_rate_yoy: 0,
+            burn_rate: 0,
+            runway_months: 0,
+        },
+        location: { // Default minimal required values
+            city: 'Unknown',
+            country: 'Unknown',
+            region: 'Unknown',
+        },
+        founders: [], // No founders initially
+        competitors: [],
+        tags: [],
+        status: 'active',
+        funding_history: [],
+        technology_stack: [],
       };
-      await portfolioApi.createPortfolio(payload, token);
+
+      const dealResponse = await dealsApi.createDeal(dealPayload, token);
+      const newDealId = dealResponse.data.id; // Correctly accessing 'id'
+
+      // 2. Then create the Portfolio item linked to this new Startup
+      await portfolioApi.createPortfolioItem({ startup_id: newDealId }, token);
+      
       showCustomToast("Portfolio created successfully!", "success");
-      router.push("/portfolio/management"); // Navigate back to the portfolio management list
+      router.push("/portfolio/management");
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Error creating portfolio.";
       showCustomToast(errorMessage, "error");
@@ -70,30 +101,29 @@ export default function NewPortfolioPage() {
       <Container>
         <Card>
           <CardHeader>
-            <CardTitle>Portfolio Details</CardTitle>
+            <CardTitle>Startup Details for Portfolio</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="portfolio-name">Portfolio Name</Label>
+              <Label htmlFor="startup-name">Startup Name</Label>
               <Input
-                id="portfolio-name"
+                id="startup-name"
                 value={portfolioName}
                 onChange={(e) => setPortfolioName(e.target.value)}
-                placeholder="e.g., Early Stage Investments"
+                placeholder="e.g., Innovative Tech Solutions"
               />
             </div>
             <div>
-              <Label htmlFor="portfolio-description">Description</Label>
+              <Label htmlFor="startup-description">Startup Description</Label>
               <Textarea
-                id="portfolio-description"
+                id="startup-description"
                 value={portfolioDescription}
                 onChange={(e) => setPortfolioDescription(e.target.value)}
-                placeholder="Briefly describe the purpose of this portfolio"
+                placeholder="Briefly describe the startup for this portfolio entry"
               />
             </div>
-            {/* Add more fields as per your Portfolio creation payload */}
             <Button onClick={handleCreatePortfolio} disabled={loading}>
-              {loading ? "Creating..." : <><PlusCircle className="mr-2 h-4 w-4" /> Create Portfolio</>}
+              {loading ? "Creating..." : <><PlusCircle className="mr-2 h-4 w-4" /> Create Portfolio Entry</>}
             </Button>
           </CardContent>
         </Card>

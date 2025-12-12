@@ -45,9 +45,9 @@ export default function EditThesisPage({ params }: { params: { id: string } }) {
                 const response = await thesisApi.getInvestorThesisById(thesisId, token);
                 setThesis(response.data);
                 setTitle(response.data.title);
-                setDescription(response.data.description);
-                setInvestmentStage(response.data.investment_stage);
-                setIndustryFocus(response.data.industry_focus.join(', '));
+                setDescription(response.data.thesis_text);
+                setInvestmentStage(response.data.focus_areas.stages[0]);
+                setIndustryFocus(response.data.focus_areas.sectors.join(', '));
                 setIsActive(response.data.is_active);
             } catch (error) {
                 showCustomToast("Error fetching thesis details", "error");

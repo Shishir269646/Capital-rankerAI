@@ -17,6 +17,21 @@ portfolioRouter.use(portfolioAuth);
 portfolioRouter.get('/', portfolioController.getPortfolio.bind(portfolioController));
 
 /**
+ * @route   GET /api/v1/portfolio/:id
+ * @desc    Get single portfolio company by ID
+ * @access  Private
+ */
+portfolioRouter.get('/:id', portfolioController.getPortfolioById.bind(portfolioController));
+
+/**
+ * @route   POST /api/v1/portfolio
+ * @desc    Create a new portfolio item linked to a startup
+ * @access  Private
+ * @body    startup_id: string
+ */
+portfolioRouter.post('/', portfolioController.createPortfolioItem.bind(portfolioController));
+
+/**
  * @route   GET /api/v1/portfolio/analytics
  * @desc    Get portfolio analytics/summary
  * @access  Private

@@ -95,7 +95,7 @@ export const getDealReport = createAsyncThunk(
       const token = state.auth.token;
       if (!token) return rejectWithValue('Authentication token not found.');
       const response = await reportsApi.getDealReport(dealId, token);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }

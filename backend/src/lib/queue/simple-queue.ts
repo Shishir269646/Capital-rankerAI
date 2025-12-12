@@ -211,6 +211,13 @@ export class SimpleQueue<T = any> extends EventEmitter {
   }
 
   /**
+   * Get all jobs currently in the queue (waiting, active, completed, failed)
+   */
+  getAllJobs(): Job<T>[] {
+    return Array.from(this.jobs.values());
+  }
+
+  /**
    * Update job progress
    */
   updateProgress(job: Job<T>, progress: number): void {

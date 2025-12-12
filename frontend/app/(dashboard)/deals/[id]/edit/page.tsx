@@ -14,7 +14,9 @@ import { dealsApi } from "@/lib/api/deals.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Save } from "lucide-react";
-import type { Deal } from "@/types/deal.types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { Deal, CreateDealPayload } from "@/types/deal.types";
+import axios, { AxiosError } from "axios";
 
 export default function EditDealPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -24,7 +26,7 @@ export default function EditDealPage({ params }: { params: { id: string } }) {
   const [deal, setDeal] = useState<Deal | null>(null);
   const [dealName, setDealName] = useState("");
   const [dealDescription, setDealDescription] = useState("");
-  const [dealSource, setDealSource] = useState("");
+  const [dealSource, setDealSource] = useState<CreateDealPayload['source']>('manual');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -42,7 +44,7 @@ export default function EditDealPage({ params }: { params: { id: string } }) {
         setDeal(response.data);
         setDealName(response.data.name);
         setDealDescription(response.data.description || "");
-        setDealSource(response.data.source || "");
+        setDealSource(response.data.source || "manual");
       } catch (error) {
         showCustomToast("Error fetching deal details", "error");
         router.push("/deals"); // Redirect if deal not found or error
@@ -72,7 +74,7 @@ export default function EditDealPage({ params }: { params: { id: string } }) {
     }
 
     try {
-      const payload = {
+      const payload: Partial<CreateDealPayload> = {
         name: dealName,
         description: dealDescription,
         source: dealSource,
@@ -82,7 +84,12 @@ export default function EditDealPage({ params }: { params: { id: string } }) {
       showCustomToast("Deal updated successfully!", "success");
       router.push(`/deals/${dealId}`); // Navigate back to the deal details page
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Error updating deal.";
+      let errorMessage = "An unexpected error occurred.";
+      if (axios.isAxiosError(error)) {
+        errorMessage = error.response?.data?.message || "Error updating deal.";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       showCustomToast(errorMessage, "error");
     } finally {
       setSaving(false);
@@ -150,12 +157,17 @@ export default function EditDealPage({ params }: { params: { id: string } }) {
             </div>
             <div>
               <Label htmlFor="deal-source">Source</Label>
-              <Input
-                id="deal-source"
-                value={dealSource}
-                onChange={(e) => setDealSource(e.target.value)}
-                placeholder="e.g., AngelList, Referral, Conference"
-              />
+              <Select value={dealSource} onValueChange={(value) => setDealSource(value as CreateDealPayload['source'])}>
+                <SelectTrigger id="deal-source">
+                  <SelectValue placeholder="Select a source" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="manual">Manual</SelectItem>
+                  <SelectItem value="dealroom">DealRoom</SelectItem>
+                  <SelectItem value="crunchbase">Crunchbase</SelectItem>
+                  <SelectItem value="angellist">AngelList</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             {/* Add more fields as per your Deal update payload */}
             <Button onClick={handleUpdateDeal} disabled={saving}>

@@ -13,7 +13,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { portfolioApi } from "@/lib/api/portfolio.api";
 import { getAccessToken } from "@/lib/auth/token";
-import type { Portfolio, PortfolioPerformance, UpdatePortfolioMetricsPayload } from "@/types/portfolio.types";
+import type { Portfolio, PerformanceMetrics, PortfolioPerformance, UpdatePortfolioPayload } from "@/types/portfolio.types";
+import type { Deal } from "@/types/deal.types";
 import { Edit, TrendingUp, Save } from "lucide-react";
 
 
@@ -48,11 +49,23 @@ export default function PortfolioDetailsPage({ params }: { params: { id: string 
         }
         try {
             const response = await portfolioApi.getPortfolioById(portfolioId, token);
-            setPortfolio(response.data);
-            setName(response.data.name);
-            setDescription(response.data.description || "");
+            const fetchedPortfolio = response.data; // Store response.data in a variable
 
-            const performanceResponse = await portfolioApi.getPortfolioPerformance(portfolioId, token);
+            setPortfolio(fetchedPortfolio);
+
+            // Type check for populated startup_id
+            if (typeof fetchedPortfolio.startup_id !== 'string') {
+                setName(fetchedPortfolio.startup_id.name);
+                setDescription(fetchedPortfolio.startup_id.description || "");
+            } else {
+                // This case should ideally not happen if backend populates correctly
+                // Handle as a fallback or error state
+                setName("Unknown Startup");
+                setDescription("Details not available.");
+            }
+
+            // Pass portfolioId as a query option
+            const performanceResponse = await portfolioApi.getPortfolioPerformance(token, { portfolioId: portfolioId });
             setPerformance(performanceResponse.data);
         } catch (error) {
             showCustomToast("Error fetching portfolio details", "error");
@@ -84,8 +97,8 @@ export default function PortfolioDetailsPage({ params }: { params: { id: string 
 
         try {
             const payload = {
-                name,
-                description,
+                // Portfolio updates (e.g., investment_details, current_status, etc.)
+                // Name and description are part of the associated Startup, not the Portfolio directly.
             };
             await portfolioApi.updatePortfolio(portfolioId, payload, token);
             showCustomToast("Portfolio updated successfully!", "success");
@@ -114,10 +127,8 @@ export default function PortfolioDetailsPage({ params }: { params: { id: string 
         }
 
         try {
-            const payload: UpdatePortfolioMetricsPayload = {
-                metrics: {
-                    [metricName]: parseFloat(metricValue), // Assuming numerical metric
-                },
+            const payload = { // Removed type annotation
+                [metricName]: parseFloat(metricValue), // Directly the metrics object
             };
             await portfolioApi.updateMetrics(portfolioId, payload, token);
             showCustomToast("Metrics updated successfully!", "success");
@@ -141,12 +152,12 @@ export default function PortfolioDetailsPage({ params }: { params: { id: string 
         );
     }
 
-    if (!portfolio) {
+    if (!portfolio || typeof portfolio.startup_id === 'string') {
         return (
             <Container>
                 <div className="text-center py-10">
-                    <h2 className="text-2xl font-bold">Portfolio Not Found</h2>
-                    <p className="text-muted-foreground">The portfolio you are looking for does not exist.</p>
+                    <h2 className="text-2xl font-bold">Portfolio Not Found or Startup Details Missing</h2>
+                    <p className="text-muted-foreground">The portfolio or its associated startup details could not be loaded.</p>
                     <Button onClick={() => router.push("/portfolio/management")} className="mt-4">
                         Back to Portfolio Management
                     </Button>
@@ -158,13 +169,13 @@ export default function PortfolioDetailsPage({ params }: { params: { id: string 
     return (
         <div>
             <Header
-                title={portfolio.name}
-                description={portfolio.description || "Portfolio Details"}
+                title={portfolio.startup_id.name}
+                description={portfolio.startup_id.description || "Portfolio Details"}
                 breadcrumbs={[
                     { label: "Dashboard", href: "/dashboard" },
                     { label: "Portfolio", href: "/portfolio" },
                     { label: "Management", href: "/portfolio/management" },
-                    { label: portfolio.name },
+                    { label: portfolio.startup_id.name },
                 ]}
                 action={
                     <Button onClick={() => setEditing(!editing)} variant="outline">

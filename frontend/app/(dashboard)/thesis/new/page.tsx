@@ -15,6 +15,7 @@ import { getAccessToken } from "@/lib/auth/token";
 import { PlusCircle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { CreateInvestorThesisPayload } from "@/types/thesis.types";
 
 export default function NewThesisPage() {
     const router = useRouter();
@@ -42,11 +43,27 @@ export default function NewThesisPage() {
         }
 
         try {
-            const payload = {
-                title,
-                description,
-                investment_stage: investmentStage,
-                industry_focus: industryFocus.split(',').map(s => s.trim()), // Assuming comma-separated
+            const payload: CreateInvestorThesisPayload = {
+                title: title.trim(),
+                thesis_text: description.trim(), // Map description to thesis_text
+                focus_areas: {
+                    sectors: industryFocus.split(',').map(s => s.trim()),
+                    stages: [investmentStage as 'pre-seed' | 'seed' | 'series-a' | 'series-b' | 'series-c' | 'growth'], // Single stage
+                    geographies: [], // Default
+                    business_models: [], // Default
+                },
+                investment_criteria: { // Default required fields
+                    must_have_features: [],
+                    deal_breakers: [],
+                },
+                key_themes: [], // Default
+                preferred_technologies: [], // Default
+                exclusions: [], // Default
+                target_metrics: {}, // Default
+                examples: { // Default
+                    positive_examples: [],
+                    negative_examples: [],
+                },
                 is_active: isActive,
             };
             await thesisApi.createThesis(payload, token);

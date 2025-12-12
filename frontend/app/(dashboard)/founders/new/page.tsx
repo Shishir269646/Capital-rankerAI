@@ -13,6 +13,8 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { foundersApi } from "@/lib/api/founders.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { UserPlus } from "lucide-react";
+import type { CreateFounderPayload } from "@/types/founder.types";
+import axios, { AxiosError } from "axios";
 
 export default function NewFounderPage() {
   const router = useRouter();
@@ -21,6 +23,8 @@ export default function NewFounderPage() {
   const [founderEmail, setFounderEmail] = useState("");
   const [founderLinkedin, setFounderLinkedin] = useState("");
   const [founderBio, setFounderBio] = useState("");
+  const [founderRole, setFounderRole] = useState<CreateFounderPayload['role']>('founder');
+  const [startupId, setStartupId] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleCreateFounder = async () => {
@@ -32,26 +36,47 @@ export default function NewFounderPage() {
       return;
     }
 
-    if (!founderName || !founderEmail) {
-      showCustomToast("Founder name and email are required.", "error");
+    if (!founderName || !founderEmail || !startupId) {
+      showCustomToast("Founder name, email and startup ID are required.", "error");
       setLoading(false);
       return;
     }
 
     try {
-      // Assuming a simplified payload for founder creation
-      const payload = {
+      const payload: CreateFounderPayload = {
         name: founderName,
-        email: founderEmail,
-        linkedin_profile: founderLinkedin,
-        bio: founderBio,
-        // Add other required fields for founder creation based on your backend API
+        email: founderEmail || undefined, // Email is optional
+        role: founderRole,
+        startup_id: startupId,
+        profile: {
+          bio: founderBio,
+          linkedin_url: founderLinkedin,
+          // Add other profile fields if necessary
+        },
+        education: [],
+        experience: [],
+        skills: {
+          technical_skills: [],
+          domain_expertise: [],
+          leadership_experience: false,
+          years_of_experience: 0,
+        },
+        previous_startups: [],
+        achievements: [],
+        red_flags: [],
+        references: [],
+        // Add other required fields with default/placeholder values
       };
       await foundersApi.createFounder(payload, token);
       showCustomToast("Founder created successfully!", "success");
       router.push("/founders"); // Navigate back to the founders list
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Error creating founder.";
+      let errorMessage = "An unexpected error occurred.";
+      if (axios.isAxiosError(error)) {
+        errorMessage = error.response?.data?.message || "Error creating founder.";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       showCustomToast(errorMessage, "error");
     } finally {
       setLoading(false);
@@ -93,6 +118,15 @@ export default function NewFounderPage() {
                 value={founderEmail}
                 onChange={(e) => setFounderEmail(e.target.value)}
                 placeholder="e.g., jane.doe@example.com"
+              />
+            </div>
+            <div>
+              <Label htmlFor="startup-id">Startup ID</Label>
+              <Input
+                id="startup-id"
+                value={startupId}
+                onChange={(e) => setStartupId(e.target.value)}
+                placeholder="e.g., startup123"
               />
             </div>
             <div>

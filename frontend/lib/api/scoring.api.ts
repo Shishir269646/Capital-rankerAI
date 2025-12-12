@@ -38,6 +38,13 @@ export const scoringApi = {
     });
   },
 
+  getAllBatchScoringJobStatuses: (token: string): Promise<ApiResponse<any[]>> => {
+    return apiFetch<ApiResponse<any[]>>(`/scoring/batch/status`, {
+      method: 'GET',
+      token,
+    });
+  },
+
   recalculateAllScores: (token: string): Promise<ApiResponse<{ job_id: string; status: string }>> => {
     return apiFetch<ApiResponse<{ job_id: string; status: string }>>(`/scoring/recalculate-all`, {
       method: 'POST',

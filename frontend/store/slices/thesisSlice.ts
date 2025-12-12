@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 import { thesisApi } from '@/lib/api/thesis.api';
-import { InvestorThesis, CreateInvestorThesisPayload, UpdateInvestorThesisPayload } from '@/types/thesis.types';
+import { InvestorThesis, CreateInvestorThesisPayload, UpdateInvestorThesisPayload, InvestorMatchResult } from '@/types/thesis.types';
 import { QueryOptions } from '@/types/common.types';
 import { Deal } from '@/types/deal.types'; // For matching deals
 
@@ -9,7 +9,7 @@ interface ThesisState {
   currentThesis: InvestorThesis | null; // For a single thesis being viewed/edited
   investorTheses: InvestorThesis[]; // List of theses for a specific investor
   thesisMatches: any[]; // Results from /thesis/matches/:dealId
-  investorMatches: Deal[]; // Results from /thesis/investor/:investorId/matches
+  investorMatches: InvestorMatchResult[]; // Results from /thesis/investor/:investorId/matches
   alignmentAnalysis: any | null; // Results from /thesis/analyze
   loading: boolean;
   error: string | null;
@@ -166,7 +166,7 @@ const thesisSlice = createSlice({
 
       // getInvestorMatches
       .addCase(getInvestorMatches.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(getInvestorMatches.fulfilled, (state, action: PayloadAction<Deal[]>) => {
+      .addCase(getInvestorMatches.fulfilled, (state, action: PayloadAction<InvestorMatchResult[]>) => {
         state.loading = false;
         state.investorMatches = action.payload;
       })

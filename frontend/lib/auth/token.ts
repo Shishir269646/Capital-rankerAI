@@ -24,12 +24,12 @@ export const getRefreshToken = (): string | null => {
 };
 
 export const getAccessTokenExpires = (): Date | null => {
-  const expires = getItem(ACCESS_TOKEN_EXPIRES_KEY);
+  const expires = getItem<string>(ACCESS_TOKEN_EXPIRES_KEY);
   return expires ? new Date(expires) : null;
 };
 
 export const getRefreshTokenExpires = (): Date | null => {
-  const expires = getItem(REFRESH_TOKEN_EXPIRES_KEY);
+  const expires = getItem<string>(REFRESH_TOKEN_EXPIRES_KEY);
   return expires ? new Date(expires) : null;
 };
 

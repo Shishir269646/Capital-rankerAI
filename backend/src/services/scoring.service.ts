@@ -4,7 +4,7 @@ import { mlClientService } from './ml-client.service';
 import { dealService } from './deal.service';
 import Score, { IScore } from '../model/Score';
 import User from '../model/User';
-import { SimpleQueue, QueueManager } from '../lib/queue/simple-queue';
+import { SimpleQueue, QueueManager, Job } from '../lib/queue/simple-queue';
 import { cacheService } from './cache.service';
 import { logger } from '../config/logger';
 
@@ -282,6 +282,16 @@ export class ScoringService {
       scoring: this.scoringQueue.getStats(),
       batch: this.batchQueue.getStats(),
     };
+  }
+
+  /**
+   * Get all batch scoring jobs
+   */
+  async getAllBatchScoringJobs(): Promise<Job[]> {
+    const jobs = this.batchQueue.getAllJobs();
+    // Optionally filter, sort, or transform the jobs before returning
+    // For now, just return all of them
+    return jobs;
   }
 }
 

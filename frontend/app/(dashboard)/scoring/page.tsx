@@ -174,7 +174,7 @@ export default function ScoringPage() {
                             Compare Deals
                         </Button>
                     </div>
-                    {topDeals.length > 0 ? (
+                    {topDeals && topDeals.length > 0 ? (
                         <div className="space-y-4">
                             {topDeals.map((deal) => (
                                 <DealCard key={deal.id} deal={deal} />

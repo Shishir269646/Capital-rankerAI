@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { dealsApi } from "@/lib/api/deals.api";
 import { getAccessToken } from "@/lib/auth/token";
 import { Upload, Download } from "lucide-react";
+import axios, { AxiosError } from "axios";
 
 export default function DealImportExportPage() {
     const router = useRouter();
@@ -51,7 +52,12 @@ export default function DealImportExportPage() {
             setSelectedFile(null);
             router.push("/deals");
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || "Error importing deals.";
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error importing deals.";
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            }
             showCustomToast(errorMessage, "error");
         } finally {
             setImporting(false);
@@ -68,7 +74,7 @@ export default function DealImportExportPage() {
         }
 
         try {
-            const blob = await dealsApi.exportDeals(token); // Assuming API returns a blob
+            const blob = await dealsApi.exportDeals(token, 'xlsx');
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -78,7 +84,11 @@ export default function DealImportExportPage() {
             a.remove();
             showCustomToast("Deals exported successfully!", "success");
         } catch (error: any) {
-            showCustomToast(`Error exporting deals: ${error.message || 'Unknown error'}`, "error");
+            let errorMessage = "An unexpected error occurred.";
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message || "Error exporting deals.";
+            }
+            showCustomToast(errorMessage, "error");
         } finally {
             setExporting(false);
         }

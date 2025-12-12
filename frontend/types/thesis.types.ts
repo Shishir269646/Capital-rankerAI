@@ -1,6 +1,7 @@
 // src/types/thesis.types.ts
 
 import { User } from './auth.types';
+import { Deal } from './deal.types'; // Import Deal
 
 export interface ThesisFocusAreas {
   sectors: string[];
@@ -50,8 +51,15 @@ export interface InvestorThesis {
   updated_at: Date;
 }
 
+// Result structure for getTopMatchesForInvestor
+export interface InvestorMatchResult {
+  deal: Deal;
+  match_score: number;
+  matched_keywords: string[];
+}
+
 // Payload for creating a new investor thesis
-export type CreateInvestorThesisPayload = Omit<InvestorThesis, 'id' | 'created_at' | 'updated_at' | 'thesis_embedding' | 'version'>;
+export type CreateInvestorThesisPayload = Omit<InvestorThesis, 'id' | 'created_at' | 'updated_at' | 'thesis_embedding' | 'version' | 'investor_id'>;
 
 // Payload for updating an existing investor thesis
 export type UpdateInvestorThesisPayload = Partial<CreateInvestorThesisPayload>;

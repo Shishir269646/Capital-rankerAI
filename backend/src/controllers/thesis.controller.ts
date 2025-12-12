@@ -73,6 +73,32 @@ export class ThesisController {
   }
 
   /**
+   * Get investor thesis by ID
+   * GET /api/v1/thesis/:id
+   */
+  async getInvestorThesisById(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
+    try {
+      const { id } = req.params;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        return next(errorResponse('User not authenticated', 401));
+      }
+
+      const thesis = await thesisService.getInvestorThesisById(id, userId);
+
+      if (!thesis) {
+        res.status(404).json(errorResponse('Investor Thesis not found', 404));
+        return;
+      }
+
+      res.status(200).json(successResponse('Investor Thesis retrieved', thesis));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Get thesis matches for a deal
    * GET /api/v1/thesis/matches/:dealId
    */

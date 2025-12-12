@@ -10,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { thesisApi } from "@/lib/api/thesis.api";
 import { getAccessToken } from "@/lib/auth/token";
-import type { InvestorThesis, DealMatch, InvestorMatch } from "@/types/thesis.types"; // Assuming these types exist
+import type { InvestorThesis, InvestorMatchResult } from "@/types/thesis.types";
+import { Deal } from "@/types/deal.types";
 import { Edit, BarChart, Users, GitFork } from "lucide-react"; // Removed Power, as it was unused
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch"; // Assuming a Switch component for activation
@@ -22,8 +23,8 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
     const thesisId = params.id;
 
     const [thesis, setThesis] = useState<InvestorThesis | null>(null);
-    const [dealMatches, setDealMatches] = useState<DealMatch[]>([]);
-    const [investorMatches, setInvestorMatches] = useState<InvestorMatch[]>([]);
+    const [dealMatches, setDealMatches] = useState<any[]>([]);
+    const [investorMatches, setInvestorMatches] = useState<InvestorMatchResult[]>([]);
     const [alignmentAnalysis, setAlignmentAnalysis] = useState<any | null>(null); // Type needs definition
     const [loading, setLoading] = useState(true);
     const [matchingDeals, setMatchingDeals] = useState(false);
@@ -99,7 +100,7 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
         }
         try {
             const response = await thesisApi.getThesisMatches(thesisId, token);
-            setDealMatches(response.results); // Assuming results contains the matches
+            setDealMatches(response.data); // Correctly access 'data' property
             showCustomToast("Deal matches fetched successfully!", "success");
         } catch (error: unknown) { // Changed to unknown
             const errorMessage = (error as any).response?.data?.message || "Error fetching deal matches: Unknown error";
@@ -289,9 +290,9 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
                                 <CardContent>
                                     <ul className="list-disc pl-5 space-y-1">
                                         {investorMatches.map((match) => (
-                                            <li key={match.investor_id}>
-                                                <a href={`/investors/${match.investor_id}`} className="text-blue-600 hover:underline">
-                                                    {match.investor_name} (Match: {match.match_score}%)
+                                            <li key={match.deal.id}>
+                                                <a href={`/deals/${match.deal.id}`} className="text-blue-600 hover:underline">
+                                                    {match.deal.name} (Match: {(match.match_score * 100).toFixed(2)}%)
                                                 </a>
                                             </li>
                                         ))}

@@ -59,6 +59,54 @@ export class PortfolioService {
       exited_companies: portfolio.filter((p) => p.current_status.status === 'exited').length,
     };
   }
+
+  /**
+   * Get single portfolio item by ID
+   */
+  async getPortfolioItemById(portfolioId: string, userId: string): Promise<any> {
+    return await Portfolio.findOne({
+      _id: portfolioId,
+      investor_id: userId,
+    }).populate('startup_id');
+  }
+
+  /**
+   * Create a new portfolio item linked to a startup.
+   * Minimal fields to create a new portfolio entry.
+   */
+  async createPortfolioItem(startupId: string, investorId: string): Promise<any> {
+    const newPortfolio = new Portfolio({
+      startup_id: startupId,
+      investor_id: investorId,
+      investment_details: { // Default values
+        investment_date: new Date(),
+        amount_invested: 0,
+        currency: 'USD',
+        ownership_percentage: 0,
+        valuation_at_investment: 0,
+        round_type: 'seed', // Default to seed round
+        lead_investor: false,
+        board_seat: false,
+      },
+      current_status: { // Default values
+        status: 'active',
+      },
+      performance_metrics: {}, // Empty object
+      milestones: [],
+      kpi_tracking: [],
+      follow_on_rounds: [],
+      risk_assessment: { // Default values
+        risk_level: 'medium',
+        risk_factors: [],
+        last_assessed: new Date(),
+      },
+      notes: [],
+    });
+
+    await newPortfolio.save();
+    return newPortfolio.populate('startup_id'); // Populate startup details after creation
+  }
 }
 
 export const portfolioService = new PortfolioService();
+

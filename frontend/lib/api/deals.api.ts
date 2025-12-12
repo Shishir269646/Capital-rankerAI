@@ -44,8 +44,8 @@ export const dealsApi = {
     });
   },
 
-  searchDeals: (searchPayload: any, token: string): Promise<PaginatedApiResult<Deal[]>> => {
-    return apiFetch<PaginatedApiResult<Deal[]>>('/deals/search', {
+  searchDeals: (searchPayload: any, token: string): Promise<PaginatedApiResult<Deal>> => {
+    return apiFetch<PaginatedApiResult<Deal>>('/deals/search', {
       method: 'POST',
       body: JSON.stringify(searchPayload),
       token,
@@ -70,9 +70,9 @@ export const dealsApi = {
     });
   },
 
-  getTopRankedDeals: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal[]>> => {
+  getTopRankedDeals: (token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Deal[]>>(`/deals/top-ranked?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Deal>>(`/deals/top-ranked?${queryString}`, {
       method: 'GET',
       token,
     });
@@ -88,9 +88,9 @@ export const dealsApi = {
     });
   },
 
-  getSimilarDeals: (dealId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal[]>> => {
+  getSimilarDeals: (dealId: string, token: string, queryOptions?: QueryOptions): Promise<PaginatedApiResult<Deal>> => {
     const queryString = queryOptions ? new URLSearchParams(queryOptions as any).toString() : '';
-    return apiFetch<PaginatedApiResult<Deal[]>>(`/deals/${dealId}/similar?${queryString}`, {
+    return apiFetch<PaginatedApiResult<Deal>>(`/deals/${dealId}/similar?${queryString}`, {
       method: 'GET',
       token,
     });
