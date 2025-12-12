@@ -1,8 +1,10 @@
 "use client";
 
-"use client";
-
-import { useState, useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { getInvestorTheses, selectInvestorTheses, selectThesisLoading, selectThesisError } from "@/store/slices/thesisSlice";
+import { selectUser } from "@/store/slices/authSlice";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
@@ -11,46 +13,39 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Plus, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { InvestorThesis } from "@/types/thesis.types";
-import { thesisApi } from "@/lib/api/thesis.api";
 import { useToast } from "@/components/ui/ToastProvider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { getAccessToken } from "@/lib/auth/token";
+import { InvestorThesis } from "@/types/thesis.types";
 
 export default function ThesisPage() {
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [theses, setTheses] = useState<InvestorThesis[]>([]);
-    const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
+
+    const theses = useSelector(selectInvestorTheses);
+    const loading = useSelector(selectThesisLoading);
+    const error = useSelector(selectThesisError);
+    const user = useSelector(selectUser);
 
     useEffect(() => {
-        loadTheses();
-    }, [user]);
-
-    const loadTheses = async () => {
-        try {
-            setLoading(true);
-            const token = getAccessToken();
-            if (!user || !token) {
-                showCustomToast("Authentication required to load theses.", "error");
-                setLoading(false);
-                return;
-            }
-            const data = await thesisApi.getInvestorTheses(user.id, token);
-            setTheses(data.results);
-        } catch (error) {
-            showCustomToast("Error: Failed to load investment theses", "error");
-        } finally {
-            setLoading(false);
+        if (user?.id) {
+            dispatch(getInvestorTheses({ investorId: user.id }));
         }
-    };
+    }, [dispatch, user]);
 
-    const activeTheses = theses.filter((t) => t.is_active);
-    const inactiveTheses = theses.filter((t) => !t.is_active);
+    useEffect(() => {
+        if (error) {
+            showCustomToast(`Error: ${error}`, "error");
+        }
+    }, [error, showCustomToast]);
 
-    if (loading) {
+    const { activeTheses, inactiveTheses } = useMemo(() => {
+        const active = theses.filter((t: InvestorThesis) => t.is_active);
+        const inactive = theses.filter((t: InvestorThesis) => !t.is_active);
+        return { activeTheses: active, inactiveTheses: inactive };
+    }, [theses]);
+
+    if (loading && theses.length === 0) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -99,7 +94,7 @@ export default function ThesisPage() {
 
                         <TabsContent value="active" className="mt-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {activeTheses.map((thesis) => (
+                                {activeTheses.map((thesis: InvestorThesis) => (
                                     <ThesisCard
                                         key={thesis.id}
                                         thesis={thesis}
@@ -111,7 +106,7 @@ export default function ThesisPage() {
 
                         <TabsContent value="inactive" className="mt-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {inactiveTheses.map((thesis) => (
+                                {inactiveTheses.map((thesis: InvestorThesis) => (
                                     <ThesisCard
                                         key={thesis.id}
                                         thesis={thesis}

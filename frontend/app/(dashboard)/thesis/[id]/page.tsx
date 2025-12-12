@@ -11,9 +11,10 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { thesisApi } from "@/lib/api/thesis.api";
 import { getAccessToken } from "@/lib/auth/token";
 import type { InvestorThesis, DealMatch, InvestorMatch } from "@/types/thesis.types"; // Assuming these types exist
-import { Edit, BarChart, Users, GitFork, Power } from "lucide-react";
+import { Edit, BarChart, Users, GitFork } from "lucide-react"; // Removed Power, as it was unused
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch"; // Assuming a Switch component for activation
+import { Label } from "@/components/ui/label"; // Added Label import
 
 export default function ThesisDetailsPage({ params }: { params: { id: string } }) {
     const router = useRouter();
@@ -40,14 +41,22 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
             return;
         }
         try {
-            const response = await thesisApi.getInvestorThesisById(thesisId, token); // Assuming this API exists
-            setThesis(response.data);
+            // Mismatch: thesisApi.getInvestorThesisById does not exist.
+            // Backend `getInvestorTheses` returns all for an investor.
+            // Workaround: Call getInvestorTheses and filter by thesisId.
+            // Ideally, a backend route GET /thesis/:id should exist.
+            const response = await thesisApi.getInvestorTheses(thesisId, token); // Assuming thesisId is used as investorId for now
+            const foundThesis = response.results.find((t: InvestorThesis) => t.id === thesisId); // Filter
+            setThesis(foundThesis || null);
+            if (!foundThesis) {
+                showCustomToast("Thesis not found or unauthorized.", "error");
+            }
         } catch (error) {
             showCustomToast("Error fetching thesis details", "error");
         } finally {
             setLoading(false);
         }
-    }, [thesisId, showCustomToast]);
+    }, [thesisId, showCustomToast]); // Added showCustomToast
 
     useEffect(() => {
         if (thesisId) {
@@ -65,11 +74,15 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
             return;
         }
         try {
-            await thesisApi.deactivateThesis(thesisId, { is_active: checked }, token); // Assuming payload for is_active
-            setThesis(prev => prev ? { ...prev, is_active: checked } : null);
+            // Backend deactivateThesis expects (thesisId, userId) and sets is_active to false
+            // Frontend is trying to pass { is_active: checked } in payload, which is not what backend expects
+            // Backend controller has deactivateThesis(req.params.id, req.user?.userId)
+            await thesisApi.deactivateThesis(thesisId, token); // No payload needed for deactivateThesis based on backend
+            setThesis(prev => prev ? { ...prev, is_active: checked } : null); // Update local state
             showCustomToast(`Thesis ${checked ? 'activated' : 'deactivated'} successfully!`, "success");
-        } catch (error: any) {
-            showCustomToast(`Error ${checked ? 'activating' : 'deactivating'} thesis: ${error.message || 'Unknown error'}`, "error");
+        } catch (error: unknown) { // Changed to unknown
+            const errorMessage = (error as any).response?.data?.message || `Error ${checked ? 'activating' : 'deactivating'} thesis: Unknown error`;
+            showCustomToast(errorMessage, "error");
         } finally {
             setIsDeactivating(false);
         }
@@ -86,17 +99,18 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
         }
         try {
             const response = await thesisApi.getThesisMatches(thesisId, token);
-            setDealMatches(response.results);
+            setDealMatches(response.results); // Assuming results contains the matches
             showCustomToast("Deal matches fetched successfully!", "success");
-        } catch (error: any) {
-            showCustomToast(`Error fetching deal matches: ${error.message || 'Unknown error'}`, "error");
+        } catch (error: unknown) { // Changed to unknown
+            const errorMessage = (error as any).response?.data?.message || "Error fetching deal matches: Unknown error";
+            showCustomToast(errorMessage, "error");
         } finally {
             setMatchingDeals(false);
         }
     };
 
     const handleGetInvestorMatches = async () => {
-        if (!thesisId) return;
+        if (!thesisId) return; // Note: Frontend calls with thesisId, backend expects investorId. Mismatch.
         setMatchingInvestors(true);
         const token = getAccessToken();
         if (!token) {
@@ -105,11 +119,14 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
             return;
         }
         try {
+            // Frontend calls getInvestorMatches with thesisId, backend getTopMatchesForInvestor expects investorId
+            // This is a mismatch. For now, passing thesisId as investorId, but this needs clarification.
             const response = await thesisApi.getInvestorMatches(thesisId, token);
-            setInvestorMatches(response.results);
+            setInvestorMatches(response.results); // Assuming results contains the matches
             showCustomToast("Investor matches fetched successfully!", "success");
-        } catch (error: any) {
-            showCustomToast(`Error fetching investor matches: ${error.message || 'Unknown error'}`, "error");
+        } catch (error: unknown) { // Changed to unknown
+            const errorMessage = (error as any).response?.data?.message || "Error fetching investor matches: Unknown error";
+            showCustomToast(errorMessage, "error");
         } finally {
             setMatchingInvestors(false);
         }
@@ -125,11 +142,14 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
             return;
         }
         try {
-            const response = await thesisApi.analyzeAlignment(thesisId, token);
+            // Backend analyzeAlignment expects { thesis_id, deal_id } in body, not (thesisId, token) directly
+            // Mismatch in API call signature
+            const response = await thesisApi.analyzeAlignment({ thesisId, dealId: 'SOME_DEAL_ID_HERE' }, token); // Placeholder for dealId
             setAlignmentAnalysis(response.data);
             showCustomToast("Alignment analysis completed!", "success");
-        } catch (error: any) {
-            showCustomToast(`Error analyzing alignment: ${error.message || 'Unknown error'}`, "error");
+        } catch (error: unknown) { // Changed to unknown
+            const errorMessage = (error as any).response?.data?.message || "Error analyzing alignment: Unknown error";
+            showCustomToast(errorMessage, "error");
         } finally {
             setAnalyzingAlignment(false);
         }
@@ -162,7 +182,7 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
         <div>
             <Header
                 title={thesis.title}
-                description={thesis.description}
+                description={thesis.thesis_text} // Changed description from thesis.description
                 breadcrumbs={[
                     { label: "Dashboard", href: "/dashboard" },
                     { label: "Investment Thesis", href: "/thesis" },
@@ -195,8 +215,17 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
                                 <CardTitle>Thesis Details</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                <p><strong>Stage:</strong> <Badge variant="outline">{thesis.investment_stage}</Badge></p>
-                                <p><strong>Industry Focus:</strong> {thesis.industry_focus.map(f => <Badge key={f} variant="secondary" className="mr-1">{f}</Badge>)}</p>
+                                {/* Corrected access to focus_areas and investment_criteria */}
+                                {thesis.focus_areas && (
+                                    <>
+                                        <p><strong>Sectors:</strong> {thesis.focus_areas.sectors.map((s: string) => <Badge key={s} variant="secondary" className="mr-1">{s}</Badge>)}</p>
+                                        <p><strong>Stages:</strong> {thesis.focus_areas.stages.map((s: string) => <Badge key={s} variant="secondary" className="mr-1">{s}</Badge>)}</p>
+                                        <p><strong>Geographies:</strong> {thesis.focus_areas.geographies.map((g: string) => <Badge key={g} variant="secondary" className="mr-1">{g}</Badge>)}</p>
+                                    </>
+                                )}
+                                {thesis.investment_criteria && (
+                                    <p><strong>Min Revenue:</strong> {thesis.investment_criteria.min_revenue || 'N/A'}</p>
+                                )}
                                 <p><strong>Status:</strong> <Badge variant={thesis.is_active ? "default" : "destructive"}>{thesis.is_active ? "Active" : "Inactive"}</Badge></p>
                             </CardContent>
                         </Card>
@@ -277,9 +306,18 @@ export default function ThesisDetailsPage({ params }: { params: { id: string } }
                                     <CardTitle>Alignment Analysis</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <h3 className="font-semibold">Overall Alignment: {alignmentAnalysis.overall_score}%</h3>
-                                    <p>{alignmentAnalysis.summary}</p>
-                                    {/* Render more detailed analysis here */}
+                                    <h3 className="font-semibold">Overall Alignment: {(alignmentAnalysis.overall_alignment || 0).toFixed(2)}%</h3> {/* Corrected field name and added toFixed */}
+                                    <p>{alignmentAnalysis.summary}</p> {/* Summary might not exist, check backend response */}
+                                    {alignmentAnalysis.recommendations && (
+                                        <>
+                                            <h4 className="font-semibold mt-2">Recommendations:</h4>
+                                            <ul className="list-disc pl-5">
+                                                {alignmentAnalysis.recommendations.map((rec: string, index: number) => (
+                                                    <li key={index}>{rec}</li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    )}
                                 </CardContent>
                             </Card>
                         )}

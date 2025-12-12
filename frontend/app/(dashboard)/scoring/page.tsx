@@ -1,122 +1,102 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { fetchDeals, selectDeals, selectDealsLoading, selectDealsError } from "@/store/slices/dealsSlice";
+import { batchScore, recalculateAllScores, selectScoringLoading } from "@/store/slices/scoringSlice";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/ToastProvider";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAccessToken } from "@/lib/auth/token";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TrendingUp } from "lucide-react";
 import { DealCard } from "@/components/deals/DealCard";
-import { dealsApi } from "@/lib/api/deals.api";
-import { scoringApi } from "@/lib/api/scoring.api";
 import { Deal } from "@/types/deal.types";
 
 export default function ScoringPage() {
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [deals, setDeals] = useState<Deal[]>([]);
-    const [pendingDeals, setPendingDeals] = useState<Deal[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [scoring, setScoring] = useState(false);
-    const [recalculating, setRecalculating] = useState(false);
+
+    const allDeals = useSelector(selectDeals);
+    const dealsLoading = useSelector(selectDealsLoading);
+    const scoringLoading = useSelector(selectScoringLoading);
+    const error = useSelector(selectDealsError);
+    
+    const loading = dealsLoading;
 
     useEffect(() => {
-        loadDeals();
-    }, []);
+        dispatch(fetchDeals(undefined));
+    }, [dispatch]);
 
-    const loadDeals = async () => {
-        try {
-            setLoading(true);
-            const token = getAccessToken();
-            if (!token) {
-                showCustomToast("Authentication token not found.", "error");
-                setLoading(false);
-                return;
-            }
-
-            const response = await dealsApi.getAllDeals(token);
-            const allDeals: Deal[] = response.results;
-
-            const scored = allDeals.filter((d) => d.score?.investment_fit_score !== undefined && d.score.investment_fit_score !== null);
-            const pending = allDeals.filter((d) => d.score?.investment_fit_score === undefined || d.score.investment_fit_score === null);
-
-            setDeals(scored);
-            setPendingDeals(pending);
-        } catch (error: any) {
-            showCustomToast(`Error loading deals: ${error.message || 'Unknown error'}`, "error");
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+        if (error) {
+            showCustomToast(`Error: ${error}`, "error");
         }
-    };
+    }, [error, showCustomToast]);
+
+    const { scoredDeals, pendingDeals } = useMemo(() => {
+        const scored = allDeals.filter((d: Deal) => d.score?.investment_fit_score !== undefined && d.score.investment_fit_score !== null);
+        const pending = allDeals.filter((d: Deal) => d.score?.investment_fit_score === undefined || d.score.investment_fit_score === null);
+        return { scoredDeals: scored, pendingDeals: pending };
+    }, [allDeals]);
 
     const handleBatchScore = async () => {
-        try {
-            setScoring(true);
-            const token = getAccessToken();
-            if (!token) {
-                showCustomToast("Authentication token not found.", "error");
-                setScoring(false);
-                return;
-            }
-
-            if (pendingDeals.length === 0) {
-                showCustomToast("No pending deals to score.", "info");
-                setScoring(false);
-                return;
-            }
-
-            const dealIdsToScore = pendingDeals.map(deal => deal.id);
-            await scoringApi.batchScore(dealIdsToScore, token);
-
+        if (pendingDeals.length === 0) {
+            showCustomToast("No pending deals to score.", "info");
+            return;
+        }
+        const dealIdsToScore = pendingDeals.map((deal: Deal) => deal.id);
+        const resultAction = await dispatch(batchScore(dealIdsToScore));
+        if (batchScore.fulfilled.match(resultAction)) {
             showCustomToast(`${dealIdsToScore.length} deals sent for batch scoring!`, "success");
-            loadDeals(); // Refresh data after scoring
-        } catch (error: any) {
-            showCustomToast(`Error initiating batch scoring: ${error.message || 'Unknown error'}`, "error");
-        } finally {
-            setScoring(false);
+            dispatch(fetchDeals(undefined)); // Refresh deals
+        } else {
+            showCustomToast(`Error initiating batch scoring: ${resultAction.payload || 'Unknown error'}`, "error");
         }
     };
 
     const handleRecalculateAllScores = async () => {
-        try {
-            setRecalculating(true);
-            const token = getAccessToken();
-            if (!token) {
-                showCustomToast("Authentication token not found.", "error");
-                setRecalculating(false);
-                return;
-            }
-
-            await scoringApi.recalculateAllScores(token);
-
+        const resultAction = await dispatch(recalculateAllScores());
+        if (recalculateAllScores.fulfilled.match(resultAction)) {
             showCustomToast("Recalculation of all scores initiated!", "success");
-            loadDeals(); // Refresh data after recalculation (though it might take time for backend to process)
-        } catch (error: any) {
-            showCustomToast(`Error initiating score recalculation: ${error.message || 'Unknown error'}`, "error");
-        } finally {
-            setRecalculating(false);
+            dispatch(fetchDeals(undefined)); // Refresh deals
+        } else {
+            showCustomToast(`Error initiating score recalculation: ${resultAction.payload || 'Unknown error'}`, "error");
         }
     };
 
-    const scoreDistribution = [
-        { name: "0-20", value: 5, color: "#ef4444" },
-        { name: "21-40", value: 12, color: "#f97316" },
-        { name: "41-60", value: 23, color: "#eab308" },
-        { name: "61-80", value: 35, color: "#22c55e" },
-        { name: "81-100", value: 18, color: "#3b82f6" },
-    ];
+    const scoreDistribution = useMemo(() => {
+        const distribution = [
+            { name: "0-20", value: 0, color: "#ef4444" },
+            { name: "21-40", value: 0, color: "#f97316" },
+            { name: "41-60", value: 0, color: "#eab308" },
+            { name: "61-80", value: 0, color: "#22c55e" },
+            { name: "81-100", value: 0, color: "#3b82f6" },
+        ];
+        scoredDeals.forEach((deal: Deal) => {
+            const score = deal.score?.investment_fit_score || 0;
+            if (score <= 20) distribution[0].value++;
+            else if (score <= 40) distribution[1].value++;
+            else if (score <= 60) distribution[2].value++;
+            else if (score <= 80) distribution[3].value++;
+            else distribution[4].value++;
+        });
+        return distribution;
+    }, [scoredDeals]);
 
-    const topDeals = [...deals]
-        .sort((a, b) => (b.score?.investment_fit_score || 0) - (a.score?.investment_fit_score || 0))
-        .slice(0, 5);
+    const topDeals = useMemo(() => 
+        [...scoredDeals]
+        .sort((a: Deal, b: Deal) => (b.score?.investment_fit_score || 0) - (a.score?.investment_fit_score || 0))
+        .slice(0, 5),
+    [scoredDeals]);
 
-    if (loading) {
+    if (loading && allDeals.length === 0) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -136,31 +116,19 @@ export default function ScoringPage() {
                 action={
                     <div className="flex gap-2">
                         {pendingDeals.length > 0 && (
-                            <Button onClick={handleBatchScore} disabled={scoring}>
-                                {scoring ? (
-                                    <>
-                                        <LoadingSpinner size="sm" className="mr-2" />
-                                        Scoring...
-                                    </>
+                            <Button onClick={handleBatchScore} disabled={scoringLoading}>
+                                {scoringLoading ? (
+                                    <><LoadingSpinner size="sm" className="mr-2" />Scoring...</>
                                 ) : (
-                                    <>
-                                        <TrendingUp className="mr-2 h-4 w-4" />
-                                        Score {pendingDeals.length} Pending Deals
-                                    </>
+                                    <><TrendingUp className="mr-2 h-4 w-4" />Score {pendingDeals.length} Pending Deals</>
                                 )}
                             </Button>
                         )}
-                        <Button onClick={handleRecalculateAllScores} disabled={recalculating}>
-                            {recalculating ? (
-                                <>
-                                    <LoadingSpinner size="sm" className="mr-2" />
-                                    Recalculating...
-                                </>
+                        <Button onClick={handleRecalculateAllScores} disabled={scoringLoading}>
+                            {scoringLoading ? (
+                                <><LoadingSpinner size="sm" className="mr-2" />Recalculating...</>
                             ) : (
-                                <>
-                                    <TrendingUp className="mr-2 h-4 w-4" />
-                                    Recalculate All Scores
-                                </>
+                                <><TrendingUp className="mr-2 h-4 w-4" />Recalculate All Scores</>
                             )}
                         </Button>
                     </div>
@@ -169,7 +137,6 @@ export default function ScoringPage() {
 
             <Container>
                 <div className="space-y-6">
-                    {/* Placeholder for real data */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Score Distribution</CardTitle>

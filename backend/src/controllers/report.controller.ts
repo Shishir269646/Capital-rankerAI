@@ -15,6 +15,9 @@ export class ReportController {
   async generateReport(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
     try {
       const userId = req.user?.userId;
+      if (!userId) {
+        return next(errorResponse('User not authenticated', 401));
+      }
       const { report_type, filters, date_range, format = 'pdf' } = req.body;
 
       const job = await reportService.queueReportGeneration({
@@ -49,16 +52,18 @@ export class ReportController {
         return next(errorResponse('User not authenticated', 401));
       }
 
-      const report = await reportService.getReport(id, userId);
+      const reportResult = await reportService.getReport(id, userId);
 
-      if (!report) {
-        res.status(404).json(errorResponse('Report not found', 404));
+      if ('status' in reportResult) {
+        // Report is still pending, processing, or failed
+        res.status(200).json(successResponse(reportResult.message, { status: reportResult.status }));
         return;
       }
 
-      res.setHeader('Content-Type', report.mimeType);
-      res.setHeader('Content-Disposition', `attachment; filename="${report.fileName}"`);
-      res.send(report.fileBuffer);
+      // Report is completed, send the file
+      res.setHeader('Content-Type', reportResult.mimeType);
+      res.setHeader('Content-Disposition', `attachment; filename="${reportResult.fileName}"`);
+      res.send(reportResult.fileBuffer);
     } catch (error) {
       next(error);
     }
@@ -71,13 +76,20 @@ export class ReportController {
   async getDealReport(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
     try {
       const { dealId } = req.params;
+      const userId = req.user?.userId; // Get userId from request
+      if (!userId) {
+        return next(errorResponse('User not authenticated', 401));
+      }
       const { format = 'pdf' } = req.query;
 
-      const report = await reportService.generateDealReport(dealId, format as string);
+      const job = await reportService.generateDealReport(dealId, format as string, userId); // Pass userId
 
-      res.setHeader('Content-Type', report.mimeType);
-      res.setHeader('Content-Disposition', `attachment; filename="${report.fileName}"`);
-      res.send(report.fileBuffer);
+      res.status(202).json(
+        successResponse('Deal report generation queued', {
+          report_id: job.id,
+          status: 'pending',
+        })
+      );
     } catch (error) {
       next(error);
     }

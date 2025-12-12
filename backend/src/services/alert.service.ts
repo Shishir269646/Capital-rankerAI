@@ -1,5 +1,6 @@
 import Alert from '../model/Alert';
 import { notificationService } from './notification.service';
+import User from '../model/User'; // Import User model
 
 export class AlertService {
   /**
@@ -29,9 +30,19 @@ export class AlertService {
   /**
    * Configure alert preferences
    */
-  async configureAlerts(_userId: string, _config: any): Promise<void> {
-    // Save configuration to user preferences
-    // This would update the User model's preferences
+  async configureAlerts(userId: string, config: any): Promise<void> {
+    // Update the User model's preferences with alert configuration
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          'preferences.alert_types': config.alert_types,
+          'preferences.threshold_values': config.threshold_values,
+          'preferences.notification_channels': config.notification_channels,
+        },
+      },
+      { new: true, runValidators: true }
+    );
   }
 
   /**

@@ -3,12 +3,19 @@ import { RootState } from '../index';
 import { reportsApi } from '@/lib/api/reports.api';
 import { Report, GenerateReportPayload } from '@/types/report.types';
 import { QueryOptions } from '@/types/common.types';
+import { PaginatedApiResult } from '@/types/api.types'; // Used for getAllReports
 
 interface ReportsState {
   generatedReports: Report[]; // Stores metadata for generated reports
   dealReport: any | null; // The deal-specific report data (type needs refinement)
   loading: boolean;
   error: string | null;
+  pagination: {
+    page: number;
+    limit: number;
+    totalPages: number;
+    totalResults: number;
+  } | null;
 }
 
 const initialState: ReportsState = {
@@ -16,6 +23,7 @@ const initialState: ReportsState = {
   dealReport: null,
   loading: false,
   error: null,
+  pagination: null,
 };
 
 // Async Thunks for each backend report route
@@ -28,6 +36,23 @@ export const generateReport = createAsyncThunk(
       if (!token) return rejectWithValue('Authentication token not found.');
       const response = await reportsApi.requestReportGeneration(payload, token);
       return response.data; // Should return the Report metadata
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New Thunk: Get all reports (WARNING: No corresponding backend route yet)
+export const fetchAllReports = createAsyncThunk(
+  'reports/fetchAllReports',
+  async (queryOptions: QueryOptions | undefined, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState;
+      const token = state.auth.token;
+      if (!token) return rejectWithValue('Authentication token not found.');
+      // WARNING: reportsApi.getAllReports currently has no corresponding backend route.
+      const response: PaginatedApiResult<Report> = await reportsApi.getAllReports(token, queryOptions);
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -91,6 +116,15 @@ const reportsSlice = createSlice({
       })
       .addCase(generateReport.rejected, (state, action: PayloadAction<any>) => { state.loading = false; state.error = action.payload; })
 
+      // fetchAllReports
+      .addCase(fetchAllReports.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(fetchAllReports.fulfilled, (state, action: PayloadAction<PaginatedApiResult<Report>>) => {
+        state.loading = false;
+        state.generatedReports = action.payload.results;
+        state.pagination = action.payload.pagination;
+      })
+      .addCase(fetchAllReports.rejected, (state, action: PayloadAction<any>) => { state.loading = false; state.error = action.payload; })
+
       // downloadReport
       .addCase(downloadReport.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(downloadReport.fulfilled, (state, action: PayloadAction<any>) => { // action.payload will be { reportId, status: 'downloaded' }
@@ -113,5 +147,6 @@ export const selectGeneratedReports = (state: RootState) => state.reports.genera
 export const selectDealReport = (state: RootState) => state.reports.dealReport;
 export const selectReportsLoading = (state: RootState) => state.reports.loading;
 export const selectReportsError = (state: RootState) => state.reports.error;
+export const selectReportsPagination = (state: RootState) => state.reports.pagination;
 
 export default reportsSlice.reducer;

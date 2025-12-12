@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { fetchFounders, selectFounders, selectFoundersLoading, selectFoundersError } from "@/store/slices/foundersSlice";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
 import { FounderCard } from "@/components/founders/FounderCard";
@@ -9,58 +11,45 @@ import { SearchBar } from "@/components/shared/SearchBar";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Users } from "lucide-react";
-import { Founder } from "@/types/founder.types";
-import { foundersApi } from "@/lib/api/founders.api";
 import { useToast } from "@/components/ui/ToastProvider";
-import { getAccessToken } from "@/lib/auth/token";
+import { Founder } from "@/types/founder.types";
 
 export default function FoundersPage() {
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [founders, setFounders] = useState<Founder[]>([]);
-    const [filteredFounders, setFilteredFounders] = useState<Founder[]>([]);
-    const [loading, setLoading] = useState(true);
+
+    const founders = useSelector(selectFounders);
+    const loading = useSelector(selectFoundersLoading);
+    const error = useSelector(selectFoundersError);
+
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        loadFounders();
-    }, []);
+        dispatch(fetchFounders(undefined));
+    }, [dispatch]);
 
-    const loadFounders = async () => {
-        try {
-            setLoading(true);
-            const token = getAccessToken();
-            if (!token) {
-                // Handle no token case, e.g., redirect to login
-                showCustomToast("Authentication token not found.", "error");
-                setLoading(false);
-                return;
-            }
-            const data = await foundersApi.getAllFounders(token);
-            setFounders(data.results); // Assuming data is a PaginatedApiResult and has a 'results' array
-            setFilteredFounders(data.results);
-        } catch (error) {
-            showCustomToast("Error: Failed to load founders", "error");
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+        if (error) {
+            showCustomToast(`Error: ${error}`, "error");
         }
-    };
+    }, [error, showCustomToast]);
 
     const handleSearch = (query: string) => {
-        if (!query.trim()) {
-            setFilteredFounders(founders);
-            return;
-        }
-
-        const filtered = founders.filter(
-            (founder) =>
-                founder.name.toLowerCase().includes(query.toLowerCase()) ||
-                founder.role.toLowerCase().includes(query.toLowerCase())
-        );
-        setFilteredFounders(filtered);
+        setSearchQuery(query);
     };
 
-    if (loading) {
+    const filteredFounders = useMemo(() => {
+        if (!searchQuery) return founders;
+        return founders.filter(
+            (founder: Founder) =>
+                founder.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                founder.role.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [founders, searchQuery]);
+
+    if (loading && founders.length === 0) {
         return (
-            <div className="flex items-center justify-center h-full" >
+            <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
             </div>
         );
@@ -71,37 +60,33 @@ export default function FoundersPage() {
             <Header
                 title="Founders"
                 description="View and evaluate founder profiles"
-                breadcrumbs={
-                    [
-                        { label: "Dashboard", href: "/dashboard" },
-                        { label: "Founders" },
-                    ]}
+                breadcrumbs={[
+                    { label: "Dashboard", href: "/dashboard" },
+                    { label: "Founders" },
+                ]}
             />
 
             <Container>
-                <div className="space-y-6" >
+                <div className="space-y-6">
                     <SearchBar placeholder="Search founders..." onSearch={handleSearch} />
 
-                    {
-                        filteredFounders.length === 0 ? (
-                            <EmptyState
-                                icon={Users}
-                                title="No founders found"
-                                description={
-                                    founders.length === 0
-                                        ? "Founders will appear here once you add deals"
-                                        : "Try adjusting your search"
-                                }
-                            />
-                        ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" >
-                                {
-                                    filteredFounders.map((founder) => (
-                                        <FounderCard key={founder.id} founder={founder} />
-                                    ))
-                                }
-                            </div>
-                        )}
+                    {filteredFounders.length === 0 ? (
+                        <EmptyState
+                            icon={Users}
+                            title="No founders found"
+                            description={
+                                founders.length === 0
+                                    ? "Founders will appear here once you add deals"
+                                    : "Try adjusting your search"
+                            }
+                        />
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {filteredFounders.map((founder: Founder) => (
+                                <FounderCard key={founder.id} founder={founder} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </Container>
         </div>

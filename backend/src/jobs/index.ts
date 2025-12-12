@@ -3,6 +3,7 @@
 import { DataSyncJob } from './data-sync.job';
 import { ScoringJob } from './scoring.job';
 import { AlertJob } from './alert.job';
+import { ReportJob } from './report.job'; // Import ReportJob
 import { logger } from '../config/logger';
 
 export function initializeJobs(): void {
@@ -18,6 +19,10 @@ export function initializeJobs(): void {
   // Initialize alert jobs
   AlertJob.initialize();
 
+  // Initialize report job processor
+  ReportJob.initialize(); // Initialize ReportJob
+  logger.info('Report job processor initialized');
+
   logger.info('All background jobs initialized successfully');
 }
 
@@ -30,6 +35,7 @@ export async function shutdownJobs(): Promise<void> {
   DataSyncJob.cancelAllJobs();
   AlertJob.cancelAllJobs();
   await ScoringJob.shutdown(); // Call to shutdown, await because it's async
+  await ReportJob.shutdown(); // Shutdown ReportJob
 
   logger.info('All background jobs stopped');
 }

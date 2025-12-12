@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { getDealStats, getTopRankedDeals, selectDealStats, selectTopRankedDeals, selectDealsLoading } from "@/store/slices/dealsSlice";
+import { fetchFounders, selectFounders, selectFoundersPagination, selectFoundersLoading } from "@/store/slices/foundersSlice";
+import { fetchPortfolioAnalytics, selectPortfolioAnalytics, selectPortfolioLoading } from "@/store/slices/portfolioSlice";
 import {
     Home,
     Folder,
@@ -21,85 +26,46 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { dealsApi } from "@/lib/api/deals.api";
-import { foundersApi } from "@/lib/api/founders.api";
-import { portfolioApi } from "@/lib/api/portfolio.api";
 import { useToast } from "@/components/ui/ToastProvider";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
-import { getAccessToken } from "@/lib/auth/token";
 import type { Deal } from "@/types/deal.types";
 import type { Founder } from "@/types/founder.types";
 
 export default function DashboardPage() {
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [loading, setLoading] = useState(true);
-    const [dealsStats, setDealsStats] = useState({
-        total: 0,
-        scored: 0,
-        pending: 0,
-        invested: 0,
-    });
-    const [foundersCount, setFoundersCount] = useState(0);
-    const [portfolioStats, setPortfolioStats] = useState({
-        totalInvestments: 0,
-        totalValue: 0,
-        totalGainLoss: 0,
-        gainLossPercentage: 0,
-    });
-    const [topDeals, setTopDeals] = useState<Deal[]>([]);
-    const [latestFounders, setLatestFounders] = useState<Founder[]>([]);
+
+    // Selectors
+    const dealsStats = useSelector(selectDealStats);
+    const topDeals = useSelector(selectTopRankedDeals);
+    const dealsLoading = useSelector(selectDealsLoading);
+
+    const latestFounders = useSelector(selectFounders);
+    const foundersPagination = useSelector(selectFoundersPagination);
+    const foundersLoading = useSelector(selectFoundersLoading);
+
+    const portfolioStats = useSelector(selectPortfolioAnalytics);
+    const portfolioLoading = useSelector(selectPortfolioLoading);
+    
+    const loading = dealsLoading || foundersLoading || portfolioLoading;
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            const token = getAccessToken();
-            if (!token) {
-                showCustomToast("Authentication token not found.", "error");
-                setLoading(false);
-                return;
-            }
-
-            try {
-                // Fetch Deals Stats
-                const dealStatsResponse = await dealsApi.getDealStats(token);
-                setDealsStats(dealStatsResponse.data);
-
-                // Fetch Founders Count
-                const foundersResponse = await foundersApi.getAllFounders(token, { limit: 1 }); // Just need count
-                setFoundersCount(foundersResponse.pagination.totalResults);
-
-                // Fetch Portfolio Stats
-                const portfolioResponse = await portfolioApi.getAnalytics(token);
-                setPortfolioStats(portfolioResponse.data);
-
-                // Fetch Top Ranked Deals
-                const topDealsResponse = await dealsApi.getTopRankedDeals(token, { limit: 5 });
-                setTopDeals(topDealsResponse.results.flat());
-
-                // Fetch Latest Founders (limit to 5)
-                const latestFoundersResponse = await foundersApi.getAllFounders(token, { limit: 5, sort_by: "created_at", sort_order: "desc" });
-                setLatestFounders(latestFoundersResponse.results);
-
-            } catch (error) {
-                showCustomToast("Error: Failed to load dashboard data", "error");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
+        dispatch(getDealStats());
+        dispatch(getTopRankedDeals({ limit: 5 }));
+        dispatch(fetchFounders({ limit: 5, sort_by: "created_at", sort_order: "desc" }));
+        dispatch(fetchPortfolioAnalytics());
+    }, [dispatch]);
 
     const dealStatusData = [
-        { name: "Scored", value: dealsStats.scored, color: "#82ca9d" },
-        { name: "Pending", value: dealsStats.pending, color: "#ffc658" },
-        { name: "Invested", value: dealsStats.invested, color: "#8884d8" },
+        { name: "Scored", value: dealsStats?.scored || 0, color: "#82ca9d" },
+        { name: "Pending", value: dealsStats?.pending || 0, color: "#ffc658" },
+        { name: "Invested", value: dealsStats?.invested || 0, color: "#8884d8" },
     ];
 
-    if (loading) {
+    if (loading && !dealsStats && !portfolioStats) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -125,9 +91,9 @@ export default function DashboardPage() {
                                 <Folder className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{dealsStats.total}</div>
+                                <div className="text-2xl font-bold">{dealsStats?.total || 0}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    {dealsStats.scored} scored, {dealsStats.pending} pending
+                                    {dealsStats?.scored || 0} scored, {dealsStats?.pending || 0} pending
                                 </p>
                             </CardContent>
                         </Card>
@@ -138,7 +104,7 @@ export default function DashboardPage() {
                                 <Users className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{foundersCount}</div>
+                                <div className="text-2xl font-bold">{foundersPagination?.totalResults || 0}</div>
                                 <p className="text-xs text-muted-foreground">
                                     Across all deals
                                 </p>
@@ -154,10 +120,10 @@ export default function DashboardPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {portfolioStats.totalInvestments}
+                                    {portfolioStats?.totalInvestments || 0}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    {portfolioStats.totalValue > 0 ? `Value: $${portfolioStats.totalValue.toLocaleString()}` : "No active portfolio"}
+                                    {portfolioStats?.totalValue > 0 ? `Value: $${portfolioStats.totalValue.toLocaleString()}` : "No active portfolio"}
                                 </p>
                             </CardContent>
                         </Card>
@@ -167,7 +133,7 @@ export default function DashboardPage() {
                                 <CardTitle className="text-sm font-medium">
                                     Portfolio Performance
                                 </CardTitle>
-                                {portfolioStats.totalGainLoss >= 0 ? (
+                                {(portfolioStats?.totalGainLoss || 0) >= 0 ? (
                                     <TrendingUp className="h-4 w-4 text-green-500" />
                                 ) : (
                                     <TrendingDown className="h-4 w-4 text-red-500" />
@@ -175,12 +141,12 @@ export default function DashboardPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {portfolioStats.totalGainLoss >= 0 ? "+" : "-"}
-                                    {portfolioStats.gainLossPercentage}%
+                                    {(portfolioStats?.totalGainLoss || 0) >= 0 ? "+" : "-"}
+                                    {portfolioStats?.gainLossPercentage || 0}%
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    {portfolioStats.totalGainLoss >= 0 ? "Gain" : "Loss"}: $
-                                    {Math.abs(portfolioStats.totalGainLoss).toLocaleString()}
+                                    {(portfolioStats?.totalGainLoss || 0) >= 0 ? "Gain" : "Loss"}: $
+                                    {Math.abs(portfolioStats?.totalGainLoss || 0).toLocaleString()}
                                 </p>
                             </CardContent>
                         </Card>
@@ -193,7 +159,7 @@ export default function DashboardPage() {
                                 <CardTitle>Deal Status Distribution</CardTitle>
                             </CardHeader>
                             <CardContent className="h-72">
-                                {dealsStats.total > 0 ? (
+                                {(dealsStats?.total || 0) > 0 ? (
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
                                             <Pie
@@ -235,7 +201,7 @@ export default function DashboardPage() {
                                 <Button variant="outline" className="w-full" onClick={() => router.push("/scoring")}>
                                     Score Deals
                                 </Button>
-                                <Button variant="outline" className="w-full" onClick={() => router.push("/reports/generate")}>
+                                <Button variant="outline" className.w-full" onClick={() => router.push("/reports/generate")}>
                                     Generate Report
                                 </Button>
                             </CardContent>
@@ -253,7 +219,7 @@ export default function DashboardPage() {
                         <CardContent>
                             {topDeals.length > 0 ? (
                                 <div className="space-y-4">
-                                    {topDeals.map((deal) => (
+                                    {topDeals.map((deal: Deal) => (
                                         <div key={deal.id} className="flex items-center justify-between">
                                             <Link href={`/deals/${deal.id}`} className="flex-1 hover:underline">
                                                 <p className="font-medium">{deal.name}</p>
@@ -282,7 +248,7 @@ export default function DashboardPage() {
                         <CardContent>
                             {latestFounders.length > 0 ? (
                                 <div className="space-y-4">
-                                    {latestFounders.map((founder) => (
+                                    {latestFounders.map((founder: Founder) => (
                                         <div key={founder.id} className="flex items-center justify-between">
                                             <Link href={`/founders/${founder.id}`} className="flex-1 hover:underline">
                                                 <p className="font-medium">{founder.name}</p>

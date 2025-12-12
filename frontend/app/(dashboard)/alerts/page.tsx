@@ -1,82 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { getAllAlerts, markAsRead, deleteAlert, selectCurrentAlerts, selectAlertsLoading, selectAlertsError } from "@/store/slices/alertsSlice";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/ToastProvider";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Bell, BellOff, Trash2, AlertCircle } from "lucide-react";
-import { alertsApi } from "@/lib/api/alerts.api";
-import { getAccessToken } from "@/lib/auth/token";
-import { Alert } from "@/types/alert.types";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Alert } from "@/types/alert.types";
 
 export default function AlertsPage() {
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [alerts, setAlerts] = useState<Alert[]>([]);
-    const [loading, setLoading] = useState(true);
+
+    const alerts = useSelector(selectCurrentAlerts);
+    const loading = useSelector(selectAlertsLoading);
+    const error = useSelector(selectAlertsError);
 
     useEffect(() => {
-        loadAlerts();
-    }, []);
+        dispatch(getAllAlerts(undefined));
+    }, [dispatch]);
 
-    const loadAlerts = async () => {
-        setLoading(true);
-        const token = getAccessToken();
-        if (!token) {
-            showCustomToast("Authentication token not found.", "error");
-            setLoading(false);
-            return;
+    useEffect(() => {
+        if (error) {
+            showCustomToast(`Error: ${error}`, "error");
         }
-        try {
-            const response = await alertsApi.getAllAlerts(token);
-            setAlerts(response.results);
-        } catch (error) {
-            showCustomToast("Error fetching alerts", "error");
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [error, showCustomToast]);
 
     const handleMarkAllAsRead = async () => {
         showCustomToast("Mark all as read (not yet implemented)", "info");
     };
 
     const handleMarkAsRead = async (alertId: string) => {
-        const token = getAccessToken();
-        if (!token) {
-            showCustomToast("Authentication token not found.", "error");
-            return;
-        }
-        try {
-            await alertsApi.markAsRead(alertId, token);
-            showCustomToast("Alert marked as read", "success");
-            loadAlerts();
-        } catch (error) {
-            showCustomToast("Error marking alert as read", "error");
-        }
+        await dispatch(markAsRead(alertId));
+        showCustomToast("Alert marked as read", "success");
     };
 
     const handleDelete = async (alertId: string) => {
-        const token = getAccessToken();
-        if (!token) {
-            showCustomToast("Authentication token not found.", "error");
-            return;
-        }
-        try {
-            await alertsApi.deleteAlert(alertId, token);
-            showCustomToast("Alert deleted", "success");
-            loadAlerts();
-        } catch (error) {
-            showCustomToast("Error deleting alert", "error");
-        }
+        await dispatch(deleteAlert(alertId));
+        showCustomToast("Alert deleted", "success");
     };
 
-
-    if (loading) {
+    if (loading && alerts.length === 0) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -91,7 +61,7 @@ export default function AlertsPage() {
                 description="Stay informed about important events and updates"
                 breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Alerts" }]}
                 action={
-                    <Button onClick={handleMarkAllAsRead} variant="outline" >
+                    <Button onClick={handleMarkAllAsRead} variant="outline">
                         <BellOff className="mr-2 h-4 w-4" />
                         Mark All as Read
                     </Button>
@@ -107,7 +77,7 @@ export default function AlertsPage() {
                     />
                 ) : (
                     <div className="space-y-4">
-                        {alerts.map((alert) => (
+                        {alerts.map((alert: Alert) => (
                             <Card key={alert.id}>
                                 <CardContent className="flex items-center justify-between p-4">
                                     <div className="flex items-center space-x-4">

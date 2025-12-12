@@ -8,6 +8,7 @@ import thesisReducer from './slices/thesisSlice';
 import alertsReducer from './slices/alertsSlice';
 import uiReducer from './slices/uiSlice';
 import reportsReducer from './slices/reportsSlice';
+import startupReducer from './slices/startupSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     alerts: alertsReducer,
     ui: uiReducer,
     reports: reportsReducer,
+    startups: startupReducer,
   },
 });
 

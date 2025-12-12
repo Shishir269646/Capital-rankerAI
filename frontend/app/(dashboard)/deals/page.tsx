@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { fetchDeals, searchDeals, selectDeals, selectDealsLoading, selectDealsError } from "@/store/slices/dealsSlice";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
@@ -10,58 +13,53 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Card, CardContent } from "@/components/ui/card";
 import { DealCard } from "@/components/deals/DealCard";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Plus, Filter, LayoutGrid, Table2, TrendingUp, DollarSign } from "lucide-react";
-import { dealsApi } from "@/lib/api/deals.api";
+import { Plus, Filter, LayoutGrid, Table2, TrendingUp } from "lucide-react";
 import { scoringApi } from "@/lib/api/scoring.api";
 import { getAccessToken } from "@/lib/auth/token";
-import type { Deal } from "@/types/deal.types";
 import { SearchBar } from "@/components/shared/SearchBar";
+import { Deal } from "@/types/deal.types";
 
 export default function DealsPage() {
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
     const { show: showCustomToast } = useToast();
-    const [deals, setDeals] = useState<Deal[]>([]);
-    const [filteredDeals, setFilteredDeals] = useState<Deal[]>([]);
-    const [loading, setLoading] = useState(true);
+
+    const deals = useSelector(selectDeals);
+    const loading = useSelector(selectDealsLoading);
+    const error = useSelector(selectDealsError);
+
+    const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
-    const [viewMode, setViewMode] = useState<"table" | "grid">("grid"); // Default to grid view
+    const [viewMode, setViewMode] = useState<"table" | "grid">("grid");
 
     useEffect(() => {
-        loadDeals();
-    }, []);
+        dispatch(fetchDeals());
+    }, [dispatch]);
 
-    const loadDeals = async () => {
-        setLoading(true);
-        const token = getAccessToken();
-        if (!token) {
-            showCustomToast("Authentication token not found.", "error");
-            setLoading(false);
-            return;
+    useEffect(() => {
+        if (error) {
+            showCustomToast(`Error: ${error}`, "error");
         }
-        try {
-            const response = await dealsApi.getAllDeals(token);
-            setDeals(response.results);
-            setFilteredDeals(response.results);
-        } catch (error) {
-            showCustomToast("Error fetching deals", "error");
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    }, [error, showCustomToast]);
+    
     const handleSearch = (query: string) => {
-        if (!query.trim()) {
-            setFilteredDeals(deals);
-            return;
+        setSearchQuery(query);
+        if (query.trim()) {
+            dispatch(searchDeals({ name: query }));
+        } else {
+            dispatch(fetchDeals());
         }
-        const filtered = deals.filter(
-            (deal) =>
-                deal.name.toLowerCase().includes(query.toLowerCase()) ||
-                deal.short_pitch?.toLowerCase().includes(query.toLowerCase()) ||
-                deal.sector.some((s) => s.toLowerCase().includes(query.toLowerCase()))
-        );
-        setFilteredDeals(filtered);
     };
+
+    const filteredDeals = useMemo(() => {
+        if (!searchQuery) return deals;
+        return deals.filter(
+            (deal: Deal) =>
+                deal.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                deal.short_pitch?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                deal.sector.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+    }, [deals, searchQuery]);
 
     const handleBulkScore = async () => {
         const token = getAccessToken();
@@ -70,8 +68,7 @@ export default function DealsPage() {
             return;
         }
         try {
-            // Get all deal IDs from the current deals state
-            const dealIds = deals.map(deal => deal.id);
+            const dealIds = deals.map((deal: Deal) => deal.id);
             if (dealIds.length === 0) {
                 showCustomToast("No deals to score.", "info");
                 return;
@@ -83,7 +80,7 @@ export default function DealsPage() {
         }
     };
 
-    if (loading) {
+    if (loading && deals.length === 0) {
         return (
             <div className="flex items-center justify-center h-full">
                 <LoadingSpinner size="lg" />
@@ -114,11 +111,11 @@ export default function DealsPage() {
                                 <Filter className="mr-2 h-4 w-4" />
                                 Filters
                             </Button>
-                            <Button variant="outline" onClick={() => setViewMode("table")}>
+                            <Button variant="outline" onClick={() => setViewMode("table")} disabled={viewMode === 'table'}>
                                 <Table2 className="mr-2 h-4 w-4" />
                                 Table
                             </Button>
-                            <Button variant="outline" onClick={() => setViewMode("grid")}>
+                            <Button variant="outline" onClick={() => setViewMode("grid")} disabled={viewMode === 'grid'}>
                                 <LayoutGrid className="mr-2 h-4 w-4" />
                                 Grid
                             </Button>
@@ -132,13 +129,13 @@ export default function DealsPage() {
                     {showFilters && (
                         <Card>
                             <CardContent className="pt-6">
-                                {/* Filter components go here */}
                                 <p>Filter options coming soon...</p>
                             </CardContent>
                         </Card>
                     )}
 
-                    {deals.length === 0 ? (
+                    {loading && <p>Loading...</p>}
+                    {!loading && deals.length === 0 ? (
                         <EmptyState
                             title="No deals found"
                             description="Start by adding a new deal to your pipeline."
@@ -151,13 +148,12 @@ export default function DealsPage() {
                         <div>
                             {viewMode === "grid" ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {filteredDeals.map((deal) => (
+                                    {filteredDeals.map((deal: Deal) => (
                                         <DealCard key={deal.id} deal={deal} />
                                     ))}
                                 </div>
                             ) : (
                                 <div>
-                                    {/* DealTable component would go here */}
                                     <p>Table view coming soon...</p>
                                 </div>
                             )}

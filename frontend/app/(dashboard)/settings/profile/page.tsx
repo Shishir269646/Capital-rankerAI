@@ -11,9 +11,14 @@ import { Input } from "@/components/ui/input";
 import { authApi } from '@/lib/api/auth.api';
 import { getAccessToken } from '@/lib/auth/token';
 import { User } from '@/types/auth.types';
+// ADDED IMPORT
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+
 
 const UserProfilePage = () => {
   const { show: showCustomToast } = useToast();
+  const router = useRouter(); // ADDED router
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentPassword, setCurrentPassword] = useState('');
@@ -36,8 +41,8 @@ const UserProfilePage = () => {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Error changing password.";
+    } catch (error: unknown) { // Changed to unknown
+      const errorMessage = (error as any).response?.data?.message || "Error changing password."; // Casted to any
       showCustomToast(errorMessage, "error");
     }
   };
@@ -54,7 +59,7 @@ const UserProfilePage = () => {
       try {
         const response = await authApi.getMe(token);
         setUser(response.data);
-      } catch (error) {
+      } catch (error) { // Removed unused error variable
         showCustomToast("Error fetching user profile", "error");
       } finally {
         setLoading(false);
@@ -62,7 +67,7 @@ const UserProfilePage = () => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [showCustomToast]); // Added showCustomToast
 
   if (loading) {
     return (
@@ -78,6 +83,9 @@ const UserProfilePage = () => {
         <div className="text-center py-10">
           <h2 className="text-2xl font-bold">User Profile Not Found</h2>
           <p className="text-muted-foreground">Could not load user profile data.</p>
+          <Button onClick={() => router.push("/dashboard")} className="mt-4">
+            Back to Dashboard
+          </Button>
         </div>
       </Container>
     );

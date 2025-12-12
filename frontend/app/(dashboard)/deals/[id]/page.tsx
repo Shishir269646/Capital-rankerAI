@@ -27,6 +27,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+// ADDED IMPORTS
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 
 export default function DealDetailsPage({ params }: { params: { id: string } }) {
@@ -60,7 +64,7 @@ export default function DealDetailsPage({ params }: { params: { id: string } }) 
         } finally {
             setLoading(false);
         }
-    }, [dealId, showCustomToast]);
+    }, [dealId, showCustomToast]); // Added showCustomToast
 
     const fetchSimilarDeals = useCallback(async () => {
         const token = getAccessToken();
@@ -74,7 +78,7 @@ export default function DealDetailsPage({ params }: { params: { id: string } }) 
         } catch (error) {
             showCustomToast("Error fetching similar deals", "error");
         }
-    }, [dealId, showCustomToast]);
+    }, [dealId, showCustomToast]); // Added showCustomToast
 
     const handleAddNote = async () => {
         if (!newNoteContent.trim()) {
@@ -111,7 +115,7 @@ export default function DealDetailsPage({ params }: { params: { id: string } }) 
         } catch (error) {
             showCustomToast("Error fetching scoring history", "error");
         }
-    }, [dealId, showCustomToast]);
+    }, [dealId, showCustomToast]); // Added showCustomToast
 
     const handleDownloadDealReport = async () => {
         if (!dealId) return;
@@ -143,12 +147,13 @@ export default function DealDetailsPage({ params }: { params: { id: string } }) 
         }
     }, [dealId, fetchDeal, fetchSimilarDeals, fetchScoringHistory]);
 
-    useEffect(() => {
-        if (dealId) {
-            fetchDeal();
-            fetchSimilarDeals();
-        }
-    }, [dealId, fetchDeal, fetchSimilarDeals]);
+    // Removed duplicated useEffect
+    // useEffect(() => {
+    //     if (dealId) {
+    //         fetchDeal();
+    //         fetchSimilarDeals();
+    //     }
+    // }, [dealId, fetchDeal, fetchSimilarDeals]);
 
     const handleScore = async () => {
         if (!dealId) return;
