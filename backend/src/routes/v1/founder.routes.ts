@@ -3,10 +3,21 @@ import { Router as FounderRouter } from 'express';
 import { founderController } from '../../controllers/founder.controller';
 import { authMiddleware as founderAuth } from '../../middleware/auth.middleware';
 import { validateRequest as founderValidate } from '../../middleware/validation.middleware';
-import { updateFounderValidator } from '../../validators/founder.validator';
+import { updateFounderValidator, createFounderValidator } from '../../validators/founder.validator';
 
 const founderRouter = FounderRouter();
 founderRouter.use(founderAuth);
+
+/**
+ * @route   POST /api/v1/founders
+ * @desc    Create a new founder profile
+ * @access  Private
+ */
+founderRouter.post(
+  '/',
+  founderValidate(createFounderValidator), // Assuming a validator exists or will be created
+  founderController.createFounder.bind(founderController)
+);
 
 /**
  * @route   POST /api/v1/founders/evaluate/:founderId

@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.thesisRouter = void 0;
+const express_1 = require("express");
+const thesis_controller_1 = require("../../controllers/thesis.controller");
+const auth_middleware_1 = require("../../middleware/auth.middleware");
+const validation_middleware_1 = require("../../middleware/validation.middleware");
+const thesis_validator_1 = require("../../validators/thesis.validator");
+const thesisRouter = (0, express_1.Router)();
+exports.thesisRouter = thesisRouter;
+thesisRouter.use(auth_middleware_1.authMiddleware);
+thesisRouter.post('/', (0, validation_middleware_1.validateRequest)(thesis_validator_1.createThesisValidator), thesis_controller_1.thesisController.createThesis.bind(thesis_controller_1.thesisController));
+thesisRouter.put('/:id', (0, validation_middleware_1.validateRequest)(thesis_validator_1.updateThesisValidator), thesis_controller_1.thesisController.updateThesis.bind(thesis_controller_1.thesisController));
+thesisRouter.get('/:id', thesis_controller_1.thesisController.getInvestorThesisById.bind(thesis_controller_1.thesisController));
+thesisRouter.get('/matches/:dealId', thesis_controller_1.thesisController.getThesisMatches.bind(thesis_controller_1.thesisController));
+thesisRouter.get('/investor/:investorId/matches', thesis_controller_1.thesisController.getInvestorMatches.bind(thesis_controller_1.thesisController));
+thesisRouter.get('/investor/:investorId', thesis_controller_1.thesisController.getInvestorTheses.bind(thesis_controller_1.thesisController));
+thesisRouter.post('/analyze', (0, validation_middleware_1.validateRequest)(thesis_validator_1.analyzeAlignmentValidator), thesis_controller_1.thesisController.analyzeAlignment.bind(thesis_controller_1.thesisController));
+thesisRouter.delete('/:id', thesis_controller_1.thesisController.deactivateThesis.bind(thesis_controller_1.thesisController));
+//# sourceMappingURL=thesis.routes.js.map

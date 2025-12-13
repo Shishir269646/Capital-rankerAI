@@ -37,17 +37,17 @@ export default function NewFounderPage() {
     }
 
     if (!founderName || !founderEmail || !startupId) {
-      showCustomToast("Founder name, email and startup ID are required.", "error");
+      showCustomToast("Founder full name, email and startup ID are required.", "error");
       setLoading(false);
       return;
     }
 
     try {
       const payload: CreateFounderPayload = {
-        name: founderName,
-        email: founderEmail || undefined, // Email is optional
+        fullName: founderName,
+        email: founderEmail,
         role: founderRole,
-        startup_id: startupId,
+        startupId: startupId,
         profile: {
           bio: founderBio,
           linkedin_url: founderLinkedin,
@@ -71,9 +71,13 @@ export default function NewFounderPage() {
       showCustomToast("Founder created successfully!", "success");
       router.push("/founders"); // Navigate back to the founders list
     } catch (error: any) {
-      let errorMessage = "An unexpected error occurred.";
+      let errorMessage: string = "An unexpected error occurred.";
       if (axios.isAxiosError(error)) {
-        errorMessage = error.response?.data?.message || "Error creating founder.";
+        if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+          errorMessage = error.response.data.errors.map((err: any) => err.message).join('; ');
+        } else {
+          errorMessage = error.response?.data?.message || "Error creating founder.";
+        }
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }

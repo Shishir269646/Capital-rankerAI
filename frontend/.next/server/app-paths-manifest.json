@@ -1,0 +1,9 @@
+{
+  "/(dashboard)/thesis/new/page": "app/(dashboard)/thesis/new/page.js",
+  "/(dashboard)/founders/new/page": "app/(dashboard)/founders/new/page.js",
+  "/(dashboard)/startups/page": "app/(dashboard)/startups/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/portfolio/management/new/page": "app/(dashboard)/portfolio/management/new/page.js",
+  "/(dashboard)/alerts/page": "app/(dashboard)/alerts/page.js",
+  "/(dashboard)/founders/page": "app/(dashboard)/founders/page.js"
+}

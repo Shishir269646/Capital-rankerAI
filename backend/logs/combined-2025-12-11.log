@@ -1,0 +1,116 @@
+2025-12-11 13:02:34 [INFO]: Queue "scoring" initialized {"service":"capital-ranker-api","concurrency":5,"maxAttempts":3}
+2025-12-11 13:02:34 [INFO]: Queue "batch-scoring" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":2}
+2025-12-11 13:02:34 [INFO]: Processor registered for "score-deal" in queue "scoring" {"service":"capital-ranker-api"}
+2025-12-11 13:02:34 [INFO]: Processor registered for "batch-score" in queue "batch-scoring" {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Queue "scoring-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 13:02:37 [INFO]: Queue "sync-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":5}
+2025-12-11 13:02:37 [INFO]: Queue "report-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 13:02:37 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-11 13:02:37 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Connecting to Redis... {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Redis client connected {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Redis connected successfully {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Processor registered for "score-deal" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Score deal processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Processor registered for "batch-score" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Batch score processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Processor registered for "recalculate-all" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Recalculate all processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Event listeners set up for scoringQueue {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Initializing Report job processor... {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Processor registered for "generate-report" in queue "report-jobs" {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Report job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-11 13:02:37 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-11 13:02:37 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-11 21:27:27 [INFO]: Queue "scoring" initialized {"service":"capital-ranker-api","concurrency":5,"maxAttempts":3}
+2025-12-11 21:27:27 [INFO]: Queue "batch-scoring" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":2}
+2025-12-11 21:27:27 [INFO]: Processor registered for "score-deal" in queue "scoring" {"service":"capital-ranker-api"}
+2025-12-11 21:27:27 [INFO]: Processor registered for "batch-score" in queue "batch-scoring" {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Queue "scoring-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 21:27:29 [INFO]: Queue "sync-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":5}
+2025-12-11 21:27:29 [INFO]: Queue "report-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 21:27:29 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-11 21:27:29 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Connecting to Redis... {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Redis client connected {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Redis connected successfully {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Processor registered for "score-deal" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Score deal processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Processor registered for "batch-score" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Batch score processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Processor registered for "recalculate-all" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Recalculate all processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Event listeners set up for scoringQueue {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Initializing Report job processor... {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Processor registered for "generate-report" in queue "report-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Report job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-11 21:27:29 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-11 21:27:29 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-11 21:28:10 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"270ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-11 21:28:10 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"19ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-11 21:31:17 [INFO]: Queue "scoring" initialized {"service":"capital-ranker-api","concurrency":5,"maxAttempts":3}
+2025-12-11 21:31:17 [INFO]: Queue "batch-scoring" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":2}
+2025-12-11 21:31:17 [INFO]: Processor registered for "score-deal" in queue "scoring" {"service":"capital-ranker-api"}
+2025-12-11 21:31:17 [INFO]: Processor registered for "batch-score" in queue "batch-scoring" {"service":"capital-ranker-api"}
+2025-12-11 21:31:18 [INFO]: Queue "scoring-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 21:31:18 [INFO]: Queue "sync-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":5}
+2025-12-11 21:31:18 [INFO]: Queue "report-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-11 21:31:18 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-11 21:31:18 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-11 21:31:18 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-11 21:31:18 [INFO]: Connecting to Redis... {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Redis client connected {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Redis connected successfully {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Processor registered for "score-deal" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Score deal processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Processor registered for "batch-score" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Batch score processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Processor registered for "recalculate-all" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Recalculate all processor initialized. {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Event listeners set up for scoringQueue {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Initializing Report job processor... {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Processor registered for "generate-report" in queue "report-jobs" {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Report job processor initialized {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-11 21:31:19 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-11 21:31:19 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}

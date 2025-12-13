@@ -1,0 +1,8 @@
+2025-12-04 21:16:20 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-04 21:16:20 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-04 21:31:47 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-04 21:31:47 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-04 21:32:09 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-04 21:32:09 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-04 21:32:09 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-04 21:32:09 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}

@@ -14,6 +14,7 @@ export const validateRequest = (schema: Joi.ObjectSchema) => {
     });
 
     if (error) {
+      console.log('Joi Validation Error Details (validateRequest):', error.details); // Added log
       const errors = error.details.map((detail) => ({
         field: detail.path.join('.'),
         message: detail.message,

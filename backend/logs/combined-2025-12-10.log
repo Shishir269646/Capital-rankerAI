@@ -1,0 +1,84 @@
+2025-12-10 18:01:01 [INFO]: Queue "scoring" initialized {"service":"capital-ranker-api","concurrency":5,"maxAttempts":3}
+2025-12-10 18:01:01 [INFO]: Queue "batch-scoring" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":2}
+2025-12-10 18:01:01 [INFO]: Processor registered for "score-deal" in queue "scoring" {"service":"capital-ranker-api"}
+2025-12-10 18:01:01 [INFO]: Processor registered for "batch-score" in queue "batch-scoring" {"service":"capital-ranker-api"}
+2025-12-10 18:01:03 [INFO]: Queue "scoring-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-10 18:01:03 [INFO]: Queue "sync-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":5}
+2025-12-10 18:01:03 [INFO]: Queue "report-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-10 18:01:04 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-10 18:01:05 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Connecting to Redis... {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Redis client connected {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Redis connected successfully {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Processor registered for "score-deal" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Score deal processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Processor registered for "batch-score" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Batch score processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Processor registered for "recalculate-all" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Recalculate all processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Event listeners set up for scoringQueue {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-10 18:01:05 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-10 18:01:05 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-10 18:02:22 [INFO]: Request completed {"service":"capital-ranker-api","method":"POST","url":"/login","status":200,"duration":"967ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"anonymous"}
+2025-12-10 20:16:54 [INFO]: Queue "scoring" initialized {"service":"capital-ranker-api","concurrency":5,"maxAttempts":3}
+2025-12-10 20:16:54 [INFO]: Queue "batch-scoring" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":2}
+2025-12-10 20:16:54 [INFO]: Processor registered for "score-deal" in queue "scoring" {"service":"capital-ranker-api"}
+2025-12-10 20:16:54 [INFO]: Processor registered for "batch-score" in queue "batch-scoring" {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Queue "scoring-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-10 20:16:55 [INFO]: Queue "sync-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":5}
+2025-12-10 20:16:55 [INFO]: Queue "report-jobs" initialized {"service":"capital-ranker-api","concurrency":1,"maxAttempts":3}
+2025-12-10 20:16:55 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-10 20:16:55 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Connecting to Redis... {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Redis client connected {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Redis connected successfully {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Processor registered for "score-deal" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Score deal processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Processor registered for "batch-score" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Batch score processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Processor registered for "recalculate-all" in queue "scoring-jobs" {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Recalculate all processor initialized. {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Event listeners set up for scoringQueue {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-10 20:16:55 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-10 20:16:55 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-10 20:17:06 [INFO]: Request completed {"service":"capital-ranker-api","method":"POST","url":"/login","status":200,"duration":"328ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"anonymous"}
+2025-12-10 20:26:03 [INFO]: Request completed {"service":"capital-ranker-api","method":"POST","url":"/login","status":200,"duration":"291ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"anonymous"}
+2025-12-10 20:30:16 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"94ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:16 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"148ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:26 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"58ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:26 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/me","status":200,"duration":"57ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:27 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/stats","status":200,"duration":"962ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:27 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/stats","status":200,"duration":"968ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:28 [ERROR]: Request failed {"service":"capital-ranker-api","method":"GET","url":"/api/v1/founders?limit=1","status":404,"duration":"15ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:28 [ERROR]: Request failed {"service":"capital-ranker-api","method":"GET","url":"/api/v1/founders?limit=1","status":404,"duration":"41ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 20:30:40 [ERROR]: Request failed {"service":"capital-ranker-api","method":"POST","url":"/","status":400,"duration":"21ms","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36","userId":"69380f8d11ddf01b4777665f"}
+2025-12-10 21:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-10 21:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}

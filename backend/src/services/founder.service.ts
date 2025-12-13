@@ -41,6 +41,15 @@ export class FounderService {
   }
 
   /**
+   * Create a new founder
+   */
+  async createFounder(founderData: Partial<IFounder>): Promise<IFounder> {
+    const founder = new Founder(founderData);
+    await founder.save();
+    return founder;
+  }
+
+  /**
    * Get founder by ID
    */
   async getFounderById(founderId: string): Promise<IFounder | null> {

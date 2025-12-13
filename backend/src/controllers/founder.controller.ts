@@ -109,6 +109,34 @@ export class FounderController {
       next(error);
     }
   }
+
+  /**
+   * Create a new founder
+   * POST /api/v1/founders
+   */
+  async createFounder(req: ErrorRequest, res: ErrorResponse, next: ErrorNext): Promise<void> {
+    try {
+      const founderData = req.body;
+      const userId = req.user?.userId;
+
+      const founder = await founderService.createFounder(founderData);
+
+      await ActivityLog.create({
+        user_id: userId,
+        action: 'create',
+        entity_type: 'founder',
+        entity_id: founder._id,
+        details: founderData,
+        ip_address: req.ip,
+      });
+
+      res
+        .status(201)
+        .json(successResponse('Founder created successfully', { founder }, 201));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const founderController = new FounderController();

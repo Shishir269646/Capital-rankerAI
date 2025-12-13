@@ -23,8 +23,19 @@ export const login = createAsyncThunk(
   async (credentials: LoginPayload, { rejectWithValue }) => {
     try {
       const response = await authApi.login(credentials);
-      saveAuthTokens(response.tokens);
-      return response;
+      // Convert expires strings to Date objects
+      const processedTokens = {
+        access: {
+          token: response.tokens.access.token,
+          expires: new Date(response.tokens.access.expires),
+        },
+        refresh: {
+          token: response.tokens.refresh.token,
+          expires: new Date(response.tokens.refresh.expires),
+        },
+      };
+      saveAuthTokens(processedTokens);
+      return { ...response, tokens: processedTokens };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -40,10 +51,12 @@ export const logoutUser = createAsyncThunk(
       if (token) {
         await authApi.logout(token); // Call server-side logout
       }
-    } catch (error: any) {
+    }
+    catch (error: any) {
       console.error("Server-side logout failed (might be already logged out):", error);
       // Don't reject, proceed with client-side cleanup regardless
-    } finally {
+    }
+    finally {
       dispatch(logout()); // Clear client-side state
     }
   }
@@ -52,10 +65,19 @@ export const logoutUser = createAsyncThunk(
 // New Thunk: Fetch current user profile
 export const getMe = createAsyncThunk(
   'auth/getMe',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue, dispatch }) => { // Add dispatch here
     try {
       const state = getState() as RootState;
-      const token = state.auth.token || getAccessToken(); // Try to get token from state or local storage
+      let token = state.auth.token;
+
+      // If token is not in Redux state, try to get it from local storage
+      if (!token) {
+        token = getAccessToken();
+        if (token) {
+          dispatch(setToken(token)); // Set the token in Redux state
+        }
+      }
+
       if (!token) {
         return rejectWithValue('Authentication token not found.');
       }
@@ -77,8 +99,19 @@ export const refreshToken = createAsyncThunk(
         return rejectWithValue('Refresh token not found.');
       }
       const response = await authApi.refreshToken(refreshTokenValue);
-      saveAuthTokens(response.tokens); // Save new tokens
-      return response;
+      // Convert expires strings to Date objects
+      const processedTokens = {
+        access: {
+          token: response.tokens.access.token,
+          expires: new Date(response.tokens.access.expires),
+        },
+        refresh: {
+          token: response.tokens.refresh.token,
+          expires: new Date(response.tokens.refresh.expires),
+        },
+      };
+      saveAuthTokens(processedTokens);
+      return { ...response, tokens: processedTokens };
     } catch (error: any) {
       clearAuthTokens(); // Clear tokens on refresh failure
       return rejectWithValue(error.message);

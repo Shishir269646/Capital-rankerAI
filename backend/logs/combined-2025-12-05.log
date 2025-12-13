@@ -1,0 +1,536 @@
+2025-12-05 12:07:31 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:07:31 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:19:28 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:19:28 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:23:11 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:23:12 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:29:51 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:29:51 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+1764916364161 [INFO]: ENTERING startServer FUNCTION - Unique ID: 36a2l8 {"service":"capital-ranker-api"}
+2025-12-05 12:32:44 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:32:44 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+1764916409329 [INFO]: ENTERING startServer FUNCTION - Unique ID: r262b6 {"service":"capital-ranker-api"}
+2025-12-05 12:33:29 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:33:29 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+1764916536530 [INFO]: ENTERING startServer FUNCTION - Unique ID: 2etoj {"service":"capital-ranker-api"}
+2025-12-05 12:35:36 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:35:36 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+1764916671056 [INFO]: ENTERING startServer FUNCTION - Unique ID: bbx0rg {"service":"capital-ranker-api"}
+2025-12-05 12:37:51 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:37:51 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+1764916710883 [INFO]: ENTERING startServer FUNCTION - Unique ID: 7c7a7r {"service":"capital-ranker-api"}
+2025-12-05 12:38:30 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:38:31 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:39:10 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:39:11 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:40:02 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:40:02 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:40:02 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 12:40:02 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+1764916802964 [INFO]: ENTERING initializeJobs FUNCTION {"service":"capital-ranker-api"}
+2025-12-05 12:40:02 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 12:40:03 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 12:40:03 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 12:40:03 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 12:40:03 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:40:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:45:59 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:45:59 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:48:06 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:48:06 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 12:48:06 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 12:48:06 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 12:48:06 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 12:48:06 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:48:17 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:52:49 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:52:49 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:58:32 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 12:58:32 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 12:58:32 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 12:58:32 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 12:58:32 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 12:58:32 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 12:58:43 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.","stack":"MaxRetriesPerRequestError: Reached the max retries per request limit (which is 20). Refer to \"maxRetriesPerRequest\" option for details.\n    at Socket.<anonymous> (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\ioredis\\built\\redis\\event_handler.js:207:37)\n    at Object.onceWrapper (node:events:633:26)\n    at Socket.emit (node:events:518:28)\n    at TCP.<anonymous> (node:net:351:12)","promise":{}}
+2025-12-05 13:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 13:00:01 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}
+2025-12-05 14:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 14:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}
+2025-12-05 17:37:36 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 17:52:06 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 17:52:06 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 17:52:06 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 17:52:06 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 17:52:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 18:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}
+2025-12-05 18:27:27 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 18:27:27 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 18:38:00 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 18:38:00 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 18:38:00 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 18:38:00 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:38:00 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 18:38:01 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 18:38:01 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 18:38:01 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:38:01 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:45:58 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 18:45:58 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 18:45:58 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 18:45:58 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [ERROR]: Uncaught Exception {"service":"capital-ranker-api","error":"listen EADDRINUSE: address already in use :::5000","stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at Server.listen (node:net:2099:7)\n    at Function.listen (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\MERN Project\\Capital Ranker\\backend\\dist\\server.js:23:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+2025-12-05 18:45:58 [INFO]: UNCAUGHT_EXCEPTION received. Starting graceful shutdown... {"service":"capital-ranker-api"}
+2025-12-05 18:45:58 [INFO]: HTTP server closed {"service":"capital-ranker-api"}
+2025-12-05 18:47:12 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 18:47:13 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 18:47:13 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 18:47:13 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 18:47:13 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 18:47:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 19:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}
+2025-12-05 19:03:14 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:03:15 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:03:15 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:03:15 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:03:15 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:03:15 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:15:54 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:15:54 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:15:54 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:15:54 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [ERROR]: Uncaught Exception {"service":"capital-ranker-api","error":"listen EADDRINUSE: address already in use :::5000","stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at Server.listen (node:net:2099:7)\n    at Function.listen (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\MERN Project\\Capital Ranker\\backend\\dist\\server.js:23:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+2025-12-05 19:15:54 [INFO]: UNCAUGHT_EXCEPTION received. Starting graceful shutdown... {"service":"capital-ranker-api"}
+2025-12-05 19:15:54 [INFO]: HTTP server closed {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:16:49 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:16:49 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:16:49 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:16:49 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:16:49 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:31:36 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:31:36 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:31:36 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:31:36 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:31:36 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:54 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:35:54 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:35:54 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:35:54 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:35:54 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:35:55 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:35:55 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:35:55 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:35:55 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:37:32 [INFO]: Request completed {"service":"capital-ranker-api","method":"GET","url":"/health","status":200,"duration":"11ms","ip":"::1","userAgent":"PostmanRuntime/7.49.1","userId":"anonymous"}
+2025-12-05 19:52:56 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:52:57 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:52:57 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:52:57 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [ERROR]: Uncaught Exception {"service":"capital-ranker-api","error":"listen EADDRINUSE: address already in use :::5000","stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at Server.listen (node:net:2099:7)\n    at Function.listen (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\MERN Project\\Capital Ranker\\backend\\dist\\server.js:23:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+2025-12-05 19:52:57 [INFO]: UNCAUGHT_EXCEPTION received. Starting graceful shutdown... {"service":"capital-ranker-api"}
+2025-12-05 19:52:57 [INFO]: HTTP server closed {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:53:37 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:53:37 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:53:37 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:53:37 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:53:37 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:57:13 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:57:13 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:57:13 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:57:13 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:57:13 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 19:59:34 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 19:59:34 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 19:59:34 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 19:59:34 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 19:59:34 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 20:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}
+2025-12-05 20:03:00 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 20:03:00 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 20:03:00 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 20:03:00 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 20:03:00 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:03:00 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 20:11:06 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 20:11:06 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 20:11:06 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 20:11:06 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:11:06 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:15:29 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 20:15:29 [INFO]: Database connected for seeding. {"service":"capital-ranker-api"}
+2025-12-05 20:15:29 [INFO]: Seeding users... {"service":"capital-ranker-api"}
+2025-12-05 20:15:29 [ERROR]: Seeding failed: User validation failed: firm_name: Firm name is required, name: Name is required, password_hash: Password is required, role: `user` is not a valid enum value for path `role`. {"service":"capital-ranker-api","errors":{"firm_name":{"name":"ValidatorError","message":"Firm name is required","properties":{"message":"Firm name is required","type":"required","path":"firm_name"},"kind":"required","path":"firm_name"},"name":{"name":"ValidatorError","message":"Name is required","properties":{"message":"Name is required","type":"required","path":"name"},"kind":"required","path":"name"},"password_hash":{"name":"ValidatorError","message":"Password is required","properties":{"message":"Password is required","type":"required","path":"password_hash"},"kind":"required","path":"password_hash"},"role":{"name":"ValidatorError","message":"`user` is not a valid enum value for path `role`.","properties":{"message":"`user` is not a valid enum value for path `role`.","type":"enum","enumValues":["admin","investor","analyst"],"path":"role","value":"user"},"kind":"enum","path":"role","value":"user"}},"_message":"User validation failed","stack":"ValidationError: User validation failed: firm_name: Firm name is required, name: Name is required, password_hash: Password is required, role: `user` is not a valid enum value for path `role`.\n    at model.Document.invalidate (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\mongoose\\lib\\document.js:3219:32)\n    at C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\mongoose\\lib\\document.js:3012:17\n    at C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\mongoose\\lib\\schematype.js:1368:9\n    at processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+2025-12-05 20:16:14 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 20:16:14 [INFO]: Database connected for seeding. {"service":"capital-ranker-api"}
+2025-12-05 20:16:14 [INFO]: Seeding users... {"service":"capital-ranker-api"}
+2025-12-05 20:16:14 [INFO]: User 'john.doe@example.com' seeded. {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [INFO]: Admin user 'admin@example.com' seeded. {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [INFO]: User seeding complete. {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [INFO]: All seeding completed successfully! {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [WARN]: MongoDB disconnected. Attempting to reconnect... {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [INFO]: MongoDB disconnected {"service":"capital-ranker-api"}
+2025-12-05 20:16:15 [INFO]: Database disconnected after seeding. {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Connecting to database... {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: MongoDB connected successfully {"service":"capital-ranker-api","host":"localhost","database":"capital_ranker"}
+2025-12-05 20:24:38 [INFO]: Database connected successfully {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Initializing background jobs... {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: DealRoom sync job scheduled: Daily at 2 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Crunchbase sync job scheduled: Daily at 3 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Weekly data refresh scheduled: Sundays at 1 AM UTC {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: All data sync jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [WARN]: Bull processor for 'score-deal' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice score-deal"}
+2025-12-05 20:24:38 [WARN]: Bull processor for 'batch-score' already defined, skipping re-registration. {"service":"capital-ranker-api","error":"Cannot define the same handler twice batch-score"}
+2025-12-05 20:24:38 [INFO]: Scoring job processor initialized {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Score monitoring scheduled: Every hour {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Alert cleanup scheduled: Daily at midnight {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: All alert jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: All background jobs initialized successfully {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Background jobs initialized {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Server started successfully {"service":"capital-ranker-api","port":"5000","environment":"development","nodeVersion":"v22.14.0"}
+2025-12-05 20:24:38 [INFO]: API available at: http://localhost:5000/api {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [INFO]: Health check: http://localhost:5000/health {"service":"capital-ranker-api"}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 20:24:38 [ERROR]: Unhandled Rejection {"service":"capital-ranker-api","reason":"ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' ","stack":"ReplyError: ERR unknown command 'S', with args beginning with: 'C' 'R' 'I' 'P' 'T' \n    at parseError (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:179:12)\n    at parseType (C:\\MERN Project\\Capital Ranker\\backend\\node_modules\\redis-parser\\lib\\parser.js:302:14)","promise":{}}
+2025-12-05 21:00:00 [INFO]: Starting score monitoring... {"service":"capital-ranker-api"}
+2025-12-05 21:00:00 [INFO]: Score monitoring completed {"service":"capital-ranker-api","checked":0}

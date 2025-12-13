@@ -1,0 +1,1 @@
+{"version":3,"file":"ml.client.js","sourceRoot":"","sources":["../../src/utils/ml.client.ts"],"names":[],"mappings":";;;;;;AACA,kDAA0B;AAC1B,uCAAuC;AAK1B,QAAA,QAAQ,GAAG,eAAK,CAAC,MAAM,CAAC;IACnC,OAAO,EAAE,IAAA,YAAM,EAAC,gBAAgB,EAAE,uBAAuB,CAAC;IAC1D,OAAO,EAAE,KAAK;IACd,OAAO,EAAE;QACP,cAAc,EAAE,kBAAkB;KACnC;CACF,CAAC,CAAC"}

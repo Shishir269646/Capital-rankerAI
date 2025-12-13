@@ -95,8 +95,23 @@ export interface Founder {
   has_critical_red_flags?: boolean; // Virtual
 }
 
-// Payload for creating a new founder
-export type CreateFounderPayload = Omit<Founder, 'id' | 'created_at' | 'updated_at' | 'founder_score' | 'total_experience_years' | 'successful_exits_count' | 'has_critical_red_flags'>;
+export interface CreateFounderPayload {
+  fullName: string;
+  email: string;
+  role: 'ceo' | 'cto' | 'coo' | 'cfo' | 'co-founder' | 'founder';
+  startup_id: string;
+  profile?: FounderProfile;
+  education?: FounderEducation[];
+  experience?: FounderExperience[];
+  skills?: FounderSkills;
+  previous_startups?: PreviousStartup[];
+  achievements?: string[];
+  publications?: string[];
+  patents?: string[];
+  awards?: string[];
+  red_flags?: RedFlag[];
+  references?: FounderReference[];
+}
 
 // Payload for updating an existing founder
 export type UpdateFounderPayload = Partial<CreateFounderPayload>;

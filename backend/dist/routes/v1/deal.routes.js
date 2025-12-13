@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const deal_controller_1 = require("../../controllers/deal.controller");
+const auth_middleware_1 = require("../../middleware/auth.middleware");
+const validation_middleware_1 = require("../../middleware/validation.middleware");
+const deal_validator_1 = require("../../validators/deal.validator");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authMiddleware);
+router.get('/', deal_controller_1.dealController.getAllDeals.bind(deal_controller_1.dealController));
+router.get('/stats', deal_controller_1.dealController.getDealStats.bind(deal_controller_1.dealController));
+router.get('/top-ranked', deal_controller_1.dealController.getTopRankedDeals.bind(deal_controller_1.dealController));
+router.get('/export', deal_controller_1.dealController.exportDeals.bind(deal_controller_1.dealController));
+router.post('/search', (0, validation_middleware_1.validateRequest)(deal_validator_1.searchDealsValidator), deal_controller_1.dealController.searchDeals.bind(deal_controller_1.dealController));
+router.post('/bulk-import', (0, validation_middleware_1.validateRequest)(deal_validator_1.bulkImportValidator), deal_controller_1.dealController.bulkImport.bind(deal_controller_1.dealController));
+router.post('/', (0, validation_middleware_1.validateRequest)(deal_validator_1.createDealValidator), deal_controller_1.dealController.createDeal.bind(deal_controller_1.dealController));
+router.get('/:id', deal_controller_1.dealController.getDealById.bind(deal_controller_1.dealController));
+router.get('/:id/similar', deal_controller_1.dealController.getSimilarDeals.bind(deal_controller_1.dealController));
+router.put('/:id', (0, validation_middleware_1.validateRequest)(deal_validator_1.updateDealValidator), deal_controller_1.dealController.updateDeal.bind(deal_controller_1.dealController));
+router.delete('/:id', deal_controller_1.dealController.deleteDeal.bind(deal_controller_1.dealController));
+router.post('/:id/notes', (0, validation_middleware_1.validateRequest)(deal_validator_1.addNoteValidator), deal_controller_1.dealController.addNote.bind(deal_controller_1.dealController));
+exports.default = router;
+//# sourceMappingURL=deal.routes.js.map
